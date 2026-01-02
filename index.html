@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>System Dashboard | Productivity Hub</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -22,9 +22,9 @@
             --text-muted: #718096;
             
             /* Glassmorphism Variables */
-            --glass-bg: rgba(255, 255, 255, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.8);
-            --glass-dropdown: rgba(255, 255, 255, 0.95);
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.9);
+            --glass-dropdown: rgba(255, 255, 255, 0.98);
             --shadow-float: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
             
             /* Shadows */
@@ -32,9 +32,10 @@
             --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --nav-height: 80px;
         }
 
-        /* --- DYNAMIC RESULT COLORS --- */
+        /* --- UTILITIES --- */
         .text-profit { color: #38a169 !important; } 
         .text-loss { color: #e53e3e !important; }   
         .text-neutral { color: #a0aec0 !important; } 
@@ -47,7 +48,7 @@
         }
         .update-anim { animation: popIn 0.2s ease-out forwards; }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
             font-family: 'Poppins', sans-serif;
@@ -62,7 +63,7 @@
         a { text-decoration: none; color: inherit; transition: var(--transition); }
         ul { list-style: none; }
 
-        /* --- FLOATING GLASS NAVBAR --- */
+        /* --- FLOATING NAVBAR --- */
         .nav-wrapper {
             position: fixed;
             top: 20px;
@@ -72,6 +73,7 @@
             justify-content: center;
             z-index: 1000;
             padding: 0 20px;
+            transition: top 0.3s;
         }
 
         nav {
@@ -88,6 +90,7 @@
             align-items: center;
             box-shadow: var(--shadow-float);
             transition: var(--transition);
+            position: relative;
         }
 
         .logo {
@@ -98,16 +101,16 @@
             align-items: center;
             gap: 10px;
             cursor: pointer;
+            white-space: nowrap;
         }
 
-        /* Nav Links Container */
+        /* Desktop Nav Links */
         .nav-links {
             display: flex;
             gap: 2rem;
             align-items: center;
         }
 
-        /* Top Level Links */
         .nav-item { position: relative; }
 
         .nav-link {
@@ -121,7 +124,6 @@
             cursor: pointer;
             user-select: none;
         }
-
         .nav-link:hover, .nav-link.active { color: var(--secondary-color); }
         
         .nav-link i.fa-chevron-down {
@@ -129,198 +131,156 @@
             transition: transform 0.3s;
         }
         /* Desktop Hover Rotation */
-        @media (min-width: 769px) {
+        @media (min-width: 901px) {
             .nav-item:hover .nav-link i.fa-chevron-down { transform: rotate(180deg); }
         }
 
         /* --- DESKTOP DROPDOWN --- */
         .dropdown-menu {
             position: absolute;
-            top: 100%;
-            left: 50%;
+            top: 100%; left: 50%;
             transform: translateX(-50%) translateY(20px);
             width: 240px;
             background: var(--glass-dropdown);
             backdrop-filter: blur(20px);
             border: 1px solid white;
             border-radius: 16px;
-            padding: 10px;
+            padding: 8px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            opacity: 0;
-            visibility: hidden;
+            opacity: 0; visibility: hidden;
             transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
             z-index: 1001;
         }
-        /* Triangle Tip */
         .dropdown-menu::before {
-            content: '';
-            position: absolute;
-            top: -6px; left: 50%; transform: translateX(-50%) rotate(45deg);
-            width: 12px; height: 12px;
-            background: white; border-left: 1px solid white; border-top: 1px solid white;
+            content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%) rotate(45deg);
+            width: 12px; height: 12px; background: white; border-left: 1px solid white; border-top: 1px solid white;
         }
-        @media (min-width: 769px) {
+        @media (min-width: 901px) {
             .nav-item:hover .dropdown-menu {
-                opacity: 1;
-                visibility: visible;
+                opacity: 1; visibility: visible;
                 transform: translateX(-50%) translateY(10px);
             }
         }
 
         .dropdown-item a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 15px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            color: var(--text-dark);
-            transition: 0.2s;
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 15px; border-radius: 10px;
+            font-size: 0.9rem; color: var(--text-dark); transition: 0.2s;
         }
         .dropdown-item a i { width: 25px; color: var(--secondary-color); text-align: center; }
         .dropdown-item a:hover { background: #f0f4ff; color: var(--secondary-color); transform: translateX(5px); }
 
-        /* Login Button */
         .btn-login {
-            background: var(--accent-gradient);
-            color: white !important;
-            padding: 0.5rem 1.5rem;
-            border-radius: 30px;
+            background: var(--accent-gradient); color: white !important;
+            padding: 0.6rem 1.8rem; border-radius: 30px;
             box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: var(--transition);
+            font-weight: 500; font-size: 0.95rem; transition: var(--transition);
         }
         .btn-login:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(118, 75, 162, 0.6); }
 
+        /* Menu Toggle (Hamburger) */
         .menu-toggle {
-            display: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-dark);
-            transition: 0.3s;
+            display: none; font-size: 1.4rem; cursor: pointer; color: var(--text-dark);
+            width: 40px; height: 40px; align-items: center; justify-content: center;
+            border-radius: 50%; transition: background 0.3s;
         }
+        .menu-toggle:active { background: rgba(0,0,0,0.05); }
 
-        /* --- MOBILE & TABLET OPTIMIZATION --- */
-        @media (max-width: 900px) { 
-            .grid-container { grid-template-columns: repeat(2, 1fr); } 
-            .footer-content { grid-template-columns: 1fr 1fr; } 
-        }
-
-        @media (max-width: 768px) {
+        /* --- RESPONSIVE NAVBAR (MOBILE & TABLET) --- */
+        @media (max-width: 900px) {
             .nav-wrapper { top: 10px; padding: 0 10px; }
-            nav { padding: 0.8rem 1.5rem; position: relative; }
-            
-            .menu-toggle { display: block; }
+            nav { padding: 0.6rem 1.2rem; }
+            .menu-toggle { display: flex; }
 
-            /* Mobile Menu Container */
             .nav-links {
                 position: absolute;
-                top: 75px; /* Below the main nav bar */
-                left: 0; right: 0;
+                top: 70px; left: 0; right: 0;
                 background: rgba(255, 255, 255, 0.98);
-                backdrop-filter: blur(20px);
+                backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
                 border: 1px solid rgba(255,255,255,0.5);
-                flex-direction: column;
-                align-items: stretch;
-                padding: 1rem;
-                margin: 0 10px; /* Floating look */
-                border-radius: 20px;
-                box-shadow: 0 15px 50px rgba(0,0,0,0.1);
-                
-                /* Closed State */
-                display: none;
-                gap: 5px;
+                flex-direction: column; align-items: stretch;
+                padding: 1.5rem; margin: 0 10px;
+                border-radius: 24px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+                display: none; gap: 8px;
                 transform-origin: top center;
-                animation: mobileMenuOpen 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                animation: mobileMenuOpen 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             }
+            .nav-links.active { display: flex; }
 
             @keyframes mobileMenuOpen {
                 from { opacity: 0; transform: scaleY(0.9) translateY(-10px); }
                 to { opacity: 1; transform: scaleY(1) translateY(0); }
             }
 
-            .nav-links.active { display: flex; }
-
-            /* Mobile Nav Items */
             .nav-item { width: 100%; }
             .nav-link {
-                width: 100%;
-                justify-content: space-between;
-                padding: 15px 20px;
-                border-radius: 12px;
-                transition: background 0.2s;
+                width: 100%; justify-content: space-between;
+                padding: 16px 20px; border-radius: 14px;
+                background: transparent; transition: 0.2s; font-size: 1rem;
             }
-            .nav-link:hover { background: #f8fafc; }
+            .nav-link:active { background: #f1f5f9; }
 
-            /* Mobile Dropdown (Accordion Style) */
+            /* Accordion Logic */
             .dropdown-menu {
-                position: static;
-                transform: none;
-                width: 100%;
-                opacity: 1;
-                visibility: visible;
-                box-shadow: none;
-                border: none;
-                background: #f1f5f9; /* Contrast background for sub-menu */
-                margin-top: 5px;
-                border-radius: 12px;
-                padding: 0; /* Collapsed */
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.3s ease-out;
+                position: static; transform: none; width: 100%;
+                opacity: 1; visibility: visible;
+                box-shadow: none; border: none;
+                background: #f8fafc;
+                margin-top: 5px; border-radius: 14px;
+                padding: 0; max-height: 0; overflow: hidden;
+                transition: max-height 0.35s ease-out;
             }
-            
-            .dropdown-menu::before { display: none; } /* No triangle */
+            .dropdown-menu::before { display: none; }
 
-            .dropdown-item a { padding: 12px 25px; font-size: 0.95rem; }
-
-            /* Mobile Active State Logic */
             .nav-item.active-mobile .dropdown-menu {
-                max-height: 500px; /* Large enough to fit content */
-                padding: 10px 0;
-                border: 1px solid rgba(0,0,0,0.03);
+                max-height: 600px; padding: 10px 0; margin-bottom: 10px;
             }
-            .nav-item.active-mobile .nav-link { color: var(--secondary-color); background: #f0f4ff; }
+            .nav-item.active-mobile .nav-link { color: var(--secondary-color); background: #eff6ff; }
             .nav-item.active-mobile .nav-link i.fa-chevron-down { transform: rotate(180deg); }
 
-            /* Login Btn Mobile */
-            .btn-login {
-                display: block;
-                text-align: center;
-                margin-top: 15px;
-                width: 100%;
-            }
-
-            /* Adjust content padding for mobile */
-            .main-content { padding-top: 110px; padding-left: 20px; padding-right: 20px; }
-            .grid-container { grid-template-columns: 1fr; }
-            .footer-content { grid-template-columns: 1fr; text-align: center; }
-            .social-links { justify-content: center; }
-            .modal-card { padding: 1.5rem; }
-            .tab-btn span { display: none; }
-            .tab-btn i { font-size: 1.2rem; }
+            .dropdown-item a { padding: 14px 25px; font-size: 0.95rem; }
+            .btn-login { display: block; text-align: center; margin-top: 15px; width: 100%; padding: 0.9rem; }
         }
 
-        /* --- CONTENT SECTION --- */
+        /* Small Phone Adjustment */
+        @media (max-width: 360px) {
+            .logo { font-size: 1.2rem; }
+            .logo span { display: none; } /* Hide text, keep icon if too small */
+            .logo::after { content: 'Sys'; display: inline; } 
+        }
+
+        /* --- MAIN CONTENT --- */
         .main-content {
             max-width: 1600px; 
             margin: 0 auto;
-            padding: 140px 4% 4rem; 
-            position: relative;
-            z-index: 10;
+            padding: 130px 5% 4rem; 
+            position: relative; z-index: 10;
         }
 
-        .section-header-container { margin-bottom: 2.5rem; }
-        .dashboard-welcome { font-size: 2rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; }
+        .section-header-container { margin-bottom: 2.5rem; text-align: left; }
+        .dashboard-welcome { 
+            font-size: clamp(1.8rem, 4vw, 2.5rem); 
+            font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; 
+        }
         .dashboard-subtitle { color: var(--text-muted); font-size: 1rem; }
 
-        /* Grid */
+        /* Responsive Grid System */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(5, 1fr); 
             gap: 1.5rem;
+            /* Default Desktop (5 columns) */
+            grid-template-columns: repeat(5, 1fr);
         }
+
+        /* Laptop (4 Cols) */
+        @media (max-width: 1400px) { .grid-container { grid-template-columns: repeat(4, 1fr); } }
+        /* Tablet Landscape (3 Cols) */
+        @media (max-width: 1100px) { .grid-container { grid-template-columns: repeat(3, 1fr); } }
+        /* Tablet Portrait & Large Phone (2 Cols) */
+        @media (max-width: 800px) { .grid-container { grid-template-columns: repeat(2, 1fr); gap: 1rem; } }
+        /* Small Phone (1 Col) - Optional, but 2 cols often works on large phones too. Let's do 1 col for very small. */
+        @media (max-width: 480px) { .grid-container { grid-template-columns: 1fr; } }
 
         .card {
             background: var(--card-bg);
@@ -330,198 +290,159 @@
             transition: var(--transition);
             cursor: pointer;
             border: 1px solid rgba(0,0,0,0.02);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            height: 100%;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+            height: 100%; min-height: 240px;
         }
 
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-hover);
-            border-color: rgba(102, 126, 234, 0.3);
-        }
+        .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); border-color: rgba(102, 126, 234, 0.3); }
+        .card:active { transform: scale(0.98); } /* Touch feedback */
 
         .icon-circle {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
+            width: 70px; height: 70px; border-radius: 50%;
             background: linear-gradient(135deg, #f6f9fc 0%, #edf2f7 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.5rem;
-            font-size: 1.8rem;
-            color: var(--secondary-color);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1.5rem; font-size: 1.8rem; color: var(--secondary-color);
             transition: var(--transition);
         }
-
         .card:hover .icon-circle { background: var(--accent-gradient); color: white; transform: scale(1.1); }
+        
         .card h3 { font-size: 1.1rem; margin-bottom: 0.8rem; color: var(--text-dark); }
         .card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5; flex-grow: 1; }
         
         .card-btn {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--secondary-color);
-            padding: 8px 20px;
-            border-radius: 20px;
-            background: #f0f4ff;
-            transition: var(--transition);
+            font-size: 0.8rem; font-weight: 600; color: var(--secondary-color);
+            padding: 8px 20px; border-radius: 20px; background: #f0f4ff; transition: var(--transition);
         }
         .card:hover .card-btn { background: var(--secondary-color); color: white; }
 
         /* --- FOOTER --- */
         footer {
-            background: #1a202c;
-            color: #e2e8f0;
-            margin-top: 4rem;
-            padding: 4rem 5% 2rem;
-            border-top-left-radius: 50px;
-            border-top-right-radius: 50px;
+            background: #1a202c; color: #e2e8f0; margin-top: 4rem;
+            padding: 4rem 5% 2rem; border-top-left-radius: 50px; border-top-right-radius: 50px;
         }
         .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
+            max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 3rem; margin-bottom: 3rem;
         }
         .footer-brand h2 { color: white; margin-bottom: 1rem; }
         .footer-brand p { color: #a0aec0; font-size: 0.9rem; margin-bottom: 1.5rem; }
         .footer-col h4 { color: white; margin-bottom: 1.5rem; font-size: 1.1rem; }
         .footer-col ul li { margin-bottom: 0.8rem; }
         .footer-col ul li a { color: #a0aec0; font-size: 0.9rem; }
-        .footer-col ul li a:hover { color: white; padding-left: 5px; }
         .social-links { display: flex; gap: 15px; }
         .social-btn {
             width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1);
             display: flex; align-items: center; justify-content: center; transition: var(--transition);
         }
-        .social-btn:hover { background: var(--secondary-color); transform: translateY(-3px); }
         .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; font-size: 0.85rem; color: #718096; }
+
+        /* Footer Mobile */
+        @media (max-width: 900px) { .footer-content { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 600px) { 
+            .footer-content { grid-template-columns: 1fr; text-align: center; gap: 2rem; } 
+            .social-links { justify-content: center; }
+            footer { border-radius: 30px 30px 0 0; padding-top: 3rem; }
+        }
 
         /* --- CALCULATOR MODAL --- */
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(26, 32, 44, 0.6);
-            backdrop-filter: blur(5px);
-            z-index: 2000;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(26, 32, 44, 0.6); backdrop-filter: blur(5px);
+            z-index: 2000; display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s ease;
         }
         .modal-overlay.active { display: flex; opacity: 1; }
+        
         .modal-card {
-            background: #ffffff;
-            width: 95%;
-            max-width: 550px;
-            max-height: 90vh; /* Scroll if tall */
-            overflow-y: auto;
-            border-radius: 20px;
-            padding: 2rem;
+            background: #ffffff; width: 95%; max-width: 550px;
+            max-height: 90vh; overflow-y: auto;
+            border-radius: 24px; padding: 2rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            transform: scale(0.9);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
+            transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex; flex-direction: column;
         }
         .modal-overlay.active .modal-card { transform: scale(1); }
 
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .modal-header { 
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-bottom: 1.5rem; flex-shrink: 0;
+        }
         .modal-title { font-size: 1.3rem; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 10px; }
         .modal-title i { color: var(--secondary-color); background: #eef2ff; padding: 8px; border-radius: 10px; font-size: 1.1rem; }
         
-        .close-modal { background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
-        .close-modal:hover { color: #e53e3e; transform: rotate(90deg); }
+        .close-modal { background: #f7fafc; border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
+        .close-modal:hover { background: #fee2e2; color: #e53e3e; transform: rotate(90deg); }
 
-        /* Tab Navigation inside Modal */
+        /* Tabs */
         .calc-tabs {
-            display: flex;
-            background: #f7fafc;
-            border-radius: 12px;
-            padding: 5px;
-            margin-bottom: 1.5rem;
-            gap: 5px;
+            display: flex; background: #f7fafc; border-radius: 12px; padding: 5px; margin-bottom: 1.5rem; gap: 5px; flex-shrink: 0;
         }
         .tab-btn {
-            flex: 1;
-            padding: 10px 5px;
-            border: none;
-            background: none;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
+            flex: 1; padding: 10px 5px; border: none; background: none;
+            font-size: 0.8rem; font-weight: 600; color: var(--text-muted);
+            border-radius: 8px; cursor: pointer; transition: all 0.2s;
+            display: flex; flex-direction: column; align-items: center; gap: 4px;
         }
         .tab-btn i { font-size: 1rem; }
-        .tab-btn:hover { color: var(--secondary-color); background: #edf2f7; }
         .tab-btn.active { background: white; color: var(--secondary-color); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-
-        .tab-content { display: none; animation: popIn 0.3s ease; }
+        
+        .tab-content { display: none; animation: popIn 0.3s ease; padding-bottom: 10px; }
         .tab-content.active { display: block; }
 
-        /* Inputs */
+        /* Form Elements */
         .input-group { margin-bottom: 1.2rem; }
-        .input-label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.4rem; }
-        .input-label span { font-weight: 400; color: var(--text-muted); font-size: 0.8rem; }
+        .input-label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; }
         .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         .calc-input, .calc-select {
-            width: 100%; padding: 12px 15px; border: 2px solid #e2e8f0; border-radius: 10px;
-            font-family: 'Poppins', sans-serif; font-size: 0.95rem; color: var(--text-dark);
+            width: 100%; padding: 14px 15px; border: 2px solid #e2e8f0; border-radius: 12px;
+            font-family: 'Poppins', sans-serif; font-size: 1rem; color: var(--text-dark);
             outline: none; transition: 0.2s; background: #fcfdfe;
+            -webkit-appearance: none; /* Remove iOS default styles */
         }
-        .calc-input:focus, .calc-select:focus { border-color: var(--secondary-color); background: white; }
-        
-        /* Result Boxes */
+        .calc-input:focus { border-color: var(--secondary-color); background: white; }
+
+        /* Result Box */
         .result-box {
-            margin-top: 1.5rem;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 1.5rem;
+            margin-top: 1.5rem; background: #ffffff; border: 1px solid #e2e8f0;
+            border-radius: 16px; padding: 1.5rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-            position: relative;
-            overflow: hidden;
+            position: relative; overflow: hidden;
         }
         .result-box.accent-top::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 25%; right: 25%;
-            height: 4px;
-            background: var(--primary-gradient);
-            border-radius: 0 0 10px 10px;
+            content: ''; position: absolute; top: 0; left: 25%; right: 25%;
+            height: 4px; background: var(--primary-gradient); border-radius: 0 0 10px 10px;
         }
-        .res-primary-row {
-            text-align: center;
-            margin-bottom: 1.2rem;
-            padding-bottom: 1.2rem;
-            border-bottom: 1px solid #edf2f7;
-        }
+        .res-primary-row { text-align: center; margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid #edf2f7; }
         .lbl-small { font-size: 0.75rem; letter-spacing: 1px; color: #a0aec0; font-weight: 700; text-transform: uppercase; }
-        .big-price {
-            font-size: 2rem; font-weight: 700; color: #4facfe; margin-top: 5px; line-height: 1.2;
-        }
+        .big-price { font-size: 2rem; font-weight: 700; color: #4facfe; margin-top: 5px; line-height: 1.2; word-break: break-all; }
         .stats-row { display: flex; justify-content: space-between; }
         .stat-item { text-align: center; width: 50%; }
         .stat-item:first-child { border-right: 1px solid #edf2f7; }
         .stat-val { font-size: 1.05rem; font-weight: 600; color: var(--text-dark); margin-top: 5px; }
+
         .btn-reset {
             background: #f7fafc; color: var(--text-muted); border: none; padding: 8px 12px;
             border-radius: 8px; cursor: pointer; font-size: 1.1rem; margin-right: 10px; transition: 0.2s;
         }
-        .btn-reset:hover { background: #e2e8f0; color: var(--text-dark); }
-        .note-text { font-size: 0.8rem; color: #a0aec0; margin-top: 5px; display: block; }
+
+        /* --- MOBILE MODAL OPTIMIZATION --- */
+        @media (max-width: 600px) {
+            .modal-card {
+                width: 100%; height: 100%; max-height: 100vh;
+                border-radius: 0; padding: 1.5rem;
+                transform: translateY(20px);
+            }
+            .modal-overlay.active .modal-card { transform: translateY(0); }
+            
+            .modal-header { position: sticky; top: 0; background: white; z-index: 10; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; margin-bottom: 1rem; }
+            .calc-tabs { position: sticky; top: 60px; z-index: 9; }
+            .tab-btn span { display: none; } 
+            .tab-btn i { font-size: 1.2rem; margin: 0; }
+            
+            .input-row { gap: 0.8rem; }
+            .calc-input { font-size: 16px; /* Prevents iOS zoom */ padding: 12px; }
+        }
     </style>
 </head>
 <body>
@@ -530,27 +451,23 @@
     <div class="nav-wrapper">
         <nav>
             <div class="logo">
-                <i class="fa-solid fa-cube"></i> SysMaster
+                <i class="fa-solid fa-cube"></i> <span>SysMaster</span>
             </div>
             
             <div class="menu-toggle" id="mobile-menu">
                 <i class="fa-solid fa-bars"></i>
             </div>
 
-            <!-- New Simplified Navbar -->
+            <!-- Navbar Links -->
             <ul class="nav-links" id="nav-links">
-                <!-- Dashboard Home -->
                 <li class="nav-item">
-                    <a href="#" class="nav-link active">
-                        Dashboard
-                    </a>
+                    <a href="#" class="nav-link active">Dashboard</a>
                 </li>
-
-                <!-- Categories Dropdown -->
                 <li class="nav-item" id="mobile-dropdown-trigger">
                     <div class="nav-link">
                         Categories <i class="fa-solid fa-chevron-down"></i>
                     </div>
+                    <!-- Dropdown -->
                     <ul class="dropdown-menu">
                         <li class="dropdown-item"><a href="#" onclick="openBizCalc(event)"><i class="fa-solid fa-calculator"></i> Biz Calc</a></li>
                         <li class="dropdown-item"><a href="#"><i class="fa-solid fa-coins"></i> Finance</a></li>
@@ -561,8 +478,6 @@
                         <li class="dropdown-item"><a href="#"><i class="fa-solid fa-shield-halved"></i> Security</a></li>
                     </ul>
                 </li>
-
-                <!-- Login Button (Separated) -->
                  <li class="nav-item">
                     <a href="#" class="btn-login">Login / Profile</a>
                  </li>
@@ -572,24 +487,19 @@
 
     <!-- Main Content Area -->
     <section class="main-content">
-        
-        <!-- Header Text -->
         <div class="section-header-container">
             <h1 class="dashboard-welcome">System Dashboard</h1>
-            <p class="dashboard-subtitle">Access your modules below or via the categories menu.</p>
+            <p class="dashboard-subtitle">Select a module below to begin your work.</p>
         </div>
         
         <div class="grid-container">
-            
-            <!-- Item 1: Biz Calc (With ID for JS) -->
+            <!-- Items -->
             <div class="card" id="bizCalcBtn">
                 <div class="icon-circle"><i class="fa-solid fa-calculator"></i></div>
                 <h3>Biz Calc</h3>
                 <p>Margin, Subscriptions, and Adjustment tools.</p>
                 <div class="card-btn">Access</div>
             </div>
-
-            <!-- Other Items -->
             <div class="card">
                 <div class="icon-circle"><i class="fa-solid fa-coins"></i></div>
                 <h3>Finance</h3>
@@ -599,43 +509,43 @@
             <div class="card">
                 <div class="icon-circle"><i class="fa-solid fa-envelope-open-text"></i></div>
                 <h3>Email Hub</h3>
-                <p>Professional templates for clients & teams.</p>
+                <p>Templates for professional clients.</p>
                 <div class="card-btn">Access</div>
             </div>
             <div class="card">
                 <div class="icon-circle"><i class="fa-solid fa-users"></i></div>
                 <h3>HR Portal</h3>
-                <p>Staff data, payroll, and leave management.</p>
+                <p>Staff data, payroll, and leave.</p>
                 <div class="card-btn">Access</div>
             </div>
             <div class="card">
                 <div class="icon-circle"><i class="fa-solid fa-file-invoice"></i></div>
                 <h3>Invoicing</h3>
-                <p>Generate and track client invoices easily.</p>
+                <p>Generate and track client invoices.</p>
                 <div class="card-btn">Access</div>
             </div>
             <div class="card">
                 <div class="icon-circle"><i class="fa-solid fa-chart-pie"></i></div>
                 <h3>Analytics</h3>
-                <p>Visual data regarding system usage.</p>
+                <p>Visual data regarding usage.</p>
                 <div class="card-btn">Access</div>
             </div>
             <div class="card">
                 <div class="icon-circle"><i class="fa-solid fa-cloud-arrow-up"></i></div>
                 <h3>Cloud Sync</h3>
-                <p>Backup data to secure cloud storage.</p>
+                <p>Backup data to secure storage.</p>
                 <div class="card-btn">Access</div>
             </div>
             <div class="card">
                 <div class="icon-circle"><i class="fa-solid fa-headset"></i></div>
                 <h3>Support</h3>
-                <p>Ticketing system for internal IT issues.</p>
+                <p>Ticketing system for IT issues.</p>
                 <div class="card-btn">Access</div>
             </div>
             <div class="card">
                 <div class="icon-circle"><i class="fa-solid fa-calendar-check"></i></div>
                 <h3>Scheduler</h3>
-                <p>Meeting rooms and event planning.</p>
+                <p>Meeting rooms and planning.</p>
                 <div class="card-btn">Access</div>
             </div>
             <div class="card">
@@ -644,25 +554,22 @@
                 <p>Access logs and permission controls.</p>
                 <div class="card-btn">Access</div>
             </div>
-
         </div>
     </section>
 
-    <!-- CALCULATOR MODAL (MULTI-TAB) -->
+    <!-- CALCULATOR MODAL (Responsive Fullscreen on Mobile) -->
     <div class="modal-overlay" id="calcModal">
         <div class="modal-card">
-            
             <div class="modal-header">
                 <div class="modal-title">
                     <i class="fa-solid fa-calculator"></i> Biz Calc
                 </div>
-                <div>
+                <div style="display:flex; gap:5px;">
                     <button class="btn-reset" onclick="resetAllCalcs()" title="Reset All"><i class="fa-solid fa-rotate-right"></i></button>
                     <button class="close-modal" id="closeCalc"><i class="fa-solid fa-xmark"></i></button>
                 </div>
             </div>
 
-            <!-- Tab Navigation -->
             <div class="calc-tabs">
                 <button class="tab-btn active" onclick="switchTab('tab-price')">
                     <i class="fa-solid fa-tags"></i><span>Pricing</span>
@@ -678,20 +585,20 @@
                 </button>
             </div>
 
-            <!-- TAB 1: PRICING (Original) -->
+            <!-- Tab Content (Same Logic) -->
             <div id="tab-price" class="tab-content active">
                 <div class="input-group">
                     <label class="input-label">Original Price ($)</label>
-                    <input type="number" class="calc-input" id="p-orig" placeholder="e.g. 1000.00">
+                    <input type="number" class="calc-input" id="p-orig" placeholder="e.g. 1000">
                 </div>
                 <div class="input-row">
                     <div class="input-group">
                         <label class="input-label">Discount %</label>
-                        <input type="number" class="calc-input" id="p-disc" placeholder="e.g. 15">
+                        <input type="number" class="calc-input" id="p-disc" placeholder="15">
                     </div>
                     <div class="input-group">
                         <label class="input-label">Sale Price ($)</label>
-                        <input type="number" class="calc-input" id="p-sale" placeholder="e.g. 850.00">
+                        <input type="number" class="calc-input" id="p-sale" placeholder="850">
                     </div>
                 </div>
                 <div class="result-box accent-top">
@@ -712,7 +619,6 @@
                 </div>
             </div>
 
-            <!-- TAB 2: SUBSCRIPTION CALCULATOR -->
             <div id="tab-sub" class="tab-content">
                 <div class="input-row">
                     <div class="input-group">
@@ -721,17 +627,17 @@
                     </div>
                     <div class="input-group">
                         <label class="input-label">Bill Months</label>
-                        <input type="number" class="calc-input" id="s-months" placeholder="e.g. 12">
+                        <input type="number" class="calc-input" id="s-months" placeholder="12">
                     </div>
                 </div>
                 <div class="input-row">
                     <div class="input-group">
-                        <label class="input-label">Adjustment <span>(+/- Days)</span></label>
-                        <input type="number" class="calc-input" id="s-days" placeholder="e.g. 0">
+                        <label class="input-label">Adj Days</label>
+                        <input type="number" class="calc-input" id="s-days" placeholder="0">
                     </div>
                     <div class="input-group">
                         <label class="input-label">Free Months</label>
-                        <input type="number" class="calc-input" id="s-free" placeholder="e.g. 1">
+                        <input type="number" class="calc-input" id="s-free" placeholder="1">
                     </div>
                 </div>
                 <div class="result-box">
@@ -752,21 +658,20 @@
                 </div>
             </div>
 
-            <!-- TAB 3: INVOICE ADJUSTMENT -->
             <div id="tab-inv" class="tab-content">
                 <div class="input-group">
-                    <label class="input-label">Target Total Bill <span>(Incl. VAT)</span></label>
-                    <input type="number" class="calc-input" id="i-total" placeholder="e.g. 500.00">
+                    <label class="input-label">Target Total (Incl. VAT)</label>
+                    <input type="number" class="calc-input" id="i-total" placeholder="500.00">
                     <small id="i-note" class="note-text">(Excl VAT: $0.00)</small>
                 </div>
                 <div class="input-row">
                     <div class="input-group">
                         <label class="input-label">Months</label>
-                        <input type="number" class="calc-input" id="i-months" placeholder="e.g. 6">
+                        <input type="number" class="calc-input" id="i-months" placeholder="6">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">Sys Price <span>(Incl. VAT)</span></label>
-                        <input type="number" class="calc-input" id="i-sys" placeholder="e.g. 450.00">
+                        <label class="input-label">Sys Price (Incl)</label>
+                        <input type="number" class="calc-input" id="i-sys" placeholder="450">
                     </div>
                 </div>
                 <div class="result-box">
@@ -776,7 +681,7 @@
                     </div>
                     <div class="stats-row">
                         <div class="stat-item">
-                            <div class="lbl-small">New System Price</div>
+                            <div class="lbl-small">New System</div>
                             <div class="stat-val" id="res-i-sys">$0.00</div>
                         </div>
                         <div class="stat-item">
@@ -787,17 +692,16 @@
                 </div>
             </div>
 
-            <!-- TAB 4: BILLING ADJUSTMENT -->
             <div id="tab-bill" class="tab-content">
                 <div class="input-row">
                     <div class="input-group">
                         <label class="input-label">Monthly Fee</label>
-                        <input type="number" class="calc-input" id="b-fee" placeholder="e.g. 150.00">
+                        <input type="number" class="calc-input" id="b-fee" placeholder="150">
                     </div>
                     <div class="input-group">
                         <label class="input-label">Days in Month</label>
                         <select class="calc-select" id="b-dim">
-                            <option value="30" selected>30</option>
+                            <option value="30">30</option>
                             <option value="31">31</option>
                             <option value="28">28</option>
                             <option value="29">29</option>
@@ -816,12 +720,12 @@
                 </div>
                 <div class="input-row">
                     <div class="input-group">
-                        <label class="input-label">OR Specific Days</label>
-                        <input type="number" class="calc-input" id="b-days-spec" placeholder="e.g. 5">
+                        <label class="input-label">OR Days</label>
+                        <input type="number" class="calc-input" id="b-days-spec" placeholder="5">
                     </div>
                     <div class="input-group">
                         <label class="input-label">OR Rem. Fee</label>
-                        <input type="number" class="calc-input" id="b-rem-fee" placeholder="e.g. 25.00">
+                        <input type="number" class="calc-input" id="b-rem-fee" placeholder="25">
                     </div>
                 </div>
                 <div class="result-box">
@@ -831,7 +735,7 @@
                     </div>
                     <div class="stats-row">
                         <div class="stat-item">
-                            <div class="lbl-small">Calculated Days</div>
+                            <div class="lbl-small">Days</div>
                             <div class="stat-val" id="res-b-days">0</div>
                         </div>
                         <div class="stat-item">
@@ -841,7 +745,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -850,73 +753,65 @@
         <div class="footer-content">
             <div class="footer-brand">
                 <h2>SysMaster</h2>
-                <p>Empowering businesses with streamlined tools for calculation, communication, and management.</p>
+                <p>Empowering businesses with streamlined tools for calculation and management.</p>
                 <div class="social-links">
                     <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
                     <a href="#" class="social-btn"><i class="fa-brands fa-twitter"></i></a>
                     <a href="#" class="social-btn"><i class="fa-brands fa-linkedin-in"></i></a>
-                    <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
                 </div>
             </div>
             <div class="footer-col">
                 <h4>Platform</h4>
-                <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Pricing</a></li>
-                    <li><a href="#">API Access</a></li>
-                </ul>
+                <ul><li><a href="#">About Us</a></li><li><a href="#">Services</a></li><li><a href="#">Pricing</a></li></ul>
             </div>
             <div class="footer-col">
                 <h4>Resources</h4>
-                <ul>
-                    <li><a href="#">Documentation</a></li>
-                    <li><a href="#">Community</a></li>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Video Guides</a></li>
-                </ul>
+                <ul><li><a href="#">Docs</a></li><li><a href="#">Community</a></li><li><a href="#">Help</a></li></ul>
             </div>
             <div class="footer-col">
-                <h4>Contact Us</h4>
-                <ul>
-                    <li><i class="fa-solid fa-location-dot"></i> 123 Innovation Dr, Tech City</li>
-                    <li><i class="fa-solid fa-envelope"></i> support@sysmaster.com</li>
-                    <li><i class="fa-solid fa-phone"></i> +1 (555) 123-4567</li>
-                </ul>
+                <h4>Contact</h4>
+                <ul><li><i class="fa-solid fa-envelope"></i> support@sys.com</li><li><i class="fa-solid fa-phone"></i> +1 555 123 4567</li></ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 SysMaster Inc. All rights reserved. | Privacy Policy | Terms of Service</p>
+            <p>&copy; 2026 SysMaster Inc. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
-        // --- Mobile Menu Toggle ---
+        // --- Mobile Menu ---
         const menuToggle = document.getElementById('mobile-menu');
         const navLinks = document.getElementById('nav-links');
+        const mobileDropTrigger = document.getElementById('mobile-dropdown-trigger');
 
-        menuToggle.addEventListener('click', () => {
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
             navLinks.classList.toggle('active');
             const icon = menuToggle.querySelector('i');
-            if (navLinks.classList.contains('active')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-xmark');
-            } else {
-                icon.classList.remove('fa-xmark');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-xmark');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !menuToggle.contains(e.target) && navLinks.classList.contains('active')) {
+                navLinks.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
                 icon.classList.add('fa-bars');
+                icon.classList.remove('fa-xmark');
             }
         });
 
-        // --- Mobile Dropdown Toggle Logic ---
-        const mobileDropTrigger = document.getElementById('mobile-dropdown-trigger');
-        mobileDropTrigger.addEventListener('click', () => {
-            // Only toggle class on mobile (width < 769px)
-            if (window.innerWidth <= 768) {
+        // Mobile Dropdown Toggle
+        mobileDropTrigger.addEventListener('click', (e) => {
+            if (window.innerWidth <= 900) {
+                // Toggle accordion logic only on mobile
+                // If clicking the link inside, don't close, but here we are clicking the row
                 mobileDropTrigger.classList.toggle('active-mobile');
             }
         });
 
-        // --- Smooth Appear on Scroll ---
+        // --- Scroll Animation ---
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -936,35 +831,24 @@
         /* =========================================
            BIZ CALCULATOR LOGIC
            ========================================= */
-        
-        // 1. Modal Logic
         const calcModal = document.getElementById('calcModal');
         const openCalcBtn = document.getElementById('bizCalcBtn');
         const closeCalcBtn = document.getElementById('closeCalc');
 
         function openBizCalc(e) {
             e.preventDefault();
+            e.stopPropagation();
             calcModal.classList.add('active');
-            // Close mobile menu if open
-            navLinks.classList.remove('active');
+            navLinks.classList.remove('active'); // Close mobile menu
             const icon = menuToggle.querySelector('i');
-            if(icon) { icon.classList.remove('fa-xmark'); icon.classList.add('fa-bars'); }
+            icon.classList.add('fa-bars');
+            icon.classList.remove('fa-xmark');
         }
 
-        if(openCalcBtn) {
-            openCalcBtn.addEventListener('click', (e) => {
-                e.preventDefault(); 
-                calcModal.classList.add('active');
-            });
-        }
-        if(closeCalcBtn) {
-            closeCalcBtn.addEventListener('click', () => calcModal.classList.remove('active'));
-        }
-        window.addEventListener('click', (e) => {
-            if (e.target === calcModal) calcModal.classList.remove('active');
-        });
+        if(openCalcBtn) openCalcBtn.addEventListener('click', openBizCalc);
+        if(closeCalcBtn) closeCalcBtn.addEventListener('click', () => calcModal.classList.remove('active'));
+        window.addEventListener('click', (e) => { if (e.target === calcModal) calcModal.classList.remove('active'); });
 
-        // 2. Tab Logic
         function switchTab(tabId) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -974,201 +858,91 @@
             if(targetBtn) targetBtn.classList.add('active');
         }
 
-        // 3. Reset Function
         function resetAllCalcs() {
             document.querySelectorAll('.calc-input').forEach(inp => inp.value = '');
             document.getElementById('b-dim').value = '30';
-            calculatePriceLogic('reset');
-            calculateSubscription();
-            calculateInvoiceAdj();
-            calculateBillingAdj();
+            calculatePriceLogic('reset'); calculateSubscription(); calculateInvoiceAdj(); calculateBillingAdj();
         }
 
-        /* --- LOGIC: PRICING --- */
-        const pOrig = document.getElementById('p-orig');
-        const pDisc = document.getElementById('p-disc');
-        const pSale = document.getElementById('p-sale');
-
+        /* Logic implementations (Same as previous) */
+        const pOrig = document.getElementById('p-orig'), pDisc = document.getElementById('p-disc'), pSale = document.getElementById('p-sale');
         [pOrig, pDisc, pSale].forEach(el => el.addEventListener('input', (e) => {
-            let src = 'original';
-            if(e.target === pDisc) src = 'percent';
-            if(e.target === pSale) src = 'sale';
+            let src = 'original'; if(e.target === pDisc) src = 'percent'; if(e.target === pSale) src = 'sale';
             calculatePriceLogic(src);
         }));
 
         function calculatePriceLogic(source) {
-            if(source === 'reset') {
-                updatePriceDOM(0,0,0); return;
-            }
-            let orig = parseFloat(pOrig.value) || 0;
-            let perc = parseFloat(pDisc.value) || 0;
-            let sale = parseFloat(pSale.value) || 0;
-
-            if (source === 'original' || source === 'percent') {
-                sale = orig * (1 - (perc / 100));
-                pSale.value = sale.toFixed(2);
-            } else if (source === 'sale') {
-                if (orig !== 0) {
-                    perc = ((orig - sale) / orig) * 100;
-                    pDisc.value = perc.toFixed(2);
-                }
-            }
-            let diff = sale - orig; 
-            updatePriceDOM(sale, perc, diff);
+            if(source === 'reset') { updatePriceDOM(0,0,0); return; }
+            let orig = parseFloat(pOrig.value) || 0, perc = parseFloat(pDisc.value) || 0, sale = parseFloat(pSale.value) || 0;
+            if (source === 'original' || source === 'percent') { sale = orig * (1 - (perc / 100)); pSale.value = sale.toFixed(2); } 
+            else if (source === 'sale') { if (orig !== 0) { perc = ((orig - sale) / orig) * 100; pDisc.value = perc.toFixed(2); } }
+            updatePriceDOM(sale, perc, sale - orig);
         }
 
         function updatePriceDOM(final, percent, diff) {
-            const lblFinal = document.getElementById('lbl-final-price');
-            const lblPercent = document.getElementById('lbl-percent');
-            const lblDiff = document.getElementById('lbl-diff');
             const dispFinal = document.getElementById('final-price');
-            const dispSaved = document.getElementById('saved-val');
-            const dispDiff = document.getElementById('profit-loss');
-
             dispFinal.textContent = '$' + final.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            dispFinal.classList.remove('update-anim');
-            void dispFinal.offsetWidth; 
-            dispFinal.classList.add('update-anim');
-
-            dispSaved.textContent = Math.abs(percent).toFixed(2) + '%';
+            dispFinal.classList.remove('update-anim'); void dispFinal.offsetWidth; dispFinal.classList.add('update-anim');
+            document.getElementById('saved-val').textContent = Math.abs(percent).toFixed(2) + '%';
+            const dispDiff = document.getElementById('profit-loss');
             dispDiff.textContent = (diff > 0 ? '+' : '') + '$' + diff.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-
-            if (diff > 0) {
-                lblFinal.textContent = "INCREASED PRICE"; lblPercent.textContent = "MARKUP %"; lblDiff.textContent = "PROFIT";
-                lblDiff.style.color = "#38a169"; dispDiff.className = "stat-val text-profit"; dispSaved.className = "stat-val text-markup";
-            } else if (diff < 0) {
-                lblFinal.textContent = "DISCOUNTED PRICE"; lblPercent.textContent = "DISCOUNT %"; lblDiff.textContent = "LOSS / SAVING";
-                lblDiff.style.color = "#e53e3e"; dispDiff.className = "stat-val text-loss"; dispSaved.className = "stat-val text-profit";
-            } else {
-                lblFinal.textContent = "FINAL PRICE"; lblPercent.textContent = "Discount %"; lblDiff.textContent = "DIFFERENCE";
-                lblDiff.style.color = "#a0aec0"; dispDiff.className = "stat-val text-neutral"; dispSaved.className = "stat-val text-neutral";
-            }
+            const lblDiff = document.getElementById('lbl-diff');
+            if (diff > 0) { lblDiff.style.color = "#38a169"; dispDiff.className = "stat-val text-profit"; } 
+            else if (diff < 0) { lblDiff.style.color = "#e53e3e"; dispDiff.className = "stat-val text-loss"; } 
+            else { lblDiff.style.color = "#a0aec0"; dispDiff.className = "stat-val text-neutral"; }
         }
 
-        /* --- LOGIC: SUBSCRIPTION --- */
-        const sStart = document.getElementById('s-start');
-        const sMonths = document.getElementById('s-months');
-        const sDays = document.getElementById('s-days');
-        const sFree = document.getElementById('s-free');
-
+        /* Subscription */
+        const sStart = document.getElementById('s-start'), sMonths = document.getElementById('s-months'), sDays = document.getElementById('s-days'), sFree = document.getElementById('s-free');
         [sStart, sMonths, sDays, sFree].forEach(el => el.addEventListener('input', calculateSubscription));
-
         function calculateSubscription() {
-            const startVal = sStart.value;
-            const mBill = parseInt(sMonths.value) || 0;
-            const mFree = parseInt(sFree.value) || 0;
-            const dAdj = parseInt(sDays.value) || 0;
-
-            const resEnd = document.getElementById('res-s-end');
-            const resDur = document.getElementById('res-s-dur');
-            const resTotal = document.getElementById('res-s-total');
-
-            if (!startVal) {
-                resEnd.textContent = "-- / -- / ----";
-                resDur.textContent = "0Y 0M 0D";
-                resTotal.textContent = "0";
-                return;
-            }
-            const startDate = new Date(startVal);
-            const totalMonths = mBill + mFree;
+            if (!sStart.value) return;
+            const startDate = new Date(sStart.value);
+            const totalMonths = (parseInt(sMonths.value)||0) + (parseInt(sFree.value)||0);
             let expDate = new Date(startDate);
             expDate.setMonth(expDate.getMonth() + totalMonths);
-            expDate.setDate(expDate.getDate() - 1);
-            expDate.setDate(expDate.getDate() + dAdj);
-
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            resEnd.textContent = expDate.toLocaleDateString('en-GB', options);
-
-            let calcEnd = new Date(expDate);
-            calcEnd.setDate(calcEnd.getDate() + 1);
-            let diffY = calcEnd.getFullYear() - startDate.getFullYear();
-            let diffM = calcEnd.getMonth() - startDate.getMonth();
-            let diffD = calcEnd.getDate() - startDate.getDate();
-            if (diffD < 0) {
-                diffM--;
-                let prevMonth = new Date(calcEnd.getFullYear(), calcEnd.getMonth(), 0);
-                diffD += prevMonth.getDate();
-            }
-            if (diffM < 0) { diffY--; diffM += 12; }
-            resDur.textContent = `${diffY}Y ${diffM}M ${diffD}D`;
-
-            const oneDay = 24 * 60 * 60 * 1000;
-            const diffDays = Math.round((expDate - startDate) / oneDay) + 1;
-            resTotal.textContent = diffDays;
+            expDate.setDate(expDate.getDate() - 1 + (parseInt(sDays.value)||0));
+            document.getElementById('res-s-end').textContent = expDate.toLocaleDateString('en-GB', {year:'numeric',month:'short',day:'numeric'});
+            
+            // Duration
+            let d1 = new Date(startDate); let d2 = new Date(expDate); d2.setDate(d2.getDate()+1);
+            let dY = d2.getFullYear()-d1.getFullYear(), dM = d2.getMonth()-d1.getMonth(), dD = d2.getDate()-d1.getDate();
+            if(dD<0){ dM--; dD += new Date(d2.getFullYear(),d2.getMonth(),0).getDate(); }
+            if(dM<0){ dY--; dM+=12; }
+            document.getElementById('res-s-dur').textContent = `${dY}Y ${dM}M ${dD}D`;
+            document.getElementById('res-s-total').textContent = Math.round((expDate - startDate)/(86400000))+1;
         }
 
-        /* --- LOGIC: INVOICE ADJUSTMENT --- */
-        const iTotal = document.getElementById('i-total');
-        const iMonths = document.getElementById('i-months');
-        const iSys = document.getElementById('i-sys');
-        
+        /* Invoice */
+        const iTotal = document.getElementById('i-total'), iMonths = document.getElementById('i-months'), iSys = document.getElementById('i-sys');
         [iTotal, iMonths, iSys].forEach(el => el.addEventListener('input', calculateInvoiceAdj));
-
         function calculateInvoiceAdj() {
-            const billTotal = parseFloat(iTotal.value) || 0;
-            const months = parseFloat(iMonths.value) || 0;
-            const sysTotal = parseFloat(iSys.value) || 0;
-
-            const resFee = document.getElementById('res-i-fee');
-            const resSys = document.getElementById('res-i-sys');
-            const resVat = document.getElementById('res-i-vat');
-            const iNote = document.getElementById('i-note');
-            const billExcl = billTotal / 1.1;
-            const sysExcl = sysTotal / 1.1;
-            iNote.textContent = `(Excl VAT: $${billExcl.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})})`;
-
-            if(months === 0) {
-                resFee.textContent = '$0.0000'; resSys.textContent = '$0.00'; resVat.textContent = '$0.00';
-                return;
-            }
-            const feeAdj = (billExcl - sysExcl) / months;
-            const totalAdj = feeAdj * months;
-            const newSysIncl = (sysExcl + totalAdj) * 1.1;
-            const vatOrig = billExcl * 0.1;
-
-            resFee.textContent = '$' + feeAdj.toFixed(4);
-            resSys.textContent = '$' + newSysIncl.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-            resVat.textContent = '$' + vatOrig.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            const b = parseFloat(iTotal.value)||0, m = parseFloat(iMonths.value)||0, s = parseFloat(iSys.value)||0;
+            document.getElementById('i-note').textContent = `(Excl VAT: $${(b/1.1).toLocaleString(undefined, {minimumFractionDigits:2})})`;
+            if(m===0) return;
+            const fee = ((b/1.1) - (s/1.1))/m;
+            document.getElementById('res-i-fee').textContent = '$'+fee.toFixed(4);
+            document.getElementById('res-i-sys').textContent = '$'+(( (s/1.1) + (fee*m) )*1.1).toLocaleString(undefined,{minimumFractionDigits:2});
+            document.getElementById('res-i-vat').textContent = '$'+((b/1.1)*0.1).toLocaleString(undefined,{minimumFractionDigits:2});
         }
 
-        /* --- LOGIC: BILLING ADJUSTMENT --- */
-        const bFee = document.getElementById('b-fee');
-        const bDim = document.getElementById('b-dim');
-        const bStart = document.getElementById('b-start');
-        const bEnd = document.getElementById('b-end');
-        const bDaysSpec = document.getElementById('b-days-spec');
-        const bRemFee = document.getElementById('b-rem-fee');
-
+        /* Billing */
+        const bFee = document.getElementById('b-fee'), bDim = document.getElementById('b-dim'), bStart = document.getElementById('b-start'), bEnd = document.getElementById('b-end'), bDaysSpec = document.getElementById('b-days-spec'), bRemFee = document.getElementById('b-rem-fee');
         [bFee, bDim, bStart, bEnd, bDaysSpec, bRemFee].forEach(el => el.addEventListener('input', (e) => {
-            if(e.target === bDaysSpec && bDaysSpec.value) { bStart.value = ''; bEnd.value = ''; bRemFee.value = ''; }
-            if((e.target === bStart || e.target === bEnd) && (bStart.value || bEnd.value)) { bDaysSpec.value = ''; bRemFee.value = ''; }
-            if(e.target === bRemFee && bRemFee.value) { bStart.value = ''; bEnd.value = ''; bDaysSpec.value = ''; }
+            if(e.target===bDaysSpec && bDaysSpec.value){ bStart.value=''; bEnd.value=''; bRemFee.value=''; }
+            if((e.target===bStart||e.target===bEnd) && (bStart.value||bEnd.value)){ bDaysSpec.value=''; bRemFee.value=''; }
+            if(e.target===bRemFee && bRemFee.value){ bStart.value=''; bEnd.value=''; bDaysSpec.value=''; }
             calculateBillingAdj();
         }));
-
         function calculateBillingAdj() {
-            const feeMo = parseFloat(bFee.value) || 0;
-            const daysMo = parseInt(bDim.value);
-            const resExtra = document.getElementById('res-b-extra');
-            const resDays = document.getElementById('res-b-days');
-            const resRate = document.getElementById('res-b-rate');
-            const rateDaily = feeMo / daysMo;
-            resRate.textContent = '$' + rateDaily.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
-
-            let daysCharge = 0;
-            if (bDaysSpec.value) {
-                daysCharge = parseFloat(bDaysSpec.value);
-            } else if (bStart.value && bEnd.value) {
-                const d1 = new Date(bStart.value);
-                const d2 = new Date(bEnd.value);
-                daysCharge = Math.round((d2 - d1) / (24*60*60*1000)) + 1;
-            } else if (bRemFee.value) {
-                const rem = parseFloat(bRemFee.value);
-                if(rateDaily !== 0) daysCharge = Math.round(rem / rateDaily);
-            }
-            const chargeExtra = rateDaily * daysCharge;
-            resDays.textContent = daysCharge || 0;
-            resExtra.textContent = '$' + chargeExtra.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            const rate = (parseFloat(bFee.value)||0) / parseInt(bDim.value);
+            document.getElementById('res-b-rate').textContent = '$'+rate.toLocaleString(undefined,{minimumFractionDigits:2});
+            let d = 0;
+            if(bDaysSpec.value) d = parseFloat(bDaysSpec.value);
+            else if(bStart.value && bEnd.value) d = Math.round((new Date(bEnd.value)-new Date(bStart.value))/86400000)+1;
+            else if(bRemFee.value && rate!==0) d = Math.round(parseFloat(bRemFee.value)/rate);
+            document.getElementById('res-b-days').textContent = d||0;
+            document.getElementById('res-b-extra').textContent = '$'+(rate*d).toLocaleString(undefined,{minimumFractionDigits:2});
         }
     </script>
 </body>
