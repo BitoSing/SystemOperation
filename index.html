@@ -262,14 +262,12 @@
         .grid-container {
             display: grid;
             gap: 1.5rem;
-            /* Default Desktop (5 columns) */
-            grid-template-columns: repeat(5, 1fr);
+            /* Modified for 3 items (Biz, Fin, Email) */
+            grid-template-columns: repeat(3, 1fr);
         }
 
-        @media (max-width: 1400px) { .grid-container { grid-template-columns: repeat(4, 1fr); } }
         @media (max-width: 1100px) { .grid-container { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 800px) { .grid-container { grid-template-columns: repeat(2, 1fr); gap: 1rem; } }
-        @media (max-width: 480px) { .grid-container { grid-template-columns: 1fr; } }
+        @media (max-width: 800px) { .grid-container { grid-template-columns: repeat(1, 1fr); gap: 1rem; } }
 
         .card {
             background: var(--card-bg);
@@ -501,10 +499,6 @@
                         <li class="dropdown-item"><a href="#" onclick="openBizCalc(event)"><i class="fa-solid fa-calculator"></i> Biz Calc</a></li>
                         <li class="dropdown-item"><a href="#" onclick="openFinCalc(event)"><i class="fa-solid fa-coins"></i> Finance</a></li>
                         <li class="dropdown-item"><a href="#"><i class="fa-solid fa-envelope-open-text"></i> Email Hub</a></li>
-                        <li class="dropdown-item"><a href="#"><i class="fa-solid fa-users"></i> HR Portal</a></li>
-                        <li class="dropdown-item"><a href="#"><i class="fa-solid fa-file-invoice"></i> Invoicing</a></li>
-                        <li class="dropdown-item"><a href="#"><i class="fa-solid fa-chart-pie"></i> Analytics</a></li>
-                        <li class="dropdown-item"><a href="#"><i class="fa-solid fa-shield-halved"></i> Security</a></li>
                     </ul>
                 </li>
             </ul>
@@ -536,48 +530,6 @@
                 <div class="icon-circle"><i class="fa-solid fa-envelope-open-text"></i></div>
                 <h3>Email Hub</h3>
                 <p>Templates for professional clients.</p>
-                <div class="card-btn">Access</div>
-            </div>
-            <div class="card">
-                <div class="icon-circle"><i class="fa-solid fa-users"></i></div>
-                <h3>HR Portal</h3>
-                <p>Staff data, payroll, and leave.</p>
-                <div class="card-btn">Access</div>
-            </div>
-            <div class="card">
-                <div class="icon-circle"><i class="fa-solid fa-file-invoice"></i></div>
-                <h3>Invoicing</h3>
-                <p>Generate and track client invoices.</p>
-                <div class="card-btn">Access</div>
-            </div>
-            <div class="card">
-                <div class="icon-circle"><i class="fa-solid fa-chart-pie"></i></div>
-                <h3>Analytics</h3>
-                <p>Visual data regarding usage.</p>
-                <div class="card-btn">Access</div>
-            </div>
-            <div class="card">
-                <div class="icon-circle"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-                <h3>Cloud Sync</h3>
-                <p>Backup data to secure storage.</p>
-                <div class="card-btn">Access</div>
-            </div>
-            <div class="card">
-                <div class="icon-circle"><i class="fa-solid fa-headset"></i></div>
-                <h3>Support</h3>
-                <p>Ticketing system for IT issues.</p>
-                <div class="card-btn">Access</div>
-            </div>
-            <div class="card">
-                <div class="icon-circle"><i class="fa-solid fa-calendar-check"></i></div>
-                <h3>Scheduler</h3>
-                <p>Meeting rooms and planning.</p>
-                <div class="card-btn">Access</div>
-            </div>
-            <div class="card">
-                <div class="icon-circle"><i class="fa-solid fa-shield-halved"></i></div>
-                <h3>Security</h3>
-                <p>Access logs and permission controls.</p>
                 <div class="card-btn">Access</div>
             </div>
         </div>
