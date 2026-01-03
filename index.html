@@ -463,38 +463,47 @@
             background: #f0fff4; border: 1px solid #c6f6d5; color: #276749;
             padding: 8px 15px; border-radius: 30px; margin-bottom: 20px;
             font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;
+            transition: all 0.3s;
         }
         .exchange-status-bar.error { background: #fff5f5; border-color: #fed7d7; color: #c53030; }
         .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #48bb78; animation: pulse 2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.4); } 70% { box-shadow: 0 0 0 6px rgba(72, 187, 120, 0); } 100% { box-shadow: 0 0 0 0 rgba(72, 187, 120, 0); } }
         
         .exchange-grid {
-            display: flex; flex-direction: column; gap: 12px;
+            display: flex; flex-direction: column; gap: 15px;
         }
         
+        /* Updated Exchange Card Row for better elegance */
         .exchange-card-row {
             display: flex; align-items: center;
             background: #ffffff;
             border: 1px solid #edf2f7;
             border-radius: 16px;
-            padding: 12px 16px;
-            transition: all 0.25s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+            padding: 14px 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
             position: relative;
+            cursor: text; /* implies clickable input area */
         }
         
+        .exchange-card-row:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+            border-color: #dbe4ff;
+        }
+
         .exchange-card-row:focus-within {
             border-color: #f5576c;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(245, 87, 108, 0.15);
         }
 
         .flag-circle {
-            width: 42px; height: 42px; border-radius: 50%;
-            background: #f7fafc; border: 1px solid #e2e8f0;
+            width: 48px; height: 48px; border-radius: 50%;
+            background: #fdfdfd; border: 1px solid #eef2f6;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; margin-right: 15px;
-            flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-size: 1.8rem; margin-right: 18px;
+            flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
         
         .curr-details {
@@ -502,12 +511,12 @@
         }
         
         .curr-code {
-            font-size: 1rem; font-weight: 700; color: var(--text-dark);
-            line-height: 1.1;
+            font-size: 1.1rem; font-weight: 700; color: var(--text-dark);
+            line-height: 1; margin-bottom: 2px;
         }
         
         .curr-name {
-            font-size: 0.7rem; color: #a0aec0; font-weight: 500;
+            font-size: 0.75rem; color: #a0aec0; font-weight: 500;
         }
         
         /* Updated Exchange Input Wrapper */
@@ -515,32 +524,43 @@
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            width: 170px;
+            min-width: 140px;
         }
 
         .curr-symbol-span {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #a0aec0;
-            margin-right: 4px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #cbd5e0;
+            margin-right: 2px;
+            transition: color 0.3s;
+        }
+        
+        /* Highlight symbol when focused */
+        .exchange-card-row:focus-within .curr-symbol-span {
+            color: #f5576c;
         }
 
         .exchange-input {
             border: none; background: transparent;
             font-family: 'Poppins', sans-serif;
-            font-size: 1.2rem; font-weight: 600; color: var(--text-dark);
+            font-size: 1.3rem; font-weight: 600; color: var(--text-dark);
             text-align: right; outline: none; width: 100%;
-            padding: 5px 0;
+            padding: 0;
+            margin: 0;
         }
-        .exchange-input::placeholder { color: #cbd5e0; }
+        .exchange-input::placeholder { color: #e2e8f0; }
         
         /* Focus line animation */
         .exchange-card-row::after {
-            content: ''; position: absolute; bottom: -1px; left: 20px; right: 20px;
-            height: 2px; background: var(--exchange-gradient);
-            transform: scaleX(0); transition: transform 0.3s;
+            content: ''; position: absolute; bottom: -1px; left: 50%; right: 50%;
+            height: 3px; background: var(--exchange-gradient);
+            border-radius: 0 0 16px 16px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
         }
-        .exchange-card-row:focus-within::after { transform: scaleX(1); }
+        .exchange-card-row:focus-within::after { 
+            left: 0; right: 0; opacity: 1; 
+        }
 
         /* --- MOBILE MODAL OPTIMIZATION --- */
         @media (max-width: 600px) {
@@ -560,8 +580,9 @@
             .calc-input { font-size: 16px; padding: 12px; }
             
             .exchange-input { font-size: 1.1rem; }
-            .exchange-input-container { width: 130px; }
-            .flag-circle { width: 36px; height: 36px; font-size: 1.2rem; margin-right: 10px; }
+            .exchange-input-container { min-width: 100px; }
+            .flag-circle { width: 40px; height: 40px; font-size: 1.4rem; margin-right: 12px; }
+            .curr-code { font-size: 1rem; }
         }
     </style>
 </head>
@@ -1275,7 +1296,7 @@
         if(closeFinBtn) closeFinBtn.addEventListener('click', () => finModal.classList.remove('active'));
 
         /* =========================================
-           EXCHANGE RATE LOGIC (LIVE + FORMATTING)
+           EXCHANGE RATE LOGIC (LIVE + AUTO-REFRESH)
            ========================================= */
         const exchangeModal = document.getElementById('exchangeModal');
         const openExchangeBtn = document.getElementById('exchangeBtn');
@@ -1283,6 +1304,8 @@
         const exchangeInputs = document.querySelectorAll('.exchange-input');
         const exchangeMsg = document.getElementById('exchange-msg');
         const exchangeStatus = document.getElementById('exchange-status');
+        
+        let autoRefreshInterval = null;
 
         // Base Rates (Defaults)
         let liveRates = {
@@ -1296,13 +1319,17 @@
         };
 
         async function fetchLiveRates() {
+            // Update status to show activity
+            exchangeMsg.textContent = "Updating rates...";
+            
             try {
-                // Using a free open API for demo purposes (USD base)
+                // Using a free open API (USD base)
+                // Note: In production, consider a more robust API key service
                 const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
                 const data = await response.json();
                 
                 if (data && data.rates) {
-                    // Update rates
+                    // Update internal rates
                     liveRates.USD = 1;
                     if(data.rates.KHR) liveRates.KHR = data.rates.KHR;
                     if(data.rates.CNY) liveRates.CNY = data.rates.CNY;
@@ -1312,19 +1339,34 @@
                     if(data.rates.MYR) liveRates.MYR = data.rates.MYR;
                     
                     // Convert UNIX timestamp to human readable
-                    let dateStr = "Just now";
-                    if(data.time_last_updated) {
-                        const date = new Date(data.time_last_updated * 1000);
-                        dateStr = date.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-                    }
+                    const date = new Date(); // Current time
+                    const dateStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
                     
-                    exchangeMsg.textContent = `Updated: ${dateStr}`;
+                    exchangeMsg.textContent = `Live Rates Active (${dateStr})`;
                     exchangeStatus.classList.remove('error');
+
+                    // If user is currently typing (focused), recalculate other fields with new rates
+                    recalculateOnNewRates();
                 }
             } catch (error) {
-                console.warn("API Fetch failed, using fallback rates.");
+                console.warn("API Fetch failed, using cached rates.");
                 exchangeMsg.textContent = "Offline Mode: Approximate Rates";
                 exchangeStatus.classList.add('error');
+            }
+        }
+
+        function recalculateOnNewRates() {
+            // Check if any input is currently focused
+            const activeElement = document.activeElement;
+            if (activeElement && activeElement.classList.contains('exchange-input')) {
+                // Trigger the calculation logic for the active input
+                activeElement.dispatchEvent(new Event('input'));
+            } else {
+                // If no input is focused, but fields have values, update based on USD field (or first populated)
+                const usdInput = document.querySelector('.exchange-input[data-curr="USD"]');
+                if (usdInput && usdInput.value !== '') {
+                   usdInput.dispatchEvent(new Event('input')); 
+                }
             }
         }
 
@@ -1332,7 +1374,19 @@
             e.preventDefault(); e.stopPropagation();
             exchangeModal.classList.add('active');
             navLinks.classList.remove('active');
-            fetchLiveRates(); // Refresh on open
+            
+            // Initial Fetch
+            fetchLiveRates();
+            
+            // Set Auto Refresh Interval (60,000 ms = 1 minute)
+            if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+            autoRefreshInterval = setInterval(fetchLiveRates, 60000);
+        }
+        
+        function closeExchange() {
+            exchangeModal.classList.remove('active');
+            // Stop Refresh to save resources
+            if (autoRefreshInterval) clearInterval(autoRefreshInterval);
         }
 
         function resetExchange() {
@@ -1361,8 +1415,6 @@
             // 1. Input Event: Calculate other fields while typing
             input.addEventListener('input', (e) => {
                 const rawVal = e.target.value;
-                // We parse what the user types (stripping commas if they paste them)
-                // We do NOT format the current input while typing to avoid cursor jumping issues
                 const val = parseCurrencyVal(rawVal);
                 const code = e.target.getAttribute('data-curr');
                 
@@ -1392,21 +1444,20 @@
                 }
             });
 
-            // 3. Focus Event: Optional - remove formatting for easier editing? 
-            // Often better to leave it, or select all. Let's just select all on focus.
+            // 3. Focus Event: Select all text for easy replacement
             input.addEventListener('focus', (e) => {
                 e.target.select();
             });
         });
 
         if(openExchangeBtn) openExchangeBtn.addEventListener('click', openExchange);
-        if(closeExchangeBtn) closeExchangeBtn.addEventListener('click', () => exchangeModal.classList.remove('active'));
+        if(closeExchangeBtn) closeExchangeBtn.addEventListener('click', closeExchange);
 
         // Shared Modal Click Close
         window.addEventListener('click', (e) => { 
             if (e.target === calcModal) calcModal.classList.remove('active'); 
             if (e.target === finModal) finModal.classList.remove('active');
-            if (e.target === exchangeModal) exchangeModal.classList.remove('active');
+            if (e.target === exchangeModal) closeExchange();
         });
 
         // Tab Switching Logic (Generic)
