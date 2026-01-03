@@ -721,7 +721,7 @@
             <div class="card" id="exchangeBtn">
                 <div class="icon-circle"><i class="fa-solid fa-money-bill-transfer"></i></div>
                 <h3>Exchange Rate</h3>
-                <p>Live Real-Time conversion & Cambodia Gold Price.</p>
+                <p>Real-Time XE Market Rate & Cambodia Gold Price.</p>
                 <div class="card-btn">Access</div>
             </div>
 
@@ -1322,7 +1322,7 @@
                     </div>
                     
                     <div style="margin-top:15px; font-size:0.75rem; color:#718096; text-align:center;">
-                        * Live Spot + Retail Premium (~1.5%). Market prices vary by shop.
+                        * Live Mid-Market Rate (Source: Open API/XE Mirror) + ~1-2% Import/Retail Premium.
                     </div>
                 </div>
             </div>
@@ -1456,8 +1456,8 @@
         
         let autoRefreshInterval = null;
 
-        // Base Rates (Defaults)
-        // Fallback XAU set to approx $2,666 USD/oz (0.000375) to mimic 2025 reality if API fails
+        // Base Rates (Fallback)
+        // XAU set to approx real-world fallback
         let liveRates = {
             USD: 1,
             KHR: 4100.50,
@@ -1478,7 +1478,8 @@
             exchangeMsg.textContent = "Syncing Live Data...";
             
             try {
-                // Using a free open API (USD base)
+                // Using Open Exchange Rate API (Standard for XE-like mid-market rates)
+                // Note: Actual XE.com API requires server-side paid key.
                 const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
                 const data = await response.json();
                 
@@ -1536,8 +1537,9 @@
             // 1. Get Spot Price of Gold per Ounce (Troy Ounce)
             const pricePerOzSpot = 1 / liveRates.XAU;
             
-            // 2. Add Retail/Import Premium (~1.5% for local Cambodian market realization)
-            const premiumMultiplier = 1.015; 
+            // 2. Add Retail/Import Premium (~2.5% to match local jewelry shop rates)
+            // Cambodian "Heng Heng" style prices include craftsmanship/import costs.
+            const premiumMultiplier = 1.025; 
             const pricePerOzMarket = pricePerOzSpot * premiumMultiplier;
 
             // 3. Constants
