@@ -16,7 +16,7 @@
             --primary-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --finance-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-            --exchange-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); /* New Gradient */
+            --exchange-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             
             --secondary-color: #667eea;
             --bg-color: #f8faff;
@@ -265,7 +265,6 @@
         .grid-container {
             display: grid;
             gap: 1.5rem;
-            /* Optimized for 4 items */
             grid-template-columns: repeat(4, 1fr);
         }
 
@@ -459,35 +458,89 @@
         }
         .inner-modal.show { transform: translateX(0); }
 
-        /* --- EXCHANGE RATE STYLES --- */
-        .exchange-list {
-            display: flex; flex-direction: column; gap: 15px; margin-top: 10px;
+        /* --- EXCHANGE RATE POLISHED STYLES --- */
+        .exchange-status-bar {
+            background: #f0fff4; border: 1px solid #c6f6d5; color: #276749;
+            padding: 8px 15px; border-radius: 30px; margin-bottom: 20px;
+            font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-        .exchange-row {
+        .exchange-status-bar.error { background: #fff5f5; border-color: #fed7d7; color: #c53030; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #48bb78; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.4); } 70% { box-shadow: 0 0 0 6px rgba(72, 187, 120, 0); } 100% { box-shadow: 0 0 0 0 rgba(72, 187, 120, 0); } }
+        
+        .exchange-grid {
+            display: flex; flex-direction: column; gap: 12px;
+        }
+        
+        .exchange-card-row {
             display: flex; align-items: center;
-            background: #f7fafc; border-radius: 16px; padding: 8px 15px;
-            border: 1px solid #edf2f7; transition: 0.2s;
+            background: #ffffff;
+            border: 1px solid #edf2f7;
+            border-radius: 16px;
+            padding: 12px 16px;
+            transition: all 0.25s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+            position: relative;
         }
-        .exchange-row:focus-within {
-            background: #fff; border-color: #f5576c; box-shadow: 0 4px 12px rgba(245, 87, 108, 0.15);
+        
+        .exchange-card-row:focus-within {
+            border-color: #f5576c;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 87, 108, 0.15);
         }
-        .flag-box {
-            font-size: 1.8rem; margin-right: 12px; line-height: 1;
-            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.1));
+
+        .flag-circle {
+            width: 42px; height: 42px; border-radius: 50%;
+            background: #f7fafc; border: 1px solid #e2e8f0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-right: 15px;
+            flex-shrink: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
+        
+        .curr-details {
+            display: flex; flex-direction: column; margin-right: auto;
+        }
+        
         .curr-code {
-            font-size: 0.9rem; font-weight: 700; color: var(--text-dark); width: 45px;
+            font-size: 1rem; font-weight: 700; color: var(--text-dark);
+            line-height: 1.1;
         }
+        
+        .curr-name {
+            font-size: 0.7rem; color: #a0aec0; font-weight: 500;
+        }
+        
+        /* Updated Exchange Input Wrapper */
+        .exchange-input-container {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            width: 170px;
+        }
+
+        .curr-symbol-span {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #a0aec0;
+            margin-right: 4px;
+        }
+
         .exchange-input {
-            flex: 1; border: none; background: transparent; 
-            font-size: 1.2rem; font-weight: 600; color: var(--text-dark);
-            text-align: right; outline: none; padding: 5px;
+            border: none; background: transparent;
             font-family: 'Poppins', sans-serif;
+            font-size: 1.2rem; font-weight: 600; color: var(--text-dark);
+            text-align: right; outline: none; width: 100%;
+            padding: 5px 0;
         }
         .exchange-input::placeholder { color: #cbd5e0; }
-        .last-update { font-size: 0.75rem; color: #a0aec0; text-align: center; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 5px;}
-        .live-dot { width: 8px; height: 8px; background: #38a169; border-radius: 50%; display: inline-block; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(56, 161, 105, 0.4); } 70% { box-shadow: 0 0 0 6px rgba(56, 161, 105, 0); } 100% { box-shadow: 0 0 0 0 rgba(56, 161, 105, 0); } }
+        
+        /* Focus line animation */
+        .exchange-card-row::after {
+            content: ''; position: absolute; bottom: -1px; left: 20px; right: 20px;
+            height: 2px; background: var(--exchange-gradient);
+            transform: scaleX(0); transition: transform 0.3s;
+        }
+        .exchange-card-row:focus-within::after { transform: scaleX(1); }
 
         /* --- MOBILE MODAL OPTIMIZATION --- */
         @media (max-width: 600px) {
@@ -506,8 +559,9 @@
             .input-row { gap: 0.8rem; }
             .calc-input { font-size: 16px; padding: 12px; }
             
-            .exchange-row { padding: 10px; }
-            .flag-box { font-size: 1.5rem; }
+            .exchange-input { font-size: 1.1rem; }
+            .exchange-input-container { width: 130px; }
+            .flag-circle { width: 36px; height: 36px; font-size: 1.2rem; margin-right: 10px; }
         }
     </style>
 </head>
@@ -1006,58 +1060,103 @@
                     <button class="close-modal" id="closeExchange"><i class="fa-solid fa-xmark"></i></button>
                 </div>
             </div>
-            
-            <p style="margin-bottom: 15px; font-size: 0.9rem; color: #718096;">
-                Type in any field below. Values update instantly.
-            </p>
 
-            <div class="exchange-list">
-                <!-- USD -->
-                <div class="exchange-row">
-                    <div class="flag-box">🇺🇸</div>
-                    <div class="curr-code">USD</div>
-                    <input type="number" class="exchange-input" data-curr="USD" placeholder="0.00">
-                </div>
-                <!-- KHR -->
-                <div class="exchange-row">
-                    <div class="flag-box">🇰🇭</div>
-                    <div class="curr-code">KHR</div>
-                    <input type="number" class="exchange-input" data-curr="KHR" placeholder="0">
-                </div>
-                <!-- CNY -->
-                <div class="exchange-row">
-                    <div class="flag-box">🇨🇳</div>
-                    <div class="curr-code">CNY</div>
-                    <input type="number" class="exchange-input" data-curr="CNY" placeholder="0.00">
-                </div>
-                <!-- SGD -->
-                <div class="exchange-row">
-                    <div class="flag-box">🇸🇬</div>
-                    <div class="curr-code">SGD</div>
-                    <input type="number" class="exchange-input" data-curr="SGD" placeholder="0.00">
-                </div>
-                <!-- VND -->
-                <div class="exchange-row">
-                    <div class="flag-box">🇻🇳</div>
-                    <div class="curr-code">VND</div>
-                    <input type="number" class="exchange-input" data-curr="VND" placeholder="0">
-                </div>
-                <!-- RUB -->
-                <div class="exchange-row">
-                    <div class="flag-box">🇷🇺</div>
-                    <div class="curr-code">RUB</div>
-                    <input type="number" class="exchange-input" data-curr="RUB" placeholder="0.00">
-                </div>
-                 <!-- MYR -->
-                 <div class="exchange-row">
-                    <div class="flag-box">🇲🇾</div>
-                    <div class="curr-code">MYR</div>
-                    <input type="number" class="exchange-input" data-curr="MYR" placeholder="0.00">
-                </div>
+            <!-- Last Updated Badge -->
+            <div class="exchange-status-bar" id="exchange-status">
+                <div class="status-dot"></div> <span id="exchange-msg">Fetching Live Rates...</span>
             </div>
+            
+            <div class="exchange-grid">
+                <!-- USD -->
+                <div class="exchange-card-row">
+                    <div class="flag-circle">🇺🇸</div>
+                    <div class="curr-details">
+                        <div class="curr-code">USD</div>
+                        <div class="curr-name">United States Dollar</div>
+                    </div>
+                    <div class="exchange-input-container">
+                        <span class="curr-symbol-span">$</span>
+                        <input type="text" inputmode="decimal" class="exchange-input" data-curr="USD" placeholder="0.00">
+                    </div>
+                </div>
 
-            <div class="last-update">
-                <span class="live-dot"></span> <span id="exchange-msg">Fetching Live Rates...</span>
+                <!-- KHR -->
+                <div class="exchange-card-row">
+                    <div class="flag-circle">🇰🇭</div>
+                    <div class="curr-details">
+                        <div class="curr-code">KHR</div>
+                        <div class="curr-name">Cambodian Riel</div>
+                    </div>
+                    <div class="exchange-input-container">
+                        <span class="curr-symbol-span">៛</span>
+                        <input type="text" inputmode="decimal" class="exchange-input" data-curr="KHR" placeholder="0.00">
+                    </div>
+                </div>
+
+                <!-- CNY -->
+                <div class="exchange-card-row">
+                    <div class="flag-circle">🇨🇳</div>
+                    <div class="curr-details">
+                        <div class="curr-code">CNY</div>
+                        <div class="curr-name">Chinese Yuan</div>
+                    </div>
+                    <div class="exchange-input-container">
+                        <span class="curr-symbol-span">¥</span>
+                        <input type="text" inputmode="decimal" class="exchange-input" data-curr="CNY" placeholder="0.00">
+                    </div>
+                </div>
+
+                <!-- SGD -->
+                <div class="exchange-card-row">
+                    <div class="flag-circle">🇸🇬</div>
+                    <div class="curr-details">
+                        <div class="curr-code">SGD</div>
+                        <div class="curr-name">Singapore Dollar</div>
+                    </div>
+                    <div class="exchange-input-container">
+                        <span class="curr-symbol-span">S$</span>
+                        <input type="text" inputmode="decimal" class="exchange-input" data-curr="SGD" placeholder="0.00">
+                    </div>
+                </div>
+
+                <!-- VND -->
+                <div class="exchange-card-row">
+                    <div class="flag-circle">🇻🇳</div>
+                    <div class="curr-details">
+                        <div class="curr-code">VND</div>
+                        <div class="curr-name">Vietnamese Dong</div>
+                    </div>
+                    <div class="exchange-input-container">
+                        <span class="curr-symbol-span">₫</span>
+                        <input type="text" inputmode="decimal" class="exchange-input" data-curr="VND" placeholder="0.00">
+                    </div>
+                </div>
+
+                <!-- RUB -->
+                <div class="exchange-card-row">
+                    <div class="flag-circle">🇷🇺</div>
+                    <div class="curr-details">
+                        <div class="curr-code">RUB</div>
+                        <div class="curr-name">Russian Ruble</div>
+                    </div>
+                    <div class="exchange-input-container">
+                        <span class="curr-symbol-span">₽</span>
+                        <input type="text" inputmode="decimal" class="exchange-input" data-curr="RUB" placeholder="0.00">
+                    </div>
+                </div>
+
+                 <!-- MYR -->
+                 <div class="exchange-card-row">
+                    <div class="flag-circle">🇲🇾</div>
+                    <div class="curr-details">
+                        <div class="curr-code">MYR</div>
+                        <div class="curr-name">Malaysian Ringgit</div>
+                    </div>
+                    <div class="exchange-input-container">
+                        <span class="curr-symbol-span">RM</span>
+                        <input type="text" inputmode="decimal" class="exchange-input" data-curr="MYR" placeholder="0.00">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1176,13 +1275,14 @@
         if(closeFinBtn) closeFinBtn.addEventListener('click', () => finModal.classList.remove('active'));
 
         /* =========================================
-           EXCHANGE RATE LOGIC (LIVE REAL-TIME)
+           EXCHANGE RATE LOGIC (LIVE + FORMATTING)
            ========================================= */
         const exchangeModal = document.getElementById('exchangeModal');
         const openExchangeBtn = document.getElementById('exchangeBtn');
         const closeExchangeBtn = document.getElementById('closeExchange');
         const exchangeInputs = document.querySelectorAll('.exchange-input');
         const exchangeMsg = document.getElementById('exchange-msg');
+        const exchangeStatus = document.getElementById('exchange-status');
 
         // Base Rates (Defaults)
         let liveRates = {
@@ -1202,7 +1302,7 @@
                 const data = await response.json();
                 
                 if (data && data.rates) {
-                    // Update our supported currencies from the API
+                    // Update rates
                     liveRates.USD = 1;
                     if(data.rates.KHR) liveRates.KHR = data.rates.KHR;
                     if(data.rates.CNY) liveRates.CNY = data.rates.CNY;
@@ -1211,13 +1311,20 @@
                     if(data.rates.RUB) liveRates.RUB = data.rates.RUB;
                     if(data.rates.MYR) liveRates.MYR = data.rates.MYR;
                     
-                    exchangeMsg.textContent = "Live rates active (Base: USD)";
-                    exchangeMsg.style.color = "#38a169";
+                    // Convert UNIX timestamp to human readable
+                    let dateStr = "Just now";
+                    if(data.time_last_updated) {
+                        const date = new Date(data.time_last_updated * 1000);
+                        dateStr = date.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    }
+                    
+                    exchangeMsg.textContent = `Updated: ${dateStr}`;
+                    exchangeStatus.classList.remove('error');
                 }
             } catch (error) {
                 console.warn("API Fetch failed, using fallback rates.");
-                exchangeMsg.textContent = "Offline Mode: Using approximate rates";
-                exchangeMsg.style.color = "#e53e3e";
+                exchangeMsg.textContent = "Offline Mode: Approximate Rates";
+                exchangeStatus.classList.add('error');
             }
         }
 
@@ -1232,39 +1339,63 @@
             exchangeInputs.forEach(input => input.value = '');
         }
 
+        // Helper: Convert string "1,000.00" to float 1000.00
+        function parseCurrencyVal(str) {
+            if(!str) return 0;
+            // Remove commas
+            return parseFloat(str.replace(/,/g, ''));
+        }
+
+        // Helper: Convert float 1000 to "1,000.00"
+        function formatCurrencyVal(num) {
+            if(isNaN(num)) return '';
+            return num.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+        }
+
         // Add event listeners to all exchange inputs
         exchangeInputs.forEach(input => {
+            
+            // 1. Input Event: Calculate other fields while typing
             input.addEventListener('input', (e) => {
-                const val = parseFloat(e.target.value);
+                const rawVal = e.target.value;
+                // We parse what the user types (stripping commas if they paste them)
+                // We do NOT format the current input while typing to avoid cursor jumping issues
+                const val = parseCurrencyVal(rawVal);
                 const code = e.target.getAttribute('data-curr');
                 
                 if (isNaN(val)) {
-                    // If empty, clear all except current focused? No, clear all makes sense
-                    // Actually, let's keep it clean: if one is empty, user might be backspacing.
-                    // We only update if valid number. If empty string, we can clear others.
-                    if(e.target.value === '') resetExchange();
+                    if(rawVal === '') resetExchange();
                     return;
                 }
 
-                // 1. Convert Input to USD Base
+                // Convert Input to USD Base
                 const usdBase = val / liveRates[code];
 
-                // 2. Convert USD Base to all other currencies
+                // Update all OTHER inputs
                 exchangeInputs.forEach(otherInput => {
                     if (otherInput !== e.target) {
                         const targetCode = otherInput.getAttribute('data-curr');
                         const converted = usdBase * liveRates[targetCode];
-                        
-                        // Formatting logic:
-                        // If currency is strong (USD, SGD), 2 decimals.
-                        // If weak (VND, KHR), 0 decimals usually, but let's do 2 max for precision
-                        if(['KHR', 'VND'].includes(targetCode)) {
-                             otherInput.value = converted.toFixed(0);
-                        } else {
-                             otherInput.value = converted.toFixed(2);
-                        }
+                        otherInput.value = formatCurrencyVal(converted);
                     }
                 });
+            });
+
+            // 2. Blur Event: Format the current field when user leaves it
+            input.addEventListener('blur', (e) => {
+                const val = parseCurrencyVal(e.target.value);
+                if (!isNaN(val) && e.target.value !== '') {
+                    e.target.value = formatCurrencyVal(val);
+                }
+            });
+
+            // 3. Focus Event: Optional - remove formatting for easier editing? 
+            // Often better to leave it, or select all. Let's just select all on focus.
+            input.addEventListener('focus', (e) => {
+                e.target.select();
             });
         });
 
