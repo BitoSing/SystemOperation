@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>System Dashboard | Productivity Hub</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Serif+Khmer:wght@400;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -17,6 +17,11 @@
             --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --finance-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
             --exchange-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            
+            /* Gold Palette (Referencing the Image) */
+            --gold-red: #d90429;
+            --gold-dark: #2b2d42;
+            --gold-bg: #fffdf5;
             
             --secondary-color: #667eea;
             --bg-color: #f8faff;
@@ -458,7 +463,7 @@
         }
         .inner-modal.show { transform: translateX(0); }
 
-        /* --- EXCHANGE RATE POLISHED STYLES --- */
+        /* --- EXCHANGE RATE STYLES --- */
         .exchange-status-bar {
             background: #f0fff4; border: 1px solid #c6f6d5; color: #276749;
             padding: 8px 15px; border-radius: 30px; margin-bottom: 20px;
@@ -473,7 +478,6 @@
             display: flex; flex-direction: column; gap: 15px;
         }
         
-        /* Updated Exchange Card Row for better elegance */
         .exchange-card-row {
             display: flex; align-items: center;
             background: #ffffff;
@@ -483,7 +487,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0,0,0,0.02);
             position: relative;
-            cursor: text; /* implies clickable input area */
+            cursor: text;
         }
         
         .exchange-card-row:hover {
@@ -518,8 +522,15 @@
         .curr-name {
             font-size: 0.75rem; color: #a0aec0; font-weight: 500;
         }
+
+        /* Rate Hint Text */
+        .rate-hint {
+            font-size: 0.7rem; color: var(--secondary-color);
+            margin-top: 3px; font-weight: 600;
+            background: #f0f4ff; padding: 2px 6px; border-radius: 4px;
+            width: fit-content; opacity: 0.9;
+        }
         
-        /* Updated Exchange Input Wrapper */
         .exchange-input-container {
             display: flex;
             align-items: center;
@@ -535,7 +546,6 @@
             transition: color 0.3s;
         }
         
-        /* Highlight symbol when focused */
         .exchange-card-row:focus-within .curr-symbol-span {
             color: #f5576c;
         }
@@ -545,12 +555,10 @@
             font-family: 'Poppins', sans-serif;
             font-size: 1.3rem; font-weight: 600; color: var(--text-dark);
             text-align: right; outline: none; width: 100%;
-            padding: 0;
-            margin: 0;
+            padding: 0; margin: 0;
         }
         .exchange-input::placeholder { color: #e2e8f0; }
         
-        /* Focus line animation */
         .exchange-card-row::after {
             content: ''; position: absolute; bottom: -1px; left: 50%; right: 50%;
             height: 3px; background: var(--exchange-gradient);
@@ -558,8 +566,70 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             opacity: 0;
         }
-        .exchange-card-row:focus-within::after { 
-            left: 0; right: 0; opacity: 1; 
+        .exchange-card-row:focus-within::after { left: 0; right: 0; opacity: 1; }
+
+        /* --- UPDATED GOLD SECTION STYLES (Grid) --- */
+        .gold-container {
+            padding: 0 5px;
+        }
+        .gold-grid {
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .gold-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow: hidden;
+            border: 1px solid #f0e6c5;
+            transition: transform 0.2s;
+            display: flex; flex-direction: column;
+        }
+        .gold-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+
+        .gold-card-header {
+            background: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+            border-bottom: 2px solid var(--gold-red);
+        }
+        .gold-kh-label {
+            font-family: 'Noto Serif Khmer', serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1a202c;
+        }
+        .gold-card-body {
+            background: var(--gold-red);
+            color: white;
+            padding: 15px 5px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .gold-price-val {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .gold-main-title {
+            font-family: 'Noto Serif Khmer', serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .gold-date-sub {
+            text-align: center;
+            color: #a0aec0;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
         }
 
         /* --- MOBILE MODAL OPTIMIZATION --- */
@@ -583,6 +653,10 @@
             .exchange-input-container { min-width: 100px; }
             .flag-circle { width: 40px; height: 40px; font-size: 1.4rem; margin-right: 12px; }
             .curr-code { font-size: 1rem; }
+            .rate-hint { font-size: 0.65rem; }
+            
+            .gold-kh-label { font-size: 1rem; }
+            .gold-price-val { font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -647,7 +721,7 @@
             <div class="card" id="exchangeBtn">
                 <div class="icon-circle"><i class="fa-solid fa-money-bill-transfer"></i></div>
                 <h3>Exchange Rate</h3>
-                <p>Live Real-Time conversion (USD, KHR, CNY, SGD...).</p>
+                <p>Live Real-Time conversion & Cambodia Gold Price.</p>
                 <div class="card-btn">Access</div>
             </div>
 
@@ -1074,7 +1148,7 @@
         <div class="modal-card">
             <div class="modal-header">
                 <div class="modal-title">
-                    <i class="fa-solid fa-money-bill-transfer text-exchange"></i> Live Exchange
+                    <i class="fa-solid fa-money-bill-transfer text-exchange"></i> Markets
                 </div>
                 <div class="header-actions">
                     <button class="btn-reset" onclick="resetExchange()" title="Clear All"><i class="fa-solid fa-eraser"></i></button>
@@ -1082,103 +1156,177 @@
                 </div>
             </div>
 
+            <!-- TABS -->
+            <div class="calc-tabs">
+                <button class="tab-btn active" onclick="switchTab('exchangeModal', 'tab-currency')">
+                    <i class="fa-solid fa-money-bill-1-wave"></i><span>Currency</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('exchangeModal', 'tab-gold')">
+                    <i class="fa-solid fa-scale-balanced"></i><span>Gold Price</span>
+                </button>
+            </div>
+
             <!-- Last Updated Badge -->
             <div class="exchange-status-bar" id="exchange-status">
-                <div class="status-dot"></div> <span id="exchange-msg">Fetching Live Rates...</span>
+                <div class="status-dot"></div> <span id="exchange-msg">Connecting to Live Market...</span>
             </div>
             
-            <div class="exchange-grid">
-                <!-- USD -->
-                <div class="exchange-card-row">
-                    <div class="flag-circle">🇺🇸</div>
-                    <div class="curr-details">
-                        <div class="curr-code">USD</div>
-                        <div class="curr-name">United States Dollar</div>
+            <!-- CURRENCY TAB -->
+            <div id="tab-currency" class="tab-content active">
+                <div class="exchange-grid">
+                    <!-- USD -->
+                    <div class="exchange-card-row">
+                        <div class="flag-circle">🇺🇸</div>
+                        <div class="curr-details">
+                            <div class="curr-code">USD</div>
+                            <div class="curr-name">US Dollar</div>
+                        </div>
+                        <div class="exchange-input-container">
+                            <span class="curr-symbol-span">$</span>
+                            <input type="text" inputmode="decimal" class="exchange-input" data-curr="USD" placeholder="0.00">
+                        </div>
                     </div>
-                    <div class="exchange-input-container">
-                        <span class="curr-symbol-span">$</span>
-                        <input type="text" inputmode="decimal" class="exchange-input" data-curr="USD" placeholder="0.00">
-                    </div>
-                </div>
 
-                <!-- KHR -->
-                <div class="exchange-card-row">
-                    <div class="flag-circle">🇰🇭</div>
-                    <div class="curr-details">
-                        <div class="curr-code">KHR</div>
-                        <div class="curr-name">Cambodian Riel</div>
+                    <!-- KHR -->
+                    <div class="exchange-card-row">
+                        <div class="flag-circle">🇰🇭</div>
+                        <div class="curr-details">
+                            <div class="curr-code">KHR</div>
+                            <div class="curr-name">Riel</div>
+                            <small class="rate-hint" id="rate-KHR">Loading...</small>
+                        </div>
+                        <div class="exchange-input-container">
+                            <span class="curr-symbol-span">៛</span>
+                            <input type="text" inputmode="decimal" class="exchange-input" data-curr="KHR" placeholder="0.00">
+                        </div>
                     </div>
-                    <div class="exchange-input-container">
-                        <span class="curr-symbol-span">៛</span>
-                        <input type="text" inputmode="decimal" class="exchange-input" data-curr="KHR" placeholder="0.00">
-                    </div>
-                </div>
 
-                <!-- CNY -->
-                <div class="exchange-card-row">
-                    <div class="flag-circle">🇨🇳</div>
-                    <div class="curr-details">
-                        <div class="curr-code">CNY</div>
-                        <div class="curr-name">Chinese Yuan</div>
+                    <!-- CNY -->
+                    <div class="exchange-card-row">
+                        <div class="flag-circle">🇨🇳</div>
+                        <div class="curr-details">
+                            <div class="curr-code">CNY</div>
+                            <div class="curr-name">Yuan</div>
+                            <small class="rate-hint" id="rate-CNY">Loading...</small>
+                        </div>
+                        <div class="exchange-input-container">
+                            <span class="curr-symbol-span">¥</span>
+                            <input type="text" inputmode="decimal" class="exchange-input" data-curr="CNY" placeholder="0.00">
+                        </div>
                     </div>
-                    <div class="exchange-input-container">
-                        <span class="curr-symbol-span">¥</span>
-                        <input type="text" inputmode="decimal" class="exchange-input" data-curr="CNY" placeholder="0.00">
-                    </div>
-                </div>
 
-                <!-- SGD -->
-                <div class="exchange-card-row">
-                    <div class="flag-circle">🇸🇬</div>
-                    <div class="curr-details">
-                        <div class="curr-code">SGD</div>
-                        <div class="curr-name">Singapore Dollar</div>
+                    <!-- SGD -->
+                    <div class="exchange-card-row">
+                        <div class="flag-circle">🇸🇬</div>
+                        <div class="curr-details">
+                            <div class="curr-code">SGD</div>
+                            <div class="curr-name">SG Dollar</div>
+                            <small class="rate-hint" id="rate-SGD">Loading...</small>
+                        </div>
+                        <div class="exchange-input-container">
+                            <span class="curr-symbol-span">S$</span>
+                            <input type="text" inputmode="decimal" class="exchange-input" data-curr="SGD" placeholder="0.00">
+                        </div>
                     </div>
-                    <div class="exchange-input-container">
-                        <span class="curr-symbol-span">S$</span>
-                        <input type="text" inputmode="decimal" class="exchange-input" data-curr="SGD" placeholder="0.00">
-                    </div>
-                </div>
 
-                <!-- VND -->
-                <div class="exchange-card-row">
-                    <div class="flag-circle">🇻🇳</div>
-                    <div class="curr-details">
-                        <div class="curr-code">VND</div>
-                        <div class="curr-name">Vietnamese Dong</div>
+                    <!-- VND -->
+                    <div class="exchange-card-row">
+                        <div class="flag-circle">🇻🇳</div>
+                        <div class="curr-details">
+                            <div class="curr-code">VND</div>
+                            <div class="curr-name">Dong</div>
+                            <small class="rate-hint" id="rate-VND">Loading...</small>
+                        </div>
+                        <div class="exchange-input-container">
+                            <span class="curr-symbol-span">₫</span>
+                            <input type="text" inputmode="decimal" class="exchange-input" data-curr="VND" placeholder="0.00">
+                        </div>
                     </div>
-                    <div class="exchange-input-container">
-                        <span class="curr-symbol-span">₫</span>
-                        <input type="text" inputmode="decimal" class="exchange-input" data-curr="VND" placeholder="0.00">
-                    </div>
-                </div>
 
-                <!-- RUB -->
-                <div class="exchange-card-row">
-                    <div class="flag-circle">🇷🇺</div>
-                    <div class="curr-details">
-                        <div class="curr-code">RUB</div>
-                        <div class="curr-name">Russian Ruble</div>
+                    <!-- RUB -->
+                    <div class="exchange-card-row">
+                        <div class="flag-circle">🇷🇺</div>
+                        <div class="curr-details">
+                            <div class="curr-code">RUB</div>
+                            <div class="curr-name">Ruble</div>
+                            <small class="rate-hint" id="rate-RUB">Loading...</small>
+                        </div>
+                        <div class="exchange-input-container">
+                            <span class="curr-symbol-span">₽</span>
+                            <input type="text" inputmode="decimal" class="exchange-input" data-curr="RUB" placeholder="0.00">
+                        </div>
                     </div>
-                    <div class="exchange-input-container">
-                        <span class="curr-symbol-span">₽</span>
-                        <input type="text" inputmode="decimal" class="exchange-input" data-curr="RUB" placeholder="0.00">
-                    </div>
-                </div>
 
-                 <!-- MYR -->
-                 <div class="exchange-card-row">
-                    <div class="flag-circle">🇲🇾</div>
-                    <div class="curr-details">
-                        <div class="curr-code">MYR</div>
-                        <div class="curr-name">Malaysian Ringgit</div>
-                    </div>
-                    <div class="exchange-input-container">
-                        <span class="curr-symbol-span">RM</span>
-                        <input type="text" inputmode="decimal" class="exchange-input" data-curr="MYR" placeholder="0.00">
+                    <!-- MYR -->
+                    <div class="exchange-card-row">
+                        <div class="flag-circle">🇲🇾</div>
+                        <div class="curr-details">
+                            <div class="curr-code">MYR</div>
+                            <div class="curr-name">Ringgit</div>
+                            <small class="rate-hint" id="rate-MYR">Loading...</small>
+                        </div>
+                        <div class="exchange-input-container">
+                            <span class="curr-symbol-span">RM</span>
+                            <input type="text" inputmode="decimal" class="exchange-input" data-curr="MYR" placeholder="0.00">
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- GOLD TAB -->
+            <div id="tab-gold" class="tab-content">
+                <div class="gold-container">
+                    <div class="gold-main-title">តំលៃមាសអន្តរជាតិ</div>
+                    <div class="gold-date-sub" id="gold-last-update">Updating...</div>
+
+                    <div class="gold-grid">
+                        <!-- 1 Chi -->
+                        <div class="gold-card">
+                            <div class="gold-card-header">
+                                <span class="gold-kh-label">មួយជី</span>
+                            </div>
+                            <div class="gold-card-body">
+                                <span class="gold-price-val" id="price-chi">$0</span>
+                            </div>
+                        </div>
+
+                        <!-- 1 Damlung -->
+                        <div class="gold-card">
+                            <div class="gold-card-header">
+                                <span class="gold-kh-label">មួយតម្លឹង</span>
+                            </div>
+                            <div class="gold-card-body">
+                                <span class="gold-price-val" id="price-damlung">$0</span>
+                            </div>
+                        </div>
+
+                         <!-- 1 Ounce (Troy) -->
+                         <div class="gold-card">
+                            <div class="gold-card-header">
+                                <span class="gold-kh-label">មួយអោន</span>
+                            </div>
+                            <div class="gold-card-body">
+                                <span class="gold-price-val" id="price-ounce">$0</span>
+                            </div>
+                        </div>
+
+                        <!-- 1 KG -->
+                        <div class="gold-card">
+                            <div class="gold-card-header">
+                                <span class="gold-kh-label">មួយគីឡូ</span>
+                            </div>
+                            <div class="gold-card-body">
+                                <span class="gold-price-val" id="price-kg">$0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:15px; font-size:0.75rem; color:#718096; text-align:center;">
+                        * Live Spot + Retail Premium (~1.5%). Market prices vary by shop.
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -1296,7 +1444,7 @@
         if(closeFinBtn) closeFinBtn.addEventListener('click', () => finModal.classList.remove('active'));
 
         /* =========================================
-           EXCHANGE RATE LOGIC (LIVE + AUTO-REFRESH)
+           EXCHANGE RATE LOGIC (LIVE + GOLD)
            ========================================= */
         const exchangeModal = document.getElementById('exchangeModal');
         const openExchangeBtn = document.getElementById('exchangeBtn');
@@ -1304,32 +1452,37 @@
         const exchangeInputs = document.querySelectorAll('.exchange-input');
         const exchangeMsg = document.getElementById('exchange-msg');
         const exchangeStatus = document.getElementById('exchange-status');
+        const goldUpdateLabel = document.getElementById('gold-last-update');
         
         let autoRefreshInterval = null;
 
         // Base Rates (Defaults)
+        // Fallback XAU set to approx $2,666 USD/oz (0.000375) to mimic 2025 reality if API fails
         let liveRates = {
             USD: 1,
-            KHR: 4100,
-            CNY: 7.20,
-            SGD: 1.35,
-            VND: 24500,
-            RUB: 92.5,
-            MYR: 4.75
+            KHR: 4100.50,
+            CNY: 7.2301,
+            SGD: 1.3450,
+            VND: 24550.00,
+            RUB: 92.50,
+            MYR: 4.7550,
+            XAU: 0.000375 // 1 USD buys ~0.000375 Ounces
         };
 
+        // Helper: High precision display
+        function getPrecisionRate(rate) {
+            return rate < 1 ? rate.toFixed(6) : rate.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 4});
+        }
+
         async function fetchLiveRates() {
-            // Update status to show activity
-            exchangeMsg.textContent = "Updating rates...";
+            exchangeMsg.textContent = "Syncing Live Data...";
             
             try {
                 // Using a free open API (USD base)
-                // Note: In production, consider a more robust API key service
                 const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
                 const data = await response.json();
                 
                 if (data && data.rates) {
-                    // Update internal rates
                     liveRates.USD = 1;
                     if(data.rates.KHR) liveRates.KHR = data.rates.KHR;
                     if(data.rates.CNY) liveRates.CNY = data.rates.CNY;
@@ -1338,31 +1491,84 @@
                     if(data.rates.RUB) liveRates.RUB = data.rates.RUB;
                     if(data.rates.MYR) liveRates.MYR = data.rates.MYR;
                     
-                    // Convert UNIX timestamp to human readable
-                    const date = new Date(); // Current time
-                    const dateStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                    // XAU (Gold) - If missing in API, we keep default or estimate
+                    if(data.rates.XAU) {
+                        liveRates.XAU = data.rates.XAU;
+                    } 
                     
-                    exchangeMsg.textContent = `Live Rates Active (${dateStr})`;
+                    const date = new Date();
+                    const dateStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    
+                    exchangeMsg.textContent = `Market Open (${dateStr})`;
                     exchangeStatus.classList.remove('error');
+                    
+                    // Gold Date Update
+                    const day = date.getDate().toString().padStart(2, '0');
+                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                    const year = date.getFullYear();
+                    goldUpdateLabel.textContent = `ថ្ងៃទី ${day} ខែ ${month} ឆ្នាំ ${year}`;
 
-                    // If user is currently typing (focused), recalculate other fields with new rates
+                    updateSampleRateText();
                     recalculateOnNewRates();
+                    calculateGoldPrices(); 
                 }
             } catch (error) {
                 console.warn("API Fetch failed, using cached rates.");
-                exchangeMsg.textContent = "Offline Mode: Approximate Rates";
+                exchangeMsg.textContent = "Offline Mode: Cached Rates";
                 exchangeStatus.classList.add('error');
+                updateSampleRateText(); // Show cached
+                calculateGoldPrices();
             }
         }
 
+        function updateSampleRateText() {
+            // Update the small hint text under each currency
+            const codes = ['KHR', 'CNY', 'SGD', 'VND', 'RUB', 'MYR'];
+            codes.forEach(code => {
+                const el = document.getElementById(`rate-${code}`);
+                if(el && liveRates[code]) {
+                    el.textContent = `1 USD ≈ ${getPrecisionRate(liveRates[code])} ${code}`;
+                }
+            });
+        }
+
+        function calculateGoldPrices() {
+            // 1. Get Spot Price of Gold per Ounce (Troy Ounce)
+            const pricePerOzSpot = 1 / liveRates.XAU;
+            
+            // 2. Add Retail/Import Premium (~1.5% for local Cambodian market realization)
+            const premiumMultiplier = 1.015; 
+            const pricePerOzMarket = pricePerOzSpot * premiumMultiplier;
+
+            // 3. Constants
+            // 1 Troy Oz = 31.1034768 Grams
+            const gramsPerOz = 31.1034768;
+            const pricePerGram = pricePerOzMarket / gramsPerOz;
+
+            // 4. Calculate Units
+            // 1 Chi = 3.75 Grams
+            // 1 Damlung = 37.5 Grams
+            // 1 Kg = 1000 Grams
+            // 1 Ounce (Troy) = 31.1035 Grams
+
+            const priceChi = pricePerGram * 3.75;
+            const priceDamlung = pricePerGram * 37.5;
+            const priceKg = pricePerGram * 1000;
+            const priceOunce = pricePerOzMarket;
+            
+            // Update DOM with exact USD values (no decimal for large numbers per image style, usually)
+            // Using toLocaleString with 0 decimals for clean look like the image
+            document.getElementById('price-chi').textContent = '$' + Math.round(priceChi).toLocaleString();
+            document.getElementById('price-damlung').textContent = '$' + Math.round(priceDamlung).toLocaleString();
+            document.getElementById('price-ounce').textContent = '$' + Math.round(priceOunce).toLocaleString();
+            document.getElementById('price-kg').textContent = '$' + Math.round(priceKg).toLocaleString();
+        }
+
         function recalculateOnNewRates() {
-            // Check if any input is currently focused
             const activeElement = document.activeElement;
             if (activeElement && activeElement.classList.contains('exchange-input')) {
-                // Trigger the calculation logic for the active input
                 activeElement.dispatchEvent(new Event('input'));
             } else {
-                // If no input is focused, but fields have values, update based on USD field (or first populated)
                 const usdInput = document.querySelector('.exchange-input[data-curr="USD"]');
                 if (usdInput && usdInput.value !== '') {
                    usdInput.dispatchEvent(new Event('input')); 
@@ -1374,18 +1580,13 @@
             e.preventDefault(); e.stopPropagation();
             exchangeModal.classList.add('active');
             navLinks.classList.remove('active');
-            
-            // Initial Fetch
             fetchLiveRates();
-            
-            // Set Auto Refresh Interval (60,000 ms = 1 minute)
             if (autoRefreshInterval) clearInterval(autoRefreshInterval);
             autoRefreshInterval = setInterval(fetchLiveRates, 60000);
         }
         
         function closeExchange() {
             exchangeModal.classList.remove('active');
-            // Stop Refresh to save resources
             if (autoRefreshInterval) clearInterval(autoRefreshInterval);
         }
 
@@ -1393,26 +1594,20 @@
             exchangeInputs.forEach(input => input.value = '');
         }
 
-        // Helper: Convert string "1,000.00" to float 1000.00
         function parseCurrencyVal(str) {
             if(!str) return 0;
-            // Remove commas
             return parseFloat(str.replace(/,/g, ''));
         }
 
-        // Helper: Convert float 1000 to "1,000.00"
-        function formatCurrencyVal(num) {
+        function formatCurrencyVal(num, prefix = '', decimals = 2) {
             if(isNaN(num)) return '';
-            return num.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
+            return prefix + num.toLocaleString('en-US', {
+                minimumFractionDigits: decimals,
+                maximumFractionDigits: decimals
             });
         }
 
-        // Add event listeners to all exchange inputs
         exchangeInputs.forEach(input => {
-            
-            // 1. Input Event: Calculate other fields while typing
             input.addEventListener('input', (e) => {
                 const rawVal = e.target.value;
                 const val = parseCurrencyVal(rawVal);
@@ -1423,28 +1618,24 @@
                     return;
                 }
 
-                // Convert Input to USD Base
                 const usdBase = val / liveRates[code];
 
-                // Update all OTHER inputs
                 exchangeInputs.forEach(otherInput => {
                     if (otherInput !== e.target) {
                         const targetCode = otherInput.getAttribute('data-curr');
                         const converted = usdBase * liveRates[targetCode];
-                        otherInput.value = formatCurrencyVal(converted);
+                        otherInput.value = formatCurrencyVal(converted, '', 2);
                     }
                 });
             });
 
-            // 2. Blur Event: Format the current field when user leaves it
             input.addEventListener('blur', (e) => {
                 const val = parseCurrencyVal(e.target.value);
                 if (!isNaN(val) && e.target.value !== '') {
-                    e.target.value = formatCurrencyVal(val);
+                    e.target.value = formatCurrencyVal(val, '', 2);
                 }
             });
 
-            // 3. Focus Event: Select all text for easy replacement
             input.addEventListener('focus', (e) => {
                 e.target.select();
             });
@@ -1467,7 +1658,6 @@
             modal.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
             document.getElementById(tabId).classList.add('active');
-            // Find the button that triggered this
             const btns = Array.from(modal.querySelectorAll('.tab-btn'));
             const targetBtn = btns.find(b => b.getAttribute('onclick').includes(tabId));
             if(targetBtn) targetBtn.classList.add('active');
