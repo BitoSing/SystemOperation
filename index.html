@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>System Dashboard | Productivity Hub</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Serif+Khmer:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Fonts: Poppins (English) & Koh Santepheap (Khmer) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Koh+Santepheap:wght@300;400;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -18,10 +22,11 @@
             --finance-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
             --exchange-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             
-            /* Gold Palette (Referencing the Image) */
-            --gold-red: #d90429;
-            --gold-dark: #2b2d42;
-            --gold-bg: #fffdf5;
+            /* Gold Palette (Khmer Jewelry Shop Theme) */
+            --gold-bg-gradient: linear-gradient(135deg, #fffdf5 0%, #fff 100%);
+            --gold-border: #D4AF37; 
+            --gold-red: #A01010;
+            --gold-text: #B8860B;
             
             --secondary-color: #667eea;
             --bg-color: #f8faff;
@@ -40,8 +45,20 @@
             --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --nav-height: 80px;
         }
+
+        /* --- FONTS --- */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at 50% 0%, #eef2ff 0%, var(--bg-color) 40%);
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .kh-font { font-family: 'Koh Santepheap', serif !important; }
 
         /* --- UTILITIES --- */
         .text-profit { color: #38a169 !important; } 
@@ -60,368 +77,114 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: radial-gradient(circle at 50% 0%, #eef2ff 0%, var(--bg-color) 40%);
-            background-color: var(--bg-color);
-            color: var(--text-dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
         a { text-decoration: none; color: inherit; transition: var(--transition); }
         ul { list-style: none; }
 
-        /* --- FLOATING NAVBAR --- */
-        .nav-wrapper {
-            position: fixed;
-            top: 20px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            z-index: 1000;
-            padding: 0 20px;
-            transition: top 0.3s;
-        }
-
-        nav {
-            width: 100%;
-            max-width: 1200px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            border-radius: 50px;
-            padding: 0.8rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--shadow-float);
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .logo {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--secondary-color);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-
-        /* Desktop Nav Links */
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
+        /* --- NAVBAR --- */
+        .nav-wrapper { position: fixed; top: 20px; left: 0; right: 0; display: flex; justify-content: center; z-index: 1000; padding: 0 20px; transition: top 0.3s; }
+        nav { width: 100%; max-width: 1200px; background: var(--glass-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--glass-border); border-radius: 50px; padding: 0.8rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-float); transition: var(--transition); position: relative; }
+        .logo { font-size: 1.4rem; font-weight: 700; color: var(--secondary-color); display: flex; align-items: center; gap: 10px; cursor: pointer; white-space: nowrap; }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
         .nav-item { position: relative; }
-
-        .nav-link {
-            font-weight: 500;
-            font-size: 0.95rem;
-            color: var(--text-dark);
-            padding: 10px 0;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            cursor: pointer;
-            user-select: none;
-        }
+        .nav-link { font-weight: 500; font-size: 0.95rem; color: var(--text-dark); padding: 10px 0; display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
         .nav-link:hover, .nav-link.active { color: var(--secondary-color); }
-        
-        .nav-link i.fa-chevron-down {
-            font-size: 0.7rem;
-            transition: transform 0.3s;
-        }
-        /* Desktop Hover Rotation */
-        @media (min-width: 901px) {
-            .nav-item:hover .nav-link i.fa-chevron-down { transform: rotate(180deg); }
-        }
+        .nav-link i.fa-chevron-down { font-size: 0.7rem; transition: transform 0.3s; }
+        @media (min-width: 901px) { .nav-item:hover .nav-link i.fa-chevron-down { transform: rotate(180deg); } }
 
-        /* --- DESKTOP DROPDOWN --- */
-        .dropdown-menu {
-            position: absolute;
-            top: 100%; left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            width: 240px;
-            background: var(--glass-dropdown);
-            backdrop-filter: blur(20px);
-            border: 1px solid white;
-            border-radius: 16px;
-            padding: 8px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            opacity: 0; visibility: hidden;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            z-index: 1001;
-        }
-        .dropdown-menu::before {
-            content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%) rotate(45deg);
-            width: 12px; height: 12px; background: white; border-left: 1px solid white; border-top: 1px solid white;
-        }
-        @media (min-width: 901px) {
-            .nav-item:hover .dropdown-menu {
-                opacity: 1; visibility: visible;
-                transform: translateX(-50%) translateY(10px);
-            }
-        }
-
-        .dropdown-item a {
-            display: flex; align-items: center; gap: 12px;
-            padding: 12px 15px; border-radius: 10px;
-            font-size: 0.9rem; color: var(--text-dark); transition: 0.2s;
-        }
+        /* DROPDOWN */
+        .dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(20px); width: 240px; background: var(--glass-dropdown); backdrop-filter: blur(20px); border: 1px solid white; border-radius: 16px; padding: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); z-index: 1001; }
+        .dropdown-menu::before { content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%) rotate(45deg); width: 12px; height: 12px; background: white; border-left: 1px solid white; border-top: 1px solid white; }
+        @media (min-width: 901px) { .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(10px); } }
+        .dropdown-item a { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-radius: 10px; font-size: 0.9rem; color: var(--text-dark); transition: 0.2s; }
         .dropdown-item a i { width: 25px; color: var(--secondary-color); text-align: center; }
         .dropdown-item a:hover { background: #f0f4ff; color: var(--secondary-color); transform: translateX(5px); }
-
-        /* Menu Toggle (Hamburger) */
-        .menu-toggle {
-            display: none; font-size: 1.4rem; cursor: pointer; color: var(--text-dark);
-            width: 40px; height: 40px; align-items: center; justify-content: center;
-            border-radius: 50%; transition: background 0.3s;
-        }
+        .menu-toggle { display: none; font-size: 1.4rem; cursor: pointer; color: var(--text-dark); width: 40px; height: 40px; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.3s; }
         .menu-toggle:active { background: rgba(0,0,0,0.05); }
 
-        /* --- RESPONSIVE NAVBAR (MOBILE & TABLET) --- */
+        /* RESPONSIVE NAV */
         @media (max-width: 900px) {
             .nav-wrapper { top: 10px; padding: 0 10px; }
             nav { padding: 0.6rem 1.2rem; }
             .menu-toggle { display: flex; }
-
-            .nav-links {
-                position: absolute;
-                top: 70px; left: 0; right: 0;
-                background: rgba(255, 255, 255, 0.98);
-                backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-                border: 1px solid rgba(255,255,255,0.5);
-                flex-direction: column; align-items: stretch;
-                padding: 1.5rem; margin: 0 10px;
-                border-radius: 24px;
-                box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-                display: none; gap: 8px;
-                transform-origin: top center;
-                animation: mobileMenuOpen 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            }
+            .nav-links { position: absolute; top: 70px; left: 0; right: 0; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255,255,255,0.5); flex-direction: column; align-items: stretch; padding: 1.5rem; margin: 0 10px; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); display: none; gap: 8px; transform-origin: top center; animation: mobileMenuOpen 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
             .nav-links.active { display: flex; }
-
-            @keyframes mobileMenuOpen {
-                from { opacity: 0; transform: scaleY(0.9) translateY(-10px); }
-                to { opacity: 1; transform: scaleY(1) translateY(0); }
-            }
-
+            @keyframes mobileMenuOpen { from { opacity: 0; transform: scaleY(0.9) translateY(-10px); } to { opacity: 1; transform: scaleY(1) translateY(0); } }
             .nav-item { width: 100%; }
-            .nav-link {
-                width: 100%; justify-content: space-between;
-                padding: 16px 20px; border-radius: 14px;
-                background: transparent; transition: 0.2s; font-size: 1rem;
-            }
+            .nav-link { width: 100%; justify-content: space-between; padding: 16px 20px; border-radius: 14px; background: transparent; transition: 0.2s; font-size: 1rem; }
             .nav-link:active { background: #f1f5f9; }
-
-            /* Accordion Logic */
-            .dropdown-menu {
-                position: static; transform: none; width: 100%;
-                opacity: 1; visibility: visible;
-                box-shadow: none; border: none;
-                background: #f8fafc;
-                margin-top: 5px; border-radius: 14px;
-                padding: 0; max-height: 0; overflow: hidden;
-                transition: max-height 0.35s ease-out;
-            }
+            .dropdown-menu { position: static; transform: none; width: 100%; opacity: 1; visibility: visible; box-shadow: none; border: none; background: #f8fafc; margin-top: 5px; border-radius: 14px; padding: 0; max-height: 0; overflow: hidden; transition: max-height 0.35s ease-out; }
             .dropdown-menu::before { display: none; }
-
-            .nav-item.active-mobile .dropdown-menu {
-                max-height: 600px; padding: 10px 0; margin-bottom: 10px;
-            }
+            .nav-item.active-mobile .dropdown-menu { max-height: 600px; padding: 10px 0; margin-bottom: 10px; }
             .nav-item.active-mobile .nav-link { color: var(--secondary-color); background: #eff6ff; }
             .nav-item.active-mobile .nav-link i.fa-chevron-down { transform: rotate(180deg); }
-
             .dropdown-item a { padding: 14px 25px; font-size: 0.95rem; }
         }
 
-        /* Small Phone Adjustment */
-        @media (max-width: 360px) {
-            .logo { font-size: 1.2rem; }
-            .logo span { display: none; } 
-            .logo::after { content: 'Sys'; display: inline; } 
-        }
-
         /* --- MAIN CONTENT --- */
-        .main-content {
-            max-width: 1600px; 
-            margin: 0 auto;
-            padding: 130px 5% 4rem; 
-            position: relative; z-index: 10;
-        }
-
+        .main-content { max-width: 1600px; margin: 0 auto; padding: 130px 5% 4rem; position: relative; z-index: 10; }
         .section-header-container { margin-bottom: 2.5rem; text-align: left; }
-        .dashboard-welcome { 
-            font-size: clamp(1.8rem, 4vw, 2.5rem); 
-            font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; 
-        }
+        .dashboard-welcome { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; }
         .dashboard-subtitle { color: var(--text-muted); font-size: 1rem; }
-
-        /* Responsive Grid System */
-        .grid-container {
-            display: grid;
-            gap: 1.5rem;
-            grid-template-columns: repeat(4, 1fr);
-        }
-
+        .grid-container { display: grid; gap: 1.5rem; grid-template-columns: repeat(4, 1fr); }
         @media (max-width: 1200px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 700px) { .grid-container { grid-template-columns: 1fr; gap: 1rem; } }
-
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 2rem 1.5rem;
-            box-shadow: var(--shadow-card);
-            transition: var(--transition);
-            cursor: pointer;
-            border: 1px solid rgba(0,0,0,0.02);
-            display: flex; flex-direction: column; align-items: center; text-align: center;
-            height: 100%; min-height: 240px;
-        }
-
+        .card { background: var(--card-bg); border-radius: 16px; padding: 2rem 1.5rem; box-shadow: var(--shadow-card); transition: var(--transition); cursor: pointer; border: 1px solid rgba(0,0,0,0.02); display: flex; flex-direction: column; align-items: center; text-align: center; height: 100%; min-height: 240px; }
         .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); border-color: rgba(102, 126, 234, 0.3); }
         .card:active { transform: scale(0.98); } 
-
-        .icon-circle {
-            width: 70px; height: 70px; border-radius: 50%;
-            background: linear-gradient(135deg, #f6f9fc 0%, #edf2f7 100%);
-            display: flex; align-items: center; justify-content: center;
-            margin-bottom: 1.5rem; font-size: 1.8rem; color: var(--secondary-color);
-            transition: var(--transition);
-        }
-        /* Specific Hover Colors */
+        .icon-circle { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, #f6f9fc 0%, #edf2f7 100%); display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; font-size: 1.8rem; color: var(--secondary-color); transition: var(--transition); }
         .card:hover .icon-circle { background: var(--accent-gradient); color: white; transform: scale(1.1); }
         .card[id="financeBtn"]:hover .icon-circle { background: var(--finance-gradient); }
         .card[id="exchangeBtn"]:hover .icon-circle { background: var(--exchange-gradient); }
-        
         .card h3 { font-size: 1.1rem; margin-bottom: 0.8rem; color: var(--text-dark); }
         .card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5; flex-grow: 1; }
-        
-        .card-btn {
-            font-size: 0.8rem; font-weight: 600; color: var(--secondary-color);
-            padding: 8px 20px; border-radius: 20px; background: #f0f4ff; transition: var(--transition);
-        }
+        .card-btn { font-size: 0.8rem; font-weight: 600; color: var(--secondary-color); padding: 8px 20px; border-radius: 20px; background: #f0f4ff; transition: var(--transition); }
         .card:hover .card-btn { background: var(--secondary-color); color: white; }
 
         /* --- FOOTER --- */
-        footer {
-            background: #1a202c; color: #e2e8f0; margin-top: 4rem;
-            padding: 4rem 5% 2rem; border-top-left-radius: 50px; border-top-right-radius: 50px;
-        }
-        .footer-content {
-            max-width: 1400px; margin: 0 auto;
-            display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
-            gap: 3rem; margin-bottom: 3rem;
-        }
+        footer { background: #1a202c; color: #e2e8f0; margin-top: 4rem; padding: 4rem 5% 2rem; border-top-left-radius: 50px; border-top-right-radius: 50px; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
         .footer-brand h2 { color: white; margin-bottom: 1rem; }
         .footer-brand p { color: #a0aec0; font-size: 0.9rem; margin-bottom: 1.5rem; }
         .footer-col h4 { color: white; margin-bottom: 1.5rem; font-size: 1.1rem; }
         .footer-col ul li { margin-bottom: 0.8rem; }
         .footer-col ul li a { color: #a0aec0; font-size: 0.9rem; }
         .social-links { display: flex; gap: 15px; }
-        .social-btn {
-            width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1);
-            display: flex; align-items: center; justify-content: center; transition: var(--transition);
-        }
+        .social-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; transition: var(--transition); }
         .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; font-size: 0.85rem; color: #718096; }
-
         @media (max-width: 900px) { .footer-content { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 600px) { 
-            .footer-content { grid-template-columns: 1fr; text-align: center; gap: 2rem; } 
-            .social-links { justify-content: center; }
-            footer { border-radius: 30px 30px 0 0; padding-top: 3rem; }
-        }
+        @media (max-width: 600px) { .footer-content { grid-template-columns: 1fr; text-align: center; gap: 2rem; } .social-links { justify-content: center; } footer { border-radius: 30px 30px 0 0; padding-top: 3rem; } }
 
-        /* --- MODALS (Shared Style) --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(26, 32, 44, 0.6); backdrop-filter: blur(5px);
-            z-index: 2000; display: none; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s ease;
-        }
+        /* --- MODALS --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 32, 44, 0.6); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.active { display: flex; opacity: 1; }
-        
-        .modal-card {
-            background: #ffffff; width: 95%; max-width: 550px;
-            max-height: 90vh; overflow-y: auto;
-            border-radius: 24px; padding: 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            display: flex; flex-direction: column;
-        }
+        .modal-card { background: #ffffff; width: 95%; max-width: 550px; max-height: 90vh; overflow-y: auto; border-radius: 24px; padding: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; flex-direction: column; }
         .modal-overlay.active .modal-card { transform: scale(1); }
-
-        .modal-header { 
-            display: flex; justify-content: space-between; align-items: center; 
-            margin-bottom: 1.5rem; flex-shrink: 0;
-        }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-shrink: 0; }
         .modal-title { font-size: 1.3rem; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 10px; }
         .modal-title i { color: var(--secondary-color); background: #eef2ff; padding: 8px; border-radius: 10px; font-size: 1.1rem; }
-        
         .header-actions { display: flex; align-items: center; gap: 8px; }
-
-        .close-modal, .btn-reset, .btn-info { 
-            background: #f7fafc; border: none; width: 36px; height: 36px; border-radius: 50%; 
-            display: flex; align-items: center; justify-content: center; font-size: 1.1rem; 
-            color: var(--text-muted); cursor: pointer; transition: 0.2s; 
-        }
+        .close-modal, .btn-reset, .btn-info { background: #f7fafc; border: none; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
         .close-modal:hover { background: #fee2e2; color: #e53e3e; transform: rotate(90deg); }
         .btn-reset:hover { background: #edf2f7; color: var(--secondary-color); transform: rotate(-180deg); }
         .btn-info:hover { background: #e6fffa; color: #38b2ac; }
-
-        /* Tabs */
-        .calc-tabs {
-            display: flex; background: #f7fafc; border-radius: 12px; padding: 5px; margin-bottom: 1.5rem; gap: 5px; flex-shrink: 0;
-            overflow-x: auto;
-        }
-        .tab-btn {
-            flex: 1; padding: 10px 5px; border: none; background: none; white-space: nowrap;
-            font-size: 0.8rem; font-weight: 600; color: var(--text-muted); min-width: 60px;
-            border-radius: 8px; cursor: pointer; transition: all 0.2s;
-            display: flex; flex-direction: column; align-items: center; gap: 4px;
-        }
+        
+        .calc-tabs { display: flex; background: #f7fafc; border-radius: 12px; padding: 5px; margin-bottom: 1.5rem; gap: 5px; flex-shrink: 0; overflow-x: auto; }
+        .tab-btn { flex: 1; padding: 10px 5px; border: none; background: none; white-space: nowrap; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); min-width: 60px; border-radius: 8px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .tab-btn i { font-size: 1rem; }
         .tab-btn.active { background: white; color: var(--secondary-color); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        
         .tab-content { display: none; animation: popIn 0.3s ease; padding-bottom: 10px; }
         .tab-content.active { display: block; }
 
-        /* Form Elements */
+        /* General Inputs & Results (Non-Exchange) */
         .input-group { margin-bottom: 1.2rem; }
         .input-label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; }
         .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .calc-input, .calc-select {
-            width: 100%; padding: 14px 15px; border: 2px solid #e2e8f0; border-radius: 12px;
-            font-family: 'Poppins', sans-serif; font-size: 1rem; color: var(--text-dark);
-            outline: none; transition: 0.2s; background: #fcfdfe;
-            -webkit-appearance: none;
-        }
+        .calc-input, .calc-select { width: 100%; padding: 14px 15px; border: 2px solid #e2e8f0; border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 1rem; color: var(--text-dark); outline: none; transition: 0.2s; background: #fcfdfe; -webkit-appearance: none; }
         .calc-input:focus { border-color: var(--secondary-color); background: white; }
         .note-text { font-size: 0.75rem; color: #a0aec0; margin-top: 5px; display: block; }
-
-        /* Result Box */
-        .result-box {
-            margin-top: 1.5rem; background: #ffffff; border: 1px solid #e2e8f0;
-            border-radius: 16px; padding: 1.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
-            position: relative; overflow: hidden;
-        }
-        .result-box.accent-top::before {
-            content: ''; position: absolute; top: 0; left: 25%; right: 25%;
-            height: 4px; background: var(--primary-gradient); border-radius: 0 0 10px 10px;
-        }
-        .result-box.finance-top::before {
-            background: var(--finance-gradient);
-        }
+        .result-box { margin-top: 1.5rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); position: relative; overflow: hidden; }
+        .result-box.accent-top::before { content: ''; position: absolute; top: 0; left: 25%; right: 25%; height: 4px; background: var(--primary-gradient); border-radius: 0 0 10px 10px; }
+        .result-box.finance-top::before { background: var(--finance-gradient); }
         .res-primary-row { text-align: center; margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid #edf2f7; }
         .lbl-small { font-size: 0.75rem; letter-spacing: 1px; color: #a0aec0; font-weight: 700; text-transform: uppercase; }
         .big-price { font-size: 2rem; font-weight: 700; color: #4facfe; margin-top: 5px; line-height: 1.2; word-break: break-all; }
@@ -431,232 +194,196 @@
         .stat-val { font-size: 1.05rem; font-weight: 600; color: var(--text-dark); margin-top: 5px; }
 
         /* Finance Specifics */
-        .currency-switch {
-            display: flex; background: #e2e8f0; border-radius: 20px; padding: 2px;
-            cursor: pointer; margin-right: 10px; position: relative; width: 90px; height: 32px;
-        }
-        .currency-option {
-            flex: 1; text-align: center; font-size: 0.75rem; font-weight: 700; z-index: 2;
-            line-height: 28px; transition: color 0.3s;
-        }
-        .currency-slider {
-            position: absolute; top: 2px; left: 2px; width: 43px; height: 28px;
-            background: white; border-radius: 18px; transition: transform 0.3s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 1;
-        }
+        .currency-switch { display: flex; background: #e2e8f0; border-radius: 20px; padding: 2px; cursor: pointer; margin-right: 10px; position: relative; width: 90px; height: 32px; }
+        .currency-option { flex: 1; text-align: center; font-size: 0.75rem; font-weight: 700; z-index: 2; line-height: 28px; transition: color 0.3s; }
+        .currency-slider { position: absolute; top: 2px; left: 2px; width: 43px; height: 28px; background: white; border-radius: 18px; transition: transform 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 1; }
         .currency-switch[data-currency="KHR"] .currency-slider { transform: translateX(43px); }
         .currency-switch[data-currency="USD"] .currency-option:first-child { color: var(--text-dark); }
         .currency-switch[data-currency="KHR"] .currency-option:last-child { color: var(--text-dark); }
         .currency-option { color: #a0aec0; }
-
         .info-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 10px; }
         .info-table th, .info-table td { padding: 8px; border: 1px solid #e2e8f0; text-align: left; }
         .info-table th { background: #f7fafc; color: var(--text-dark); }
         .info-formula { background: #2d3748; color: #a0aec0; padding: 10px; border-radius: 8px; margin-top: 10px; font-family: monospace; font-size: 0.75rem; }
-
-        /* Inner Modal (Info) */
-        .inner-modal {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: white; z-index: 10; padding: 2rem;
-            transform: translateX(100%); transition: transform 0.3s ease;
-            overflow-y: auto; display: flex; flex-direction: column;
-        }
+        .inner-modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 10; padding: 2rem; transform: translateX(100%); transition: transform 0.3s ease; overflow-y: auto; display: flex; flex-direction: column; }
         .inner-modal.show { transform: translateX(0); }
 
-        /* --- EXCHANGE RATE STYLES --- */
+        /* =========================================
+           UPDATED: NEW COMPACT/DIFFERENT UI FOR CURRENCY
+           ========================================= */
+        
+        /* Status Bar (Same logic, cleaner look) */
         .exchange-status-bar {
-            background: #f0fff4; border: 1px solid #c6f6d5; color: #276749;
-            padding: 8px 15px; border-radius: 30px; margin-bottom: 20px;
-            font-size: 0.75rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;
+            background: #f1f5f9; border: 1px solid #e2e8f0; color: #64748b;
+            padding: 6px 12px; border-radius: 8px; margin-bottom: 20px;
+            font-size: 0.7rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;
             transition: all 0.3s;
         }
         .exchange-status-bar.error { background: #fff5f5; border-color: #fed7d7; color: #c53030; }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #48bb78; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(72, 187, 120, 0.4); } 70% { box-shadow: 0 0 0 6px rgba(72, 187, 120, 0); } 100% { box-shadow: 0 0 0 0 rgba(72, 187, 120, 0); } }
+        .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #48bb78; }
         
-        .exchange-grid {
-            display: flex; flex-direction: column; gap: 15px;
+        /* THE GRID */
+        .exchange-grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 12px; 
+            margin-bottom: 20px;
         }
-        
+        /* Mobile: 1 col but keep it slim, Large screens: 2 cols */
+        @media (max-width: 500px) { .exchange-grid { grid-template-columns: 1fr; gap: 10px; } }
+
+        /* THE CARD */
         .exchange-card-row {
-            display: flex; align-items: center;
+            display: flex; flex-direction: column;
             background: #ffffff;
-            border: 1px solid #edf2f7;
-            border-radius: 16px;
-            padding: 14px 18px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border: 1px solid #f1f5f9;
+            border-radius: 14px;
+            padding: 12px 14px;
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
             cursor: text;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
         
+        /* Interaction States */
         .exchange-card-row:hover {
+            border-color: #cbd5e1;
             transform: translateY(-2px);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.05);
-            border-color: #dbe4ff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.04);
         }
-
         .exchange-card-row:focus-within {
-            border-color: #f5576c;
+            border-color: #667eea;
+            background: #ffffff;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(245, 87, 108, 0.15);
+            z-index: 2;
         }
 
-        .flag-circle {
-            width: 48px; height: 48px; border-radius: 50%;
-            background: #fdfdfd; border: 1px solid #eef2f6;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.8rem; margin-right: 18px;
-            flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        /* Top Row: Flag + Code + Hint */
+        .curr-top-row {
+            display: flex; align-items: center; margin-bottom: 8px;
         }
         
-        .curr-details {
-            display: flex; flex-direction: column; margin-right: auto;
+        .flag-wrapper {
+            width: 24px; height: 24px; border-radius: 50%;
+            overflow: hidden; margin-right: 8px;
+            border: 1px solid #e2e8f0;
         }
-        
-        .curr-code {
-            font-size: 1.1rem; font-weight: 700; color: var(--text-dark);
-            line-height: 1; margin-bottom: 2px;
-        }
-        
-        .curr-name {
-            font-size: 0.75rem; color: #a0aec0; font-weight: 500;
-        }
+        .flag-img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Rate Hint Text */
-        .rate-hint {
-            font-size: 0.7rem; color: var(--secondary-color);
-            margin-top: 3px; font-weight: 600;
-            background: #f0f4ff; padding: 2px 6px; border-radius: 4px;
-            width: fit-content; opacity: 0.9;
-        }
-        
-        .exchange-input-container {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            min-width: 140px;
+        .curr-info-stack { display: flex; flex-direction: column; line-height: 1; flex-grow: 1; }
+        .curr-code { font-size: 0.85rem; font-weight: 700; color: #64748b; letter-spacing: 0.5px; }
+        .rate-hint { font-size: 0.6rem; color: #94a3b8; font-weight: 500; margin-top: 2px; display: none; }
+        /* Show hint only on larger screens or focused to save space */
+        .exchange-card-row:focus-within .rate-hint { display: block; color: var(--secondary-color); }
+
+        /* Bottom Row: Symbol + Input */
+        .curr-input-area {
+            display: flex; align-items: baseline;
+            width: 100%;
         }
 
         .curr-symbol-span {
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: #cbd5e0;
-            margin-right: 2px;
-            transition: color 0.3s;
+            font-size: 1.1rem; font-weight: 500; color: #cbd5e0;
+            margin-right: 4px; transition: color 0.2s;
         }
-        
-        .exchange-card-row:focus-within .curr-symbol-span {
-            color: #f5576c;
-        }
+        .exchange-card-row:focus-within .curr-symbol-span { color: #667eea; }
 
         .exchange-input {
             border: none; background: transparent;
             font-family: 'Poppins', sans-serif;
-            font-size: 1.3rem; font-weight: 600; color: var(--text-dark);
-            text-align: right; outline: none; width: 100%;
-            padding: 0; margin: 0;
+            font-size: 1.5rem; font-weight: 600; color: var(--text-dark);
+            width: 100%; outline: none; padding: 0; margin: 0;
+            letter-spacing: -0.5px;
         }
         .exchange-input::placeholder { color: #e2e8f0; }
+
+
+        /* --- GOLD TAB: CAMBODIAN JEWELRY SHOP STYLE --- */
+        .gold-container { padding: 5px 0; }
         
-        .exchange-card-row::after {
-            content: ''; position: absolute; bottom: -1px; left: 50%; right: 50%;
-            height: 3px; background: var(--exchange-gradient);
-            border-radius: 0 0 16px 16px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            opacity: 0;
-        }
-        .exchange-card-row:focus-within::after { left: 0; right: 0; opacity: 1; }
-
-        /* --- UPDATED GOLD SECTION STYLES (Grid) --- */
-        .gold-container {
-            padding: 0 5px;
-        }
-        .gold-grid {
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 15px;
-            margin-top: 10px;
-        }
-        .gold-card {
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            overflow: hidden;
-            border: 1px solid #f0e6c5;
-            transition: transform 0.2s;
-            display: flex; flex-direction: column;
-        }
-        .gold-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
-
-        .gold-card-header {
-            background: #ffffff;
-            padding: 10px 0;
-            text-align: center;
-            border-bottom: 2px solid var(--gold-red);
-        }
-        .gold-kh-label {
-            font-family: 'Noto Serif Khmer', serif;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: #1a202c;
-        }
-        .gold-card-body {
-            background: var(--gold-red);
-            color: white;
-            padding: 15px 5px;
-            text-align: center;
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .gold-price-val {
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-
         .gold-main-title {
-            font-family: 'Noto Serif Khmer', serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #d4af37;
-            text-align: center;
-            margin-bottom: 5px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            font-family: 'Koh Santepheap', serif;
+            font-size: 1.4rem; font-weight: 700;
+            color: var(--gold-text);
+            text-align: center; margin-bottom: 4px;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.05);
         }
         .gold-date-sub {
-            text-align: center;
-            color: #a0aec0;
-            font-size: 0.8rem;
-            margin-bottom: 20px;
+            text-align: center; color: #718096; font-size: 0.85rem;
+            margin-bottom: 24px; font-weight: 500;
         }
 
-        /* --- MOBILE MODAL OPTIMIZATION --- */
+        .gold-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+        }
+
+        /* Jewelry Shop Card */
+        .gold-card {
+            background: var(--gold-bg-gradient);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px -4px rgba(0,0,0,0.08);
+            overflow: hidden;
+            border: 2px solid #E5E7EB;
+            position: relative;
+            transition: all 0.3s ease;
+            display: flex; flex-direction: column;
+        }
+        
+        /* Red/Gold Accents */
+        .gold-card::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+            height: 4px; background: var(--gold-red);
+        }
+        
+        .gold-card:hover { transform: translateY(-4px); border-color: var(--gold-border); box-shadow: 0 15px 25px -5px rgba(184, 134, 11, 0.15); }
+
+        .gold-card-header {
+            padding: 12px 0 8px;
+            text-align: center;
+            background: transparent;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+        .gold-kh-label {
+            font-family: 'Koh Santepheap', serif;
+            font-weight: 700; font-size: 1.15rem;
+            color: var(--text-dark);
+        }
+
+        .gold-card-body {
+            background: transparent;
+            color: var(--gold-red); 
+            padding: 18px 10px;
+            text-align: center;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .gold-price-val {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.6rem; font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .gold-note {
+            margin-top: 20px; font-size: 0.7rem; color: #a0aec0; 
+            text-align: center; background: #f8fafc; padding: 10px; 
+            border-radius: 8px; border: 1px dashed #e2e8f0;
+        }
+
+        /* --- MOBILE TWEAKS --- */
         @media (max-width: 600px) {
-            .modal-card {
-                width: 100%; height: 100%; max-height: 100vh;
-                border-radius: 0; padding: 1.5rem;
-                transform: translateY(20px);
-            }
+            .modal-card { width: 100%; height: 100%; max-height: 100vh; border-radius: 0; padding: 1.5rem; transform: translateY(20px); }
             .modal-overlay.active .modal-card { transform: translateY(0); }
-            
             .modal-header { position: sticky; top: 0; background: white; z-index: 10; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; margin-bottom: 1rem; }
             .calc-tabs { position: sticky; top: 60px; z-index: 9; }
-            .tab-btn span { display: none; } 
-            .tab-btn i { font-size: 1.2rem; margin: 0; }
-            
+            .tab-btn span { display: none; } .tab-btn i { font-size: 1.2rem; margin: 0; }
             .input-row { gap: 0.8rem; }
             .calc-input { font-size: 16px; padding: 12px; }
             
-            .exchange-input { font-size: 1.1rem; }
-            .exchange-input-container { min-width: 100px; }
-            .flag-circle { width: 40px; height: 40px; font-size: 1.4rem; margin-right: 12px; }
-            .curr-code { font-size: 1rem; }
-            .rate-hint { font-size: 0.65rem; }
-            
+            /* Gold Mobile */
             .gold-kh-label { font-size: 1rem; }
-            .gold-price-val { font-size: 1.1rem; }
+            .gold-price-val { font-size: 1.35rem; }
+            .gold-main-title { font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -717,7 +444,6 @@
                 <div class="card-btn">Access</div>
             </div>
 
-            <!-- New Exchange Rate Card -->
             <div class="card" id="exchangeBtn">
                 <div class="icon-circle"><i class="fa-solid fa-money-bill-transfer"></i></div>
                 <h3>Exchange Rate</h3>
@@ -936,7 +662,7 @@
                     <div class="currency-switch" id="currencyToggle" data-currency="USD" onclick="toggleCurrency()">
                         <div class="currency-slider"></div>
                         <div class="currency-option">$</div>
-                        <div class="currency-option">៛</div>
+                        <div class="currency-option kh-font">៛</div>
                     </div>
                     <button class="btn-info" onclick="toggleInfo()" title="Formulas & Info"><i class="fa-solid fa-circle-info"></i></button>
                     <button class="btn-reset" onclick="resetFinCalcs()" title="Reset All"><i class="fa-solid fa-rotate-right"></i></button>
@@ -1171,17 +897,22 @@
                 <div class="status-dot"></div> <span id="exchange-msg">Connecting to Live Market...</span>
             </div>
             
-            <!-- CURRENCY TAB -->
+            <!-- CURRENCY TAB: UPDATED COMPACT GRID UI -->
             <div id="tab-currency" class="tab-content active">
                 <div class="exchange-grid">
+                    
                     <!-- USD -->
                     <div class="exchange-card-row">
-                        <div class="flag-circle">🇺🇸</div>
-                        <div class="curr-details">
-                            <div class="curr-code">USD</div>
-                            <div class="curr-name">US Dollar</div>
+                        <div class="curr-top-row">
+                            <div class="flag-wrapper">
+                                <img src="https://flagcdn.com/w40/us.png" alt="USA" class="flag-img">
+                            </div>
+                            <div class="curr-info-stack">
+                                <span class="curr-code">USD</span>
+                                <small class="rate-hint" id="rate-USD">Base</small>
+                            </div>
                         </div>
-                        <div class="exchange-input-container">
+                        <div class="curr-input-area">
                             <span class="curr-symbol-span">$</span>
                             <input type="text" inputmode="decimal" class="exchange-input" data-curr="USD" placeholder="0.00">
                         </div>
@@ -1189,27 +920,33 @@
 
                     <!-- KHR -->
                     <div class="exchange-card-row">
-                        <div class="flag-circle">🇰🇭</div>
-                        <div class="curr-details">
-                            <div class="curr-code">KHR</div>
-                            <div class="curr-name">Riel</div>
-                            <small class="rate-hint" id="rate-KHR">Loading...</small>
+                        <div class="curr-top-row">
+                            <div class="flag-wrapper">
+                                <img src="https://flagcdn.com/w40/kh.png" alt="Cambodia" class="flag-img">
+                            </div>
+                            <div class="curr-info-stack">
+                                <span class="curr-code">KHR</span>
+                                <small class="rate-hint" id="rate-KHR">--</small>
+                            </div>
                         </div>
-                        <div class="exchange-input-container">
-                            <span class="curr-symbol-span">៛</span>
+                        <div class="curr-input-area">
+                            <span class="curr-symbol-span kh-font">៛</span>
                             <input type="text" inputmode="decimal" class="exchange-input" data-curr="KHR" placeholder="0.00">
                         </div>
                     </div>
 
                     <!-- CNY -->
                     <div class="exchange-card-row">
-                        <div class="flag-circle">🇨🇳</div>
-                        <div class="curr-details">
-                            <div class="curr-code">CNY</div>
-                            <div class="curr-name">Yuan</div>
-                            <small class="rate-hint" id="rate-CNY">Loading...</small>
+                        <div class="curr-top-row">
+                            <div class="flag-wrapper">
+                                <img src="https://flagcdn.com/w40/cn.png" alt="China" class="flag-img">
+                            </div>
+                            <div class="curr-info-stack">
+                                <span class="curr-code">CNY</span>
+                                <small class="rate-hint" id="rate-CNY">--</small>
+                            </div>
                         </div>
-                        <div class="exchange-input-container">
+                        <div class="curr-input-area">
                             <span class="curr-symbol-span">¥</span>
                             <input type="text" inputmode="decimal" class="exchange-input" data-curr="CNY" placeholder="0.00">
                         </div>
@@ -1217,13 +954,16 @@
 
                     <!-- SGD -->
                     <div class="exchange-card-row">
-                        <div class="flag-circle">🇸🇬</div>
-                        <div class="curr-details">
-                            <div class="curr-code">SGD</div>
-                            <div class="curr-name">SG Dollar</div>
-                            <small class="rate-hint" id="rate-SGD">Loading...</small>
+                        <div class="curr-top-row">
+                            <div class="flag-wrapper">
+                                <img src="https://flagcdn.com/w40/sg.png" alt="Singapore" class="flag-img">
+                            </div>
+                            <div class="curr-info-stack">
+                                <span class="curr-code">SGD</span>
+                                <small class="rate-hint" id="rate-SGD">--</small>
+                            </div>
                         </div>
-                        <div class="exchange-input-container">
+                        <div class="curr-input-area">
                             <span class="curr-symbol-span">S$</span>
                             <input type="text" inputmode="decimal" class="exchange-input" data-curr="SGD" placeholder="0.00">
                         </div>
@@ -1231,13 +971,16 @@
 
                     <!-- VND -->
                     <div class="exchange-card-row">
-                        <div class="flag-circle">🇻🇳</div>
-                        <div class="curr-details">
-                            <div class="curr-code">VND</div>
-                            <div class="curr-name">Dong</div>
-                            <small class="rate-hint" id="rate-VND">Loading...</small>
+                        <div class="curr-top-row">
+                            <div class="flag-wrapper">
+                                <img src="https://flagcdn.com/w40/vn.png" alt="Vietnam" class="flag-img">
+                            </div>
+                            <div class="curr-info-stack">
+                                <span class="curr-code">VND</span>
+                                <small class="rate-hint" id="rate-VND">--</small>
+                            </div>
                         </div>
-                        <div class="exchange-input-container">
+                        <div class="curr-input-area">
                             <span class="curr-symbol-span">₫</span>
                             <input type="text" inputmode="decimal" class="exchange-input" data-curr="VND" placeholder="0.00">
                         </div>
@@ -1245,13 +988,16 @@
 
                     <!-- RUB -->
                     <div class="exchange-card-row">
-                        <div class="flag-circle">🇷🇺</div>
-                        <div class="curr-details">
-                            <div class="curr-code">RUB</div>
-                            <div class="curr-name">Ruble</div>
-                            <small class="rate-hint" id="rate-RUB">Loading...</small>
+                        <div class="curr-top-row">
+                            <div class="flag-wrapper">
+                                <img src="https://flagcdn.com/w40/ru.png" alt="Russia" class="flag-img">
+                            </div>
+                            <div class="curr-info-stack">
+                                <span class="curr-code">RUB</span>
+                                <small class="rate-hint" id="rate-RUB">--</small>
+                            </div>
                         </div>
-                        <div class="exchange-input-container">
+                        <div class="curr-input-area">
                             <span class="curr-symbol-span">₽</span>
                             <input type="text" inputmode="decimal" class="exchange-input" data-curr="RUB" placeholder="0.00">
                         </div>
@@ -1259,25 +1005,29 @@
 
                     <!-- MYR -->
                     <div class="exchange-card-row">
-                        <div class="flag-circle">🇲🇾</div>
-                        <div class="curr-details">
-                            <div class="curr-code">MYR</div>
-                            <div class="curr-name">Ringgit</div>
-                            <small class="rate-hint" id="rate-MYR">Loading...</small>
+                        <div class="curr-top-row">
+                            <div class="flag-wrapper">
+                                <img src="https://flagcdn.com/w40/my.png" alt="Malaysia" class="flag-img">
+                            </div>
+                            <div class="curr-info-stack">
+                                <span class="curr-code">MYR</span>
+                                <small class="rate-hint" id="rate-MYR">--</small>
+                            </div>
                         </div>
-                        <div class="exchange-input-container">
+                        <div class="curr-input-area">
                             <span class="curr-symbol-span">RM</span>
                             <input type="text" inputmode="decimal" class="exchange-input" data-curr="MYR" placeholder="0.00">
                         </div>
                     </div>
+
                 </div>
             </div>
 
-            <!-- GOLD TAB -->
+            <!-- GOLD TAB: POLISHED -->
             <div id="tab-gold" class="tab-content">
                 <div class="gold-container">
                     <div class="gold-main-title">តំលៃមាសអន្តរជាតិ</div>
-                    <div class="gold-date-sub" id="gold-last-update">Updating...</div>
+                    <div class="gold-date-sub kh-font" id="gold-last-update">Updating...</div>
 
                     <div class="gold-grid">
                         <!-- 1 Chi -->
@@ -1321,8 +1071,9 @@
                         </div>
                     </div>
                     
-                    <div style="margin-top:15px; font-size:0.75rem; color:#718096; text-align:center;">
-                        * Live Mid-Market Rate (Source: Open API/XE Mirror) + ~1-2% Import/Retail Premium.
+                    <div class="gold-note">
+                        * Based on Real-Time Spot Price + Import Premium.<br>
+                        Retail prices (Ly Hour/Heng Heng) may vary slightly.
                     </div>
                 </div>
             </div>
@@ -1456,8 +1207,7 @@
         
         let autoRefreshInterval = null;
 
-        // Base Rates (Fallback)
-        // XAU set to approx real-world fallback
+        // Base Rates & Fallback (Updated to 2026 projections)
         let liveRates = {
             USD: 1,
             KHR: 4100.50,
@@ -1466,7 +1216,7 @@
             VND: 24550.00,
             RUB: 92.50,
             MYR: 4.7550,
-            XAU: 0.000375 // 1 USD buys ~0.000375 Ounces
+            XAU: 0.000377 // ~ $2650/oz base fallback
         };
 
         // Helper: High precision display
@@ -1478,8 +1228,7 @@
             exchangeMsg.textContent = "Syncing Live Data...";
             
             try {
-                // Using Open Exchange Rate API (Standard for XE-like mid-market rates)
-                // Note: Actual XE.com API requires server-side paid key.
+                // Using Open Exchange Rate API
                 const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
                 const data = await response.json();
                 
@@ -1492,7 +1241,7 @@
                     if(data.rates.RUB) liveRates.RUB = data.rates.RUB;
                     if(data.rates.MYR) liveRates.MYR = data.rates.MYR;
                     
-                    // XAU (Gold) - If missing in API, we keep default or estimate
+                    // XAU Check - If API misses it, keep the 2026 fallback
                     if(data.rates.XAU) {
                         liveRates.XAU = data.rates.XAU;
                     } 
@@ -1523,7 +1272,6 @@
         }
 
         function updateSampleRateText() {
-            // Update the small hint text under each currency
             const codes = ['KHR', 'CNY', 'SGD', 'VND', 'RUB', 'MYR'];
             codes.forEach(code => {
                 const el = document.getElementById(`rate-${code}`);
@@ -1534,32 +1282,32 @@
         }
 
         function calculateGoldPrices() {
-            // 1. Get Spot Price of Gold per Ounce (Troy Ounce)
+            // 1. Get Spot Price of Gold per Troy Ounce (International Standard)
+            // If liveRates.XAU is 0.000377, then Price = 1 / 0.000377 = $2652
             const pricePerOzSpot = 1 / liveRates.XAU;
             
-            // 2. Add Retail/Import Premium (~2.5% to match local jewelry shop rates)
-            // Cambodian "Heng Heng" style prices include craftsmanship/import costs.
-            const premiumMultiplier = 1.025; 
-            const pricePerOzMarket = pricePerOzSpot * premiumMultiplier;
-
-            // 3. Constants
-            // 1 Troy Oz = 31.1034768 Grams
-            const gramsPerOz = 31.1034768;
-            const pricePerGram = pricePerOzMarket / gramsPerOz;
-
-            // 4. Calculate Units
-            // 1 Chi = 3.75 Grams
-            // 1 Damlung = 37.5 Grams
-            // 1 Kg = 1000 Grams
-            // 1 Ounce (Troy) = 31.1035 Grams
-
-            const priceChi = pricePerGram * 3.75;
-            const priceDamlung = pricePerGram * 37.5;
-            const priceKg = pricePerGram * 1000;
-            const priceOunce = pricePerOzMarket;
+            // 2. Constants for Cambodian Market
+            const gramsPerTroyOz = 31.1034768; // Exact Troy Ounce
             
-            // Update DOM with exact USD values (no decimal for large numbers per image style, usually)
-            // Using toLocaleString with 0 decimals for clean look like the image
+            // Cambodian Unit: 1 Damlung = 37.5 Grams
+            // Price per gram based on Spot
+            const pricePerGramRaw = pricePerOzSpot / gramsPerTroyOz;
+            
+            // 3. Premium Adjustment
+            // Cambodian retail gold usually has a premium over raw spot (import tax + labor + shop margin).
+            // Usually around $20-$40 per Damlung over the raw spot price.
+            // We apply a small % multiplier to simulate the "Sell Out" price at a shop.
+            const retailPremiumMultiplier = 1.015; // 1.5% premium (Conservative estimate for retail)
+            
+            const pricePerGram = pricePerGramRaw * retailPremiumMultiplier;
+
+            // 4. Calculate Final Display Prices
+            const priceDamlung = pricePerGram * 37.5;
+            const priceChi = priceDamlung / 10; // 1 Chi = 1/10 Damlung
+            const priceKg = pricePerGram * 1000;
+            const priceOunce = pricePerOzSpot * retailPremiumMultiplier; // Retail Ounce price
+            
+            // Update DOM - Rounding to whole numbers for cleaner "Board" look
             document.getElementById('price-chi').textContent = '$' + Math.round(priceChi).toLocaleString();
             document.getElementById('price-damlung').textContent = '$' + Math.round(priceDamlung).toLocaleString();
             document.getElementById('price-ounce').textContent = '$' + Math.round(priceOunce).toLocaleString();
