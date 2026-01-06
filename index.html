@@ -140,19 +140,90 @@
         .card-btn { font-size: 0.8rem; font-weight: 600; color: var(--secondary-color); padding: 8px 20px; border-radius: 20px; background: #f0f4ff; transition: var(--transition); }
         .card:hover .card-btn { background: var(--secondary-color); color: white; }
 
-        /* --- FOOTER --- */
-        footer { background: #1a202c; color: #e2e8f0; margin-top: 4rem; padding: 4rem 5% 2rem; border-top-left-radius: 50px; border-top-right-radius: 50px; }
-        .footer-content { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
-        .footer-brand h2 { color: white; margin-bottom: 1rem; }
-        .footer-brand p { color: #a0aec0; font-size: 0.9rem; margin-bottom: 1.5rem; }
-        .footer-col h4 { color: white; margin-bottom: 1.5rem; font-size: 1.1rem; }
-        .footer-col ul li { margin-bottom: 0.8rem; }
-        .footer-col ul li a { color: #a0aec0; font-size: 0.9rem; }
-        .social-links { display: flex; gap: 15px; }
-        .social-btn { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; transition: var(--transition); }
-        .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; font-size: 0.85rem; color: #718096; }
-        @media (max-width: 900px) { .footer-content { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 600px) { .footer-content { grid-template-columns: 1fr; text-align: center; gap: 2rem; } .social-links { justify-content: center; } footer { border-radius: 30px 30px 0 0; padding-top: 3rem; } }
+        /* --- UPDATED FOOTER --- */
+        footer { 
+            background: linear-gradient(to bottom, #1a202c, #111827); 
+            color: #cbd5e1; 
+            margin-top: 4rem; 
+            padding: 4rem 5% 1rem; 
+            border-top-left-radius: 40px; 
+            border-top-right-radius: 40px; 
+            position: relative;
+            z-index: 10;
+        }
+        
+        .footer-content { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            display: grid; 
+            grid-template-columns: 2fr 1fr 1fr 1.5fr; 
+            gap: 2.5rem; 
+            margin-bottom: 3rem; 
+        }
+        
+        .footer-brand h2 { color: white; margin-bottom: 1rem; font-size: 1.8rem; display: flex; align-items: center; gap: 10px; }
+        .footer-brand p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem; max-width: 300px; }
+        
+        .footer-col h4 { color: white; margin-bottom: 1.2rem; font-size: 1.1rem; position: relative; display: inline-block; }
+        .footer-col h4::after { content: ''; position: absolute; left: 0; bottom: -5px; width: 30px; height: 3px; background: var(--secondary-color); border-radius: 2px; }
+        
+        .footer-links li { margin-bottom: 0.8rem; }
+        .footer-links a { color: #94a3b8; font-size: 0.9rem; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .footer-links a:hover { color: white; transform: translateX(5px); }
+        .footer-links a i { font-size: 0.8rem; color: var(--secondary-color); }
+
+        /* Updated Social Grid */
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        
+        .social-box {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            height: 80px;
+            color: #cbd5e1;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .social-box i { font-size: 1.4rem; margin-bottom: 5px; transition: 0.3s; }
+        .social-box span { font-size: 0.7rem; font-weight: 500; }
+        
+        /* Brand Colors on Hover */
+        .social-box:hover { transform: translateY(-5px); background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
+        .social-box.fb:hover i { color: #1877F2; }
+        .social-box.ig:hover i { color: #E1306C; }
+        .social-box.in:hover i { color: #0A66C2; }
+        .social-box.tg:hover i { color: #0088cc; }
+        .social-box.web:hover i { color: #4facfe; }
+        .social-box.em:hover i { color: #38b2ac; }
+
+        .footer-bottom { 
+            text-align: center; 
+            border-top: 1px solid rgba(255,255,255,0.08); 
+            padding-top: 2rem; 
+            font-size: 0.85rem; 
+            color: #64748b; 
+            display: flex; 
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1024px) { 
+            .footer-content { grid-template-columns: 1fr 1fr; } 
+            .social-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 600px) { 
+            .footer-content { grid-template-columns: 1fr; gap: 2.5rem; } 
+            .footer-bottom { flex-direction: column; gap: 10px; }
+            footer { padding-top: 3rem; border-radius: 30px 30px 0 0; } 
+        }
 
         /* --- MODALS (SCROLL FIXES APPLIED) --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 32, 44, 0.6); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
@@ -437,6 +508,36 @@
             border-radius: 8px; border: 1px dashed #e2e8f0;
         }
 
+        /* --- ABOUT ME MODAL STYLES --- */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .profile-avatar {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid white;
+            box-shadow: var(--shadow-hover);
+            margin-bottom: 10px;
+        }
+        .profile-name { font-size: 1.5rem; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; }
+        .profile-role { color: var(--secondary-color); font-weight: 500; font-size: 0.9rem; }
+        .about-text { font-size: 0.95rem; color: #4a5568; line-height: 1.7; margin-bottom: 20px; text-align: center; }
+        .skills-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 25px; }
+        .skill-tag { 
+            background: #eef2ff; color: var(--secondary-color); 
+            padding: 6px 14px; border-radius: 20px; 
+            font-size: 0.8rem; font-weight: 600; 
+        }
+        .contact-btn {
+            display: block; width: 100%; text-align: center;
+            background: var(--secondary-color); color: white;
+            padding: 12px; border-radius: 12px; font-weight: 600;
+            transition: 0.3s;
+        }
+        .contact-btn:hover { background: #5a67d8; transform: translateY(-2px); }
+
         /* --- MOBILE TWEAKS --- */
         @media (max-width: 600px) {
             .modal-card { width: 100%; height: 100%; max-height: 100vh; border-radius: 0; padding: 1.5rem; transform: translateY(20px); }
@@ -460,7 +561,7 @@
     <!-- Floating Glass Navigation -->
     <div class="nav-wrapper">
         <nav>
-            <div class="logo">
+            <div class="logo" onclick="window.scrollTo({top:0, behavior:'smooth'})">
                 <i class="fa-solid fa-cube"></i> <span>SysMaster</span>
             </div>
             
@@ -484,6 +585,9 @@
                         <li class="dropdown-item"><a href="#" onclick="openExchange(event)"><i class="fa-solid fa-money-bill-transfer"></i> Exchange Rate</a></li>
                         <li class="dropdown-item"><a href="#"><i class="fa-solid fa-envelope-open-text"></i> Email Hub</a></li>
                     </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" onclick="openAbout(event)">About Me</a>
                 </li>
             </ul>
         </nav>
@@ -527,6 +631,42 @@
             </div>
         </div>
     </section>
+
+    <!-- ABOUT ME MODAL -->
+    <div class="modal-overlay" id="aboutModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fa-solid fa-user"></i> Profile
+                </div>
+                <div class="header-actions">
+                    <button class="close-modal" id="closeAbout"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+            
+            <div class="profile-header">
+                <img src="https://ui-avatars.com/api/?name=Admin+User&background=667eea&color=fff&size=200" alt="Profile" class="profile-avatar">
+                <h2 class="profile-name">System Admin</h2>
+                <div class="profile-role">Full Stack Developer & Analyst</div>
+            </div>
+
+            <p class="about-text">
+                Passionate about building efficient digital tools that streamline business operations. With a background in financial systems and web development, I create solutions that turn complex data into actionable insights.
+            </p>
+
+            <div class="skills-grid">
+                <span class="skill-tag">Web Development</span>
+                <span class="skill-tag">Financial Analysis</span>
+                <span class="skill-tag">System Design</span>
+                <span class="skill-tag">UI/UX</span>
+                <span class="skill-tag">Automation</span>
+            </div>
+
+            <a href="mailto:admin@sysmaster.com" class="contact-btn">
+                Get in Touch
+            </a>
+        </div>
+    </div>
 
     <!-- BIZ CALCULATOR MODAL -->
     <div class="modal-overlay" id="calcModal">
@@ -1151,33 +1291,72 @@
         </div>
     </div>
 
-    <!-- Footer -->
+    <!-- Updated Footer -->
     <footer>
         <div class="footer-content">
+            <!-- Brand Column -->
             <div class="footer-brand">
-                <h2>SysMaster</h2>
-                <p>Empowering businesses with streamlined tools for calculation and management.</p>
-                <div class="social-links">
-                    <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#" class="social-btn"><i class="fa-brands fa-twitter"></i></a>
-                    <a href="#" class="social-btn"><i class="fa-brands fa-linkedin-in"></i></a>
+                <h2><i class="fa-solid fa-cube" style="color:var(--secondary-color);"></i> SysMaster</h2>
+                <p>Empowering businesses with streamlined tools for calculation, financial planning, and real-time market insights. Your productivity, our priority.</p>
+            </div>
+            
+            <!-- Quick Links -->
+            <div class="footer-col">
+                <h4>Quick Access</h4>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="openBizCalc(event)"><i class="fa-solid fa-chevron-right"></i> Biz Calculator</a></li>
+                    <li><a href="#" onclick="openFinCalc(event)"><i class="fa-solid fa-chevron-right"></i> Finance Pro</a></li>
+                    <li><a href="#" onclick="openExchange(event)"><i class="fa-solid fa-chevron-right"></i> Exchange Rate</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Email Templates</a></li>
+                </ul>
+            </div>
+            
+            <!-- Support -->
+            <div class="footer-col">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Documentation</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> API Reference</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Privacy Policy</a></li>
+                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Terms of Service</a></li>
+                </ul>
+            </div>
+            
+            <!-- Connect (Requested Socials) -->
+            <div class="footer-col">
+                <h4>Connect</h4>
+                <div class="social-grid">
+                    <a href="https://facebook.com" target="_blank" class="social-box fb">
+                        <i class="fa-brands fa-facebook-f"></i>
+                        <span>Facebook</span>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="social-box ig">
+                        <i class="fa-brands fa-instagram"></i>
+                        <span>Instagram</span>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" class="social-box in">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://telegram.org" target="_blank" class="social-box tg">
+                        <i class="fa-brands fa-telegram"></i>
+                        <span>Telegram</span>
+                    </a>
+                    <a href="#" class="social-box web">
+                        <i class="fa-solid fa-globe"></i>
+                        <span>Website</span>
+                    </a>
+                    <a href="mailto:info@sysmaster.com" class="social-box em">
+                        <i class="fa-solid fa-envelope"></i>
+                        <span>Email</span>
+                    </a>
                 </div>
             </div>
-            <div class="footer-col">
-                <h4>Platform</h4>
-                <ul><li><a href="#">About Us</a></li><li><a href="#">Services</a></li><li><a href="#">Pricing</a></li></ul>
-            </div>
-            <div class="footer-col">
-                <h4>Resources</h4>
-                <ul><li><a href="#">Docs</a></li><li><a href="#">Community</a></li><li><a href="#">Help</a></li></ul>
-            </div>
-            <div class="footer-col">
-                <h4>Contact</h4>
-                <ul><li><i class="fa-solid fa-envelope"></i> support@sys.com</li><li><i class="fa-solid fa-phone"></i> +1 555 123 4567</li></ul>
-            </div>
         </div>
+        
         <div class="footer-bottom">
-            <p>&copy; 2026 SysMaster Inc. All rights reserved.</p>
+            <span>&copy; 2026 SysMaster Inc. All rights reserved.</span>
+            <span>Designed with <i class="fa-solid fa-heart" style="color:var(--secondary-color);"></i> in Cambodia.</span>
         </div>
     </footer>
 
@@ -1244,7 +1423,7 @@
         if(closeCalcBtn) closeCalcBtn.addEventListener('click', () => calcModal.classList.remove('active'));
 
         /* =========================================
-           FINANCE CALCULATOR LOGIC (IMPROVED)
+           FINANCE CALCULATOR LOGIC
            ========================================= */
         const finModal = document.getElementById('finModal');
         const openFinBtn = document.getElementById('financeBtn');
@@ -1253,7 +1432,7 @@
 
         // Global State
         let currentCurrency = 'USD'; // 'USD' or 'KHR'
-        const FIXED_EXCHANGE_RATE = 4000; // Fixed for Finance Calc consistency
+        const FIXED_EXCHANGE_RATE = 4000; 
 
         function openFinCalc(e) {
             e.preventDefault(); e.stopPropagation();
@@ -1265,7 +1444,22 @@
         if(closeFinBtn) closeFinBtn.addEventListener('click', () => finModal.classList.remove('active'));
 
         /* =========================================
-           EXCHANGE RATE LOGIC (LIVE + GOLD)
+           ABOUT ME LOGIC
+           ========================================= */
+        const aboutModal = document.getElementById('aboutModal');
+        const closeAboutBtn = document.getElementById('closeAbout');
+
+        function openAbout(e) {
+            e.preventDefault(); e.stopPropagation();
+            aboutModal.classList.add('active');
+            navLinks.classList.remove('active');
+        }
+
+        if(closeAboutBtn) closeAboutBtn.addEventListener('click', () => aboutModal.classList.remove('active'));
+
+
+        /* =========================================
+           EXCHANGE RATE LOGIC
            ========================================= */
         const exchangeModal = document.getElementById('exchangeModal');
         const openExchangeBtn = document.getElementById('exchangeBtn');
@@ -1289,7 +1483,6 @@
             XAU: 0.000377 // ~ $2650/oz base fallback
         };
 
-        // Helper: High precision display
         function getPrecisionRate(rate) {
             return rate < 1 ? rate.toFixed(6) : rate.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 4});
         }
@@ -1298,7 +1491,6 @@
             exchangeMsg.textContent = "Syncing Live Data...";
             
             try {
-                // Using Open Exchange Rate API
                 const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
                 const data = await response.json();
                 
@@ -1311,7 +1503,6 @@
                     if(data.rates.RUB) liveRates.RUB = data.rates.RUB;
                     if(data.rates.MYR) liveRates.MYR = data.rates.MYR;
                     
-                    // XAU Check - If API misses it, keep the 2026 fallback
                     if(data.rates.XAU) {
                         liveRates.XAU = data.rates.XAU;
                     } 
@@ -1336,7 +1527,7 @@
                 console.warn("API Fetch failed, using cached rates.");
                 exchangeMsg.textContent = "Offline Mode: Cached Rates";
                 exchangeStatus.classList.add('error');
-                updateSampleRateText(); // Show cached
+                updateSampleRateText();
                 calculateGoldPrices();
             }
         }
@@ -1352,32 +1543,17 @@
         }
 
         function calculateGoldPrices() {
-            // 1. Get Spot Price of Gold per Troy Ounce (International Standard)
-            // If liveRates.XAU is 0.000377, then Price = 1 / 0.000377 = $2652
             const pricePerOzSpot = 1 / liveRates.XAU;
-            
-            // 2. Constants for Cambodian Market
-            const gramsPerTroyOz = 31.1034768; // Exact Troy Ounce
-            
-            // Cambodian Unit: 1 Damlung = 37.5 Grams
-            // Price per gram based on Spot
+            const gramsPerTroyOz = 31.1034768; 
             const pricePerGramRaw = pricePerOzSpot / gramsPerTroyOz;
-            
-            // 3. Premium Adjustment
-            // Cambodian retail gold usually has a premium over raw spot (import tax + labor + shop margin).
-            // Usually around $20-$40 per Damlung over the raw spot price.
-            // We apply a small % multiplier to simulate the "Sell Out" price at a shop.
-            const retailPremiumMultiplier = 1.015; // 1.5% premium (Conservative estimate for retail)
-            
+            const retailPremiumMultiplier = 1.015; 
             const pricePerGram = pricePerGramRaw * retailPremiumMultiplier;
 
-            // 4. Calculate Final Display Prices
             const priceDamlung = pricePerGram * 37.5;
-            const priceChi = priceDamlung / 10; // 1 Chi = 1/10 Damlung
+            const priceChi = priceDamlung / 10;
             const priceKg = pricePerGram * 1000;
-            const priceOunce = pricePerOzSpot * retailPremiumMultiplier; // Retail Ounce price
+            const priceOunce = pricePerOzSpot * retailPremiumMultiplier;
             
-            // Update DOM - Rounding to whole numbers for cleaner "Board" look
             document.getElementById('price-chi').textContent = '$' + Math.round(priceChi).toLocaleString();
             document.getElementById('price-damlung').textContent = '$' + Math.round(priceDamlung).toLocaleString();
             document.getElementById('price-ounce').textContent = '$' + Math.round(priceOunce).toLocaleString();
@@ -1469,6 +1645,7 @@
             if (e.target === calcModal) calcModal.classList.remove('active'); 
             if (e.target === finModal) finModal.classList.remove('active');
             if (e.target === exchangeModal) closeExchange();
+            if (e.target === aboutModal) aboutModal.classList.remove('active');
         });
 
         // Tab Switching Logic (Generic)
@@ -1532,7 +1709,6 @@
                 bar.querySelector('.p-interest').style.width = '50%';
             }
             document.querySelectorAll('.big-price, .stat-val').forEach(el => {
-               // keep currency symbol, reset num
                let sym = currentCurrency === 'USD' ? '$' : '៛';
                el.innerHTML = `<span class="curr-symbol">${sym}</span>0.00`;
             });
@@ -1574,7 +1750,6 @@
                 bar.querySelector('.p-principal').style.width = pPercent + '%';
                 bar.querySelector('.p-interest').style.width = iPercent + '%';
             } else {
-                 // Reset visuals if incomplete
                 document.getElementById('ln-emi').innerHTML = formatMoney(0);
                 document.getElementById('ln-total').innerHTML = formatMoney(0);
                 document.getElementById('ln-interest').innerHTML = formatMoney(0);
@@ -1594,8 +1769,6 @@
             let r = parseFloat(invRate.value) || 0;
             let t = parseFloat(invTime.value) || 0;
 
-            // Future Value of Lump Sum + Future Value of Series
-            // Rate is annual, compounded monthly
             let monthlyRate = r / 1200;
             let months = t * 12;
 
