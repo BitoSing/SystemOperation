@@ -154,12 +154,43 @@
         @media (max-width: 900px) { .footer-content { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 600px) { .footer-content { grid-template-columns: 1fr; text-align: center; gap: 2rem; } .social-links { justify-content: center; } footer { border-radius: 30px 30px 0 0; padding-top: 3rem; } }
 
-        /* --- MODALS --- */
+        /* --- MODALS (SCROLL FIXES APPLIED) --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 32, 44, 0.6); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-card { background: #ffffff; width: 95%; max-width: 550px; max-height: 90vh; overflow-y: auto; border-radius: 24px; padding: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; flex-direction: column; }
+        
+        .modal-card { 
+            background: #ffffff; 
+            width: 95%; 
+            max-width: 550px; 
+            max-height: 90vh; 
+            overflow-y: auto; /* Enable Scroll */
+            -webkit-overflow-scrolling: touch; /* SMOOTH SCROLL iOS */
+            overscroll-behavior: contain; /* Stop Body Scroll */
+            border-radius: 24px; 
+            padding: 2rem; 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
+            transform: scale(0.9); 
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); 
+            display: flex; 
+            flex-direction: column; 
+        }
+        
         .modal-overlay.active .modal-card { transform: scale(1); }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-shrink: 0; }
+        
+        .modal-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 1.5rem; 
+            flex-shrink: 0; 
+            /* Sticky Header for Smoothness */
+            position: sticky; 
+            top: 0; 
+            background: #ffffff; 
+            z-index: 20; 
+            padding-bottom: 10px;
+        }
+
         .modal-title { font-size: 1.3rem; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 10px; }
         .modal-title i { color: var(--secondary-color); background: #eef2ff; padding: 8px; border-radius: 10px; font-size: 1.1rem; }
         .header-actions { display: flex; align-items: center; gap: 8px; }
@@ -168,7 +199,25 @@
         .btn-reset:hover { background: #edf2f7; color: var(--secondary-color); transform: rotate(-180deg); }
         .btn-info:hover { background: #e6fffa; color: #38b2ac; }
         
-        .calc-tabs { display: flex; background: #f7fafc; border-radius: 12px; padding: 5px; margin-bottom: 1.5rem; gap: 5px; flex-shrink: 0; overflow-x: auto; }
+        /* Tabs Scroll Fix */
+        .calc-tabs { 
+            display: flex; 
+            background: #f7fafc; 
+            border-radius: 12px; 
+            padding: 5px; 
+            margin-bottom: 1.5rem; 
+            gap: 5px; 
+            flex-shrink: 0; 
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch; /* Smooth Horizontal */
+            scrollbar-width: none; 
+            /* Sticky Tabs under Header */
+            position: sticky;
+            top: 60px; /* Offset for Header */
+            z-index: 19;
+        }
+        .calc-tabs::-webkit-scrollbar { display: none; }
+        
         .tab-btn { flex: 1; padding: 10px 5px; border: none; background: none; white-space: nowrap; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); min-width: 60px; border-radius: 8px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .tab-btn i { font-size: 1rem; }
         .tab-btn.active { background: white; color: var(--secondary-color); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -205,8 +254,26 @@
         .info-table th, .info-table td { padding: 8px; border: 1px solid #e2e8f0; text-align: left; }
         .info-table th { background: #f7fafc; color: var(--text-dark); }
         .info-formula { background: #2d3748; color: #a0aec0; padding: 10px; border-radius: 8px; margin-top: 10px; font-family: monospace; font-size: 0.75rem; }
-        .inner-modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 10; padding: 2rem; transform: translateX(100%); transition: transform 0.3s ease; overflow-y: auto; display: flex; flex-direction: column; }
+        
+        /* Inner Modal Scroll Fix */
+        .inner-modal { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background: white; z-index: 30; padding: 2rem; 
+            transform: translateX(100%); transition: transform 0.3s ease; 
+            overflow-y: auto; 
+            -webkit-overflow-scrolling: touch; /* Smooth Scroll */
+            display: flex; flex-direction: column; 
+        }
         .inner-modal.show { transform: translateX(0); }
+        
+        /* New Finance Visuals */
+        .progress-stack { width: 100%; height: 10px; background: #edf2f7; border-radius: 5px; overflow: hidden; display: flex; margin-top: 10px; }
+        .progress-bar { height: 100%; transition: width 0.5s ease; }
+        .p-principal { background: #667eea; }
+        .p-interest { background: #38b2ac; }
+        .chart-legend { display: flex; justify-content: center; gap: 15px; margin-top: 8px; font-size: 0.75rem; color: #718096; }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
 
         /* =========================================
            UPDATED: NEW COMPACT/DIFFERENT UI FOR CURRENCY
@@ -374,9 +441,7 @@
         @media (max-width: 600px) {
             .modal-card { width: 100%; height: 100%; max-height: 100vh; border-radius: 0; padding: 1.5rem; transform: translateY(20px); }
             .modal-overlay.active .modal-card { transform: translateY(0); }
-            .modal-header { position: sticky; top: 0; background: white; z-index: 10; padding-bottom: 10px; border-bottom: 1px solid #f0f0f0; margin-bottom: 1rem; }
-            .calc-tabs { position: sticky; top: 60px; z-index: 9; }
-            .tab-btn span { display: none; } .tab-btn i { font-size: 1.2rem; margin: 0; }
+            /* Sticky logic is handled in base class now for better scroll */
             .input-row { gap: 0.8rem; }
             .calc-input { font-size: 16px; padding: 12px; }
             
@@ -384,6 +449,9 @@
             .gold-kh-label { font-size: 1rem; }
             .gold-price-val { font-size: 1.35rem; }
             .gold-main-title { font-size: 1.2rem; }
+            
+            /* Adjust calc-tabs offset for mobile modal */
+            .calc-tabs { top: 60px; }
         }
     </style>
 </head>
@@ -440,7 +508,7 @@
             <div class="card" id="financeBtn">
                 <div class="icon-circle"><i class="fa-solid fa-coins"></i></div>
                 <h3>Finance</h3>
-                <p>Tax, VAT, and Interest calculators (USD/KHR).</p>
+                <p>Loans (EMI), Investment, Tax, and VAT tools.</p>
                 <div class="card-btn">Access</div>
             </div>
 
@@ -651,12 +719,12 @@
         </div>
     </div>
 
-    <!-- FINANCE CALCULATOR MODAL -->
+    <!-- FINANCE CALCULATOR MODAL (SCROLL & UI IMPROVED) -->
     <div class="modal-overlay" id="finModal">
-        <div class="modal-card" style="position: relative; overflow: hidden;">
+        <div class="modal-card" style="position: relative;">
             <div class="modal-header">
                 <div class="modal-title">
-                    <i class="fa-solid fa-coins"></i> Finance
+                    <i class="fa-solid fa-coins"></i> Finance Pro
                 </div>
                 <div class="header-actions">
                     <div class="currency-switch" id="currencyToggle" data-currency="USD" onclick="toggleCurrency()">
@@ -671,11 +739,11 @@
             </div>
 
             <div class="calc-tabs">
-                <button class="tab-btn active" onclick="switchTab('finModal', 'tab-simple')">
-                    <i class="fa-solid fa-percent"></i><span>Simple Int</span>
+                <button class="tab-btn active" onclick="switchTab('finModal', 'tab-loan')">
+                    <i class="fa-solid fa-hand-holding-dollar"></i><span>Loan/EMI</span>
                 </button>
-                <button class="tab-btn" onclick="switchTab('finModal', 'tab-comp')">
-                    <i class="fa-solid fa-layer-group"></i><span>Comp Int</span>
+                <button class="tab-btn" onclick="switchTab('finModal', 'tab-invest')">
+                    <i class="fa-solid fa-chart-line"></i><span>Invest</span>
                 </button>
                 <button class="tab-btn" onclick="switchTab('finModal', 'tab-saltax')">
                     <i class="fa-solid fa-money-check-dollar"></i><span>Sal. Tax</span>
@@ -685,77 +753,83 @@
                 </button>
             </div>
 
-            <!-- Tab: Simple Interest -->
-            <div id="tab-simple" class="tab-content active">
+            <!-- Tab: Loan Calculator (New) -->
+            <div id="tab-loan" class="tab-content active">
                 <div class="input-group">
-                    <label class="input-label">Principal <span class="curr-symbol">($)</span></label>
-                    <input type="number" class="calc-input fin-money" id="si-principle" placeholder="0">
+                    <label class="input-label">Loan Amount <span class="curr-symbol">($)</span></label>
+                    <input type="number" class="calc-input fin-money" id="ln-amount" placeholder="0">
                 </div>
                 <div class="input-row">
                     <div class="input-group">
-                        <label class="input-label">Rate (%/Yr)</label>
-                        <input type="number" class="calc-input" id="si-rate" placeholder="5">
+                        <label class="input-label">Interest Rate (%/Yr)</label>
+                        <input type="number" class="calc-input" id="ln-rate" placeholder="12">
                     </div>
                     <div class="input-group">
-                        <label class="input-label">Time (Years)</label>
-                        <input type="number" class="calc-input" id="si-time" placeholder="1">
+                        <label class="input-label">Tenure (Years)</label>
+                        <input type="number" class="calc-input" id="ln-years" placeholder="1">
                     </div>
                 </div>
                 <div class="result-box finance-top">
                     <div class="res-primary-row">
-                        <div class="lbl-small">Total Amount</div>
-                        <div class="big-price text-finance" id="si-total"><span class="curr-symbol">$</span>0.00</div>
+                        <div class="lbl-small">Monthly Payment (EMI)</div>
+                        <div class="big-price text-exchange" id="ln-emi"><span class="curr-symbol">$</span>0.00</div>
                     </div>
-                    <div class="stats-row">
+                    <div class="progress-stack" id="ln-bar">
+                        <div class="progress-bar p-principal" style="width: 50%"></div>
+                        <div class="progress-bar p-interest" style="width: 50%"></div>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item"><div class="dot p-principal"></div> Principal</div>
+                        <div class="legend-item"><div class="dot p-interest"></div> Interest</div>
+                    </div>
+                    <div class="stats-row" style="margin-top: 15px;">
                         <div class="stat-item">
-                            <div class="lbl-small">Interest Earned</div>
-                            <div class="stat-val text-profit" id="si-interest"><span class="curr-symbol">$</span>0.00</div>
+                            <div class="lbl-small">Total Interest</div>
+                            <div class="stat-val text-loss" id="ln-interest"><span class="curr-symbol">$</span>0.00</div>
                         </div>
                         <div class="stat-item">
-                            <div class="lbl-small">Principal</div>
-                            <div class="stat-val" id="si-base"><span class="curr-symbol">$</span>0.00</div>
+                            <div class="lbl-small">Total Payable</div>
+                            <div class="stat-val" id="ln-total"><span class="curr-symbol">$</span>0.00</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Tab: Compound Interest -->
-            <div id="tab-comp" class="tab-content">
-                <div class="input-group">
-                    <label class="input-label">Principal <span class="curr-symbol">($)</span></label>
-                    <input type="number" class="calc-input fin-money" id="ci-principle" placeholder="0">
+            <!-- Tab: Investment (Compound) -->
+            <div id="tab-invest" class="tab-content">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label class="input-label">Initial Deposit <span class="curr-symbol">($)</span></label>
+                        <input type="number" class="calc-input fin-money" id="inv-start" placeholder="0">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Monthly Contrib. <span class="curr-symbol">($)</span></label>
+                        <input type="number" class="calc-input fin-money" id="inv-month" placeholder="0">
+                    </div>
                 </div>
                 <div class="input-row">
                     <div class="input-group">
-                        <label class="input-label">Rate (%)</label>
-                        <input type="number" class="calc-input" id="ci-rate" placeholder="5">
+                        <label class="input-label">Return Rate (%)</label>
+                        <input type="number" class="calc-input" id="inv-rate" placeholder="8">
                     </div>
                     <div class="input-group">
                         <label class="input-label">Time (Years)</label>
-                        <input type="number" class="calc-input" id="ci-time" placeholder="5">
+                        <input type="number" class="calc-input" id="inv-time" placeholder="10">
                     </div>
-                </div>
-                <div class="input-group">
-                    <label class="input-label">Frequency</label>
-                    <select class="calc-select" id="ci-freq">
-                        <option value="12">Monthly (n=12)</option>
-                        <option value="4">Quarterly (n=4)</option>
-                        <option value="1">Annually (n=1)</option>
-                    </select>
                 </div>
                 <div class="result-box finance-top">
                     <div class="res-primary-row">
-                        <div class="lbl-small">Total Amount</div>
-                        <div class="big-price text-finance" id="ci-total"><span class="curr-symbol">$</span>0.00</div>
+                        <div class="lbl-small">Future Value</div>
+                        <div class="big-price text-profit" id="inv-total"><span class="curr-symbol">$</span>0.00</div>
                     </div>
                     <div class="stats-row">
                         <div class="stat-item">
-                            <div class="lbl-small">Total Interest</div>
-                            <div class="stat-val text-profit" id="ci-interest"><span class="curr-symbol">$</span>0.00</div>
+                            <div class="lbl-small">Total Invested</div>
+                            <div class="stat-val" id="inv-base"><span class="curr-symbol">$</span>0.00</div>
                         </div>
                         <div class="stat-item">
-                            <div class="lbl-small">Principal</div>
-                            <div class="stat-val" id="ci-base"><span class="curr-symbol">$</span>0.00</div>
+                            <div class="lbl-small">Profit Earned</div>
+                            <div class="stat-val text-profit" id="inv-profit"><span class="curr-symbol">$</span>0.00</div>
                         </div>
                     </div>
                 </div>
@@ -851,16 +925,12 @@
 
                 <h4 style="margin-top:20px;">Formulas</h4>
                 <div class="info-formula">
-                    <strong>Simple Interest:</strong><br>
-                    Total = P + (P × R/100 × T)
+                    <strong>EMI (Loan):</strong><br>
+                    E = P × r × (1 + r)^n / ((1 + r)^n - 1)
                 </div>
                 <div class="info-formula">
-                    <strong>Compound Interest:</strong><br>
-                    Total = P × (1 + (R/100)/n)^(n×T)
-                </div>
-                <div class="info-formula">
-                    <strong>VAT:</strong> Amt × 0.10<br>
-                    <strong>Prop. Tax:</strong> Val × 0.04
+                    <strong>Investment (FV):</strong><br>
+                    FV = P(1+r)^t + PMT × ((1+r)^t - 1)/r
                 </div>
                 <div class="info-formula">
                     <strong>Exchange Rate:</strong> 1 USD = 4,000 KHR
@@ -1174,7 +1244,7 @@
         if(closeCalcBtn) closeCalcBtn.addEventListener('click', () => calcModal.classList.remove('active'));
 
         /* =========================================
-           FINANCE CALCULATOR LOGIC
+           FINANCE CALCULATOR LOGIC (IMPROVED)
            ========================================= */
         const finModal = document.getElementById('finModal');
         const openFinBtn = document.getElementById('financeBtn');
@@ -1443,8 +1513,8 @@
             });
 
             // Re-trigger Calculations
-            calculateSimpleInterest();
-            calculateCompInterest();
+            calculateLoan();
+            calculateInvestment();
             calculateSalaryTax();
             calculateVATProp();
         }
@@ -1455,7 +1525,12 @@
 
         function resetFinCalcs() {
             finModal.querySelectorAll('.calc-input').forEach(i => i.value = '');
-            document.getElementById('ci-freq').value = '12';
+            // Reset Progress Bar
+            const bar = document.getElementById('ln-bar');
+            if(bar) {
+                bar.querySelector('.p-principal').style.width = '50%';
+                bar.querySelector('.p-interest').style.width = '50%';
+            }
             document.querySelectorAll('.big-price, .stat-val').forEach(el => {
                // keep currency symbol, reset num
                let sym = currentCurrency === 'USD' ? '$' : '៛';
@@ -1469,40 +1544,76 @@
             return `<span class="curr-symbol">${sym}</span>${val}`;
         }
 
-        // --- 1. Simple Interest ---
-        const siPrinc = document.getElementById('si-principle'), siRate = document.getElementById('si-rate'), siTime = document.getElementById('si-time');
-        [siPrinc, siRate, siTime].forEach(e => e.addEventListener('input', calculateSimpleInterest));
+        // --- 1. LOAN CALCULATOR (EMI) ---
+        const lnAmount = document.getElementById('ln-amount'), lnRate = document.getElementById('ln-rate'), lnYears = document.getElementById('ln-years');
+        [lnAmount, lnRate, lnYears].forEach(e => e.addEventListener('input', calculateLoan));
 
-        function calculateSimpleInterest() {
-            let p = parseFloat(siPrinc.value) || 0;
-            let r = parseFloat(siRate.value) || 0;
-            let t = parseFloat(siTime.value) || 0;
-            
-            let interest = p * (r/100) * t;
-            let total = p + interest;
+        function calculateLoan() {
+            let p = parseFloat(lnAmount.value) || 0;
+            let r = parseFloat(lnRate.value) || 0;
+            let n = parseFloat(lnYears.value) || 0;
 
-            document.getElementById('si-total').innerHTML = formatMoney(total);
-            document.getElementById('si-interest').innerHTML = formatMoney(interest);
-            document.getElementById('si-base').innerHTML = formatMoney(p);
+            if (p > 0 && r > 0 && n > 0) {
+                let monthlyRate = r / 1200;
+                let months = n * 12;
+                
+                // EMI Formula: [P x R x (1+R)^N]/[(1+R)^N-1]
+                let emi = (p * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
+                
+                let totalPay = emi * months;
+                let totalInterest = totalPay - p;
+
+                document.getElementById('ln-emi').innerHTML = formatMoney(emi);
+                document.getElementById('ln-total').innerHTML = formatMoney(totalPay);
+                document.getElementById('ln-interest').innerHTML = formatMoney(totalInterest);
+
+                // Visual Bar Update
+                let pPercent = (p / totalPay) * 100;
+                let iPercent = 100 - pPercent;
+                const bar = document.getElementById('ln-bar');
+                bar.querySelector('.p-principal').style.width = pPercent + '%';
+                bar.querySelector('.p-interest').style.width = iPercent + '%';
+            } else {
+                 // Reset visuals if incomplete
+                document.getElementById('ln-emi').innerHTML = formatMoney(0);
+                document.getElementById('ln-total').innerHTML = formatMoney(0);
+                document.getElementById('ln-interest').innerHTML = formatMoney(0);
+                const bar = document.getElementById('ln-bar');
+                bar.querySelector('.p-principal').style.width = '50%';
+                bar.querySelector('.p-interest').style.width = '50%';
+            }
         }
 
-        // --- 2. Compound Interest ---
-        const ciPrinc = document.getElementById('ci-principle'), ciRate = document.getElementById('ci-rate'), ciTime = document.getElementById('ci-time'), ciFreq = document.getElementById('ci-freq');
-        [ciPrinc, ciRate, ciTime, ciFreq].forEach(e => e.addEventListener('input', calculateCompInterest));
+        // --- 2. INVESTMENT CALCULATOR (Growth) ---
+        const invStart = document.getElementById('inv-start'), invMonth = document.getElementById('inv-month'), invRate = document.getElementById('inv-rate'), invTime = document.getElementById('inv-time');
+        [invStart, invMonth, invRate, invTime].forEach(e => e.addEventListener('input', calculateInvestment));
 
-        function calculateCompInterest() {
-            let p = parseFloat(ciPrinc.value) || 0;
-            let r = parseFloat(ciRate.value) || 0;
-            let t = parseFloat(ciTime.value) || 0;
-            let n = parseInt(ciFreq.value);
+        function calculateInvestment() {
+            let p = parseFloat(invStart.value) || 0;
+            let pmt = parseFloat(invMonth.value) || 0;
+            let r = parseFloat(invRate.value) || 0;
+            let t = parseFloat(invTime.value) || 0;
 
-            // A = P(1 + r/n)^(nt)
-            let total = p * Math.pow((1 + (r/100)/n), (n*t));
-            let interest = total - p;
+            // Future Value of Lump Sum + Future Value of Series
+            // Rate is annual, compounded monthly
+            let monthlyRate = r / 1200;
+            let months = t * 12;
 
-            document.getElementById('ci-total').innerHTML = formatMoney(total);
-            document.getElementById('ci-interest').innerHTML = formatMoney(interest);
-            document.getElementById('ci-base').innerHTML = formatMoney(p);
+            let fvLumpSum = p * Math.pow(1 + monthlyRate, months);
+            let fvSeries = 0;
+            if(monthlyRate > 0) {
+                 fvSeries = pmt * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+            } else {
+                 fvSeries = pmt * months;
+            }
+
+            let totalFV = fvLumpSum + fvSeries;
+            let totalInvested = p + (pmt * months);
+            let profit = totalFV - totalInvested;
+
+            document.getElementById('inv-total').innerHTML = formatMoney(totalFV);
+            document.getElementById('inv-base').innerHTML = formatMoney(totalInvested);
+            document.getElementById('inv-profit').innerHTML = formatMoney(profit);
         }
 
         // --- 3. Salary Tax (Cambodia) ---
