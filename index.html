@@ -1218,7 +1218,8 @@
                         <div id="dropZone" class="ocr-dropzone">
                             <input type="file" id="fileInput" class="hidden" accept="image/*,application/pdf,.docx">
                             <div class="ocr-drop-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-                            <h4 style="color:var(--text-dark); margin-bottom:5px;">Drop file to extract</h4>
+                            <!-- UPDATED TEXT HERE -->
+                            <h4 style="color:var(--text-dark); margin-bottom:5px;">Drop file or Paste image (Ctrl+V)</h4>
                             <p style="font-size:0.8rem; color:var(--text-muted);">JPG, PNG, PDF, DOCX</p>
                         </div>
                         
@@ -1652,6 +1653,27 @@
 
         // File Input
         ocrEls.fileInput.addEventListener('change', (e) => { if (e.target.files.length) handleFile(e.target.files[0]); });
+        
+        // PASTE EVENT LISTENER (NEW)
+        document.addEventListener('paste', (e) => {
+            if (!ocrModal.classList.contains('active')) return;
+            
+            const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+            let file = null;
+
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].kind === 'file') {
+                    file = items[i].getAsFile();
+                    break;
+                }
+            }
+
+            if (file) {
+                handleFile(file);
+                showToast('Image pasted from clipboard', 'success');
+                e.preventDefault(); 
+            }
+        });
 
         // Remove Button
         ocrEls.removeFileBtn.addEventListener('click', resetUI);
@@ -1670,7 +1692,7 @@
             
             resetUI();
             currentFile = file;
-            ocrEls.fileName.textContent = file.name || "File";
+            ocrEls.fileName.textContent = file.name || "Pasted_Image_" + new Date().getTime();
             
             ocrEls.dropZone.style.display = 'none';
             ocrEls.previewContainer.style.display = 'flex';
