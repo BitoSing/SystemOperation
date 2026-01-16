@@ -13,6 +13,14 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- OCR LIBRARIES -->
+    <!-- Tesseract.js (OCR) v5 -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- Mammoth.js (Word Docs) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+
     <style>
         /* --- CSS VARIABLES & RESET --- */
         :root {
@@ -21,12 +29,7 @@
             --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --finance-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
             --exchange-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            
-            /* Gold Palette (Khmer Jewelry Shop Theme) */
-            --gold-bg-gradient: linear-gradient(135deg, #fffdf5 0%, #fff 100%);
-            --gold-border: #D4AF37; 
-            --gold-red: #A01010;
-            --gold-text: #B8860B;
+            --ocr-gradient: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
             
             --secondary-color: #667eea;
             --bg-color: #f8faff;
@@ -68,6 +71,7 @@
         .text-primary { color: #4facfe !important; }
         .text-finance { color: #38b2ac !important; }
         .text-exchange { color: #f5576c !important; }
+        .hidden { display: none !important; }
 
         @keyframes popIn {
             0% { transform: scale(0.95); opacity: 0.7; }
@@ -135,6 +139,7 @@
         .card:hover .icon-circle { background: var(--accent-gradient); color: white; transform: scale(1.1); }
         .card[id="financeBtn"]:hover .icon-circle { background: var(--finance-gradient); }
         .card[id="exchangeBtn"]:hover .icon-circle { background: var(--exchange-gradient); }
+        .card[id="ocrBtn"]:hover .icon-circle { background: var(--ocr-gradient); }
         .card h3 { font-size: 1.1rem; margin-bottom: 0.8rem; color: var(--text-dark); }
         .card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5; flex-grow: 1; }
         .card-btn { font-size: 0.8rem; font-weight: 600; color: var(--secondary-color); padding: 8px 20px; border-radius: 20px; background: #f0f4ff; transition: var(--transition); }
@@ -246,6 +251,9 @@
             flex-direction: column; 
         }
         
+        /* Specific adjustments for OCR Modal to be wider */
+        #ocrModal .modal-card { max-width: 1000px; height: 90vh; padding: 0; overflow: hidden; }
+
         .modal-overlay.active .modal-card { transform: scale(1); }
         
         .modal-header { 
@@ -436,107 +444,93 @@
         }
         .exchange-input::placeholder { color: #e2e8f0; }
 
-
-        /* --- GOLD TAB: CAMBODIAN JEWELRY SHOP STYLE --- */
-        .gold-container { padding: 5px 0; }
-        
-        .gold-main-title {
-            font-family: 'Koh Santepheap', serif;
-            font-size: 1.4rem; font-weight: 700;
-            color: var(--gold-text);
-            text-align: center; margin-bottom: 4px;
-            text-shadow: 0 1px 1px rgba(0,0,0,0.05);
-        }
-        .gold-date-sub {
-            text-align: center; color: #718096; font-size: 0.85rem;
-            margin-bottom: 24px; font-weight: 500;
-        }
-
-        .gold-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-        }
-
-        /* Jewelry Shop Card */
-        .gold-card {
-            background: var(--gold-bg-gradient);
-            border-radius: 12px;
-            box-shadow: 0 8px 16px -4px rgba(0,0,0,0.08);
-            overflow: hidden;
-            border: 2px solid #E5E7EB;
-            position: relative;
-            transition: all 0.3s ease;
-            display: flex; flex-direction: column;
+        /* --- OMNITEXT OCR PRO STYLES (INTEGRATED) --- */
+        .ocr-layout {
+            display: flex; flex-direction: column; height: 100%;
+            background: #f8fafc; overflow: hidden;
         }
         
-        /* Red/Gold Accents */
-        .gold-card::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-            height: 4px; background: var(--gold-red);
+        /* OCR Header */
+        .ocr-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            background: #ffffff;
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 10px;
+            flex-shrink: 0;
         }
+        .ocr-brand { display: flex; align-items: center; gap: 10px; }
+        .ocr-logo-box { width: 35px; height: 35px; background: #eef2ff; border-radius: 8px; color: var(--secondary-color); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+        .ocr-controls { display: flex; gap: 10px; align-items: center; }
+        .ocr-select { padding: 6px 10px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 0.85rem; color: var(--text-dark); background: white; outline: none; }
+        .ocr-check-wrap { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; }
         
-        .gold-card:hover { transform: translateY(-4px); border-color: var(--gold-border); box-shadow: 0 15px 25px -5px rgba(184, 134, 11, 0.15); }
+        /* OCR Body Split */
+        .ocr-main { display: flex; flex: 1; overflow: hidden; position: relative; }
+        .ocr-col-left { width: 50%; background: #f1f5f9; border-right: 1px solid #e2e8f0; position: relative; display: flex; flex-direction: column; }
+        .ocr-col-right { width: 50%; background: #ffffff; display: flex; flex-direction: column; }
+        
+        /* Dropzone */
+        .ocr-dropzone { 
+            position: absolute; inset: 0; display: flex; flex-direction: column; 
+            align-items: center; justify-content: center; cursor: pointer; 
+            transition: 0.3s; z-index: 10;
+        }
+        .ocr-dropzone:hover, .ocr-dropzone.drag-active { background: rgba(102, 126, 234, 0.1); }
+        .ocr-drop-icon { width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--secondary-color); margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
 
-        .gold-card-header {
-            padding: 12px 0 8px;
-            text-align: center;
-            background: transparent;
-            border-bottom: 1px dashed #e2e8f0;
+        /* Preview Area */
+        .ocr-preview-container {
+            display: none; flex: 1; flex-direction: column; height: 100%;
         }
-        .gold-kh-label {
-            font-family: 'Koh Santepheap', serif;
-            font-weight: 700; font-size: 1.15rem;
-            color: var(--text-dark);
+        .ocr-file-bar {
+            padding: 8px 12px; background: #e2e8f0; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #4a5568;
         }
+        .ocr-preview-scroll {
+            flex: 1; overflow: auto; padding: 20px; display: flex; align-items: flex-start; justify-content: center;
+        }
+        .ocr-img-preview { max-width: 100%; border: 1px solid #cbd5e0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        /* Result Area */
+        .ocr-toolbar {
+            padding: 8px 15px; border-bottom: 1px solid #f1f5f9; background: #fafafa;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .ocr-label { font-size: 0.75rem; font-weight: 700; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.5px; }
+        .ocr-actions button { background: white; border: 1px solid #e2e8f0; padding: 4px 8px; border-radius: 4px; color: #718096; cursor: pointer; transition: 0.2s; font-size: 0.8rem; }
+        .ocr-actions button:hover { border-color: var(--secondary-color); color: var(--secondary-color); }
+        
+        .ocr-textarea {
+            flex: 1; width: 100%; border: none; padding: 20px; resize: none; outline: none;
+            font-family: 'Poppins', monospace; font-size: 0.9rem; color: var(--text-dark); background: transparent; line-height: 1.6;
+        }
+        .ocr-textarea:focus { background: #fffcf5; }
 
-        .gold-card-body {
-            background: transparent;
-            color: var(--gold-red); 
-            padding: 18px 10px;
-            text-align: center;
-            display: flex; align-items: center; justify-content: center;
+        /* Progress Footer */
+        .ocr-footer {
+            background: #1a202c; color: white; padding: 10px 20px;
+            display: none; align-items: center; gap: 15px;
         }
+        .ocr-loader { width: 16px; height: 16px; border: 2px solid #667eea; border-top-color: transparent; border-radius: 50%; animation: spinner 1s linear infinite; }
+        @keyframes spinner { to { transform: rotate(360deg); } }
+        .ocr-progress-wrap { flex: 1; }
+        .ocr-status-text { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 4px; color: #a0aec0; }
+        .ocr-bar-bg { width: 100%; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; overflow: hidden; }
+        .ocr-bar-fill { height: 100%; background: var(--secondary-color); width: 0%; transition: width 0.3s; }
 
-        .gold-price-val {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.6rem; font-weight: 700;
-            letter-spacing: 0.5px;
+        /* Toast */
+        .ocr-toast {
+            position: absolute; bottom: 20px; right: 20px; background: #2d3748; color: white;
+            padding: 10px 15px; border-radius: 8px; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.2); transform: translateY(50px); opacity: 0; transition: 0.3s; z-index: 100;
         }
+        .ocr-toast.show { transform: translateY(0); opacity: 1; }
 
-        .gold-note {
-            margin-top: 20px; font-size: 0.7rem; color: #a0aec0; 
-            text-align: center; background: #f8fafc; padding: 10px; 
-            border-radius: 8px; border: 1px dashed #e2e8f0;
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .ocr-main { flex-direction: column; }
+            .ocr-col-left, .ocr-col-right { width: 100%; height: 50%; }
         }
-
-        /* --- ABOUT ME MODAL STYLES --- */
-        .profile-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .profile-avatar {
-            width: 100px; height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid white;
-            box-shadow: var(--shadow-hover);
-            margin-bottom: 10px;
-        }
-        .profile-name { font-size: 1.5rem; font-weight: 700; color: var(--text-dark); margin-bottom: 2px; }
-        .profile-role { color: var(--secondary-color); font-weight: 500; font-size: 0.9rem; }
-        .about-text { font-size: 0.95rem; color: #4a5568; line-height: 1.7; margin-bottom: 20px; text-align: center; }
-        .skills-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 25px; }
-        .skill-tag { 
-            background: #eef2ff; color: var(--secondary-color); 
-            padding: 6px 14px; border-radius: 20px; 
-            font-size: 0.8rem; font-weight: 600; 
-        }
-        .contact-btn {
-            display: block; width: 100%; text-align: center;
-            background: var(--secondary-color); color: white;
-            padding: 12px; border-radius: 12px; font-weight: 600;
-            transition: 0.3s;
-        }
-        .contact-btn:hover { background: #5a67d8; transform: translateY(-2px); }
 
         /* --- MOBILE TWEAKS --- */
         @media (max-width: 600px) {
@@ -545,11 +539,6 @@
             /* Sticky logic is handled in base class now for better scroll */
             .input-row { gap: 0.8rem; }
             .calc-input { font-size: 16px; padding: 12px; }
-            
-            /* Gold Mobile */
-            .gold-kh-label { font-size: 1rem; }
-            .gold-price-val { font-size: 1.35rem; }
-            .gold-main-title { font-size: 1.2rem; }
             
             /* Adjust calc-tabs offset for mobile modal */
             .calc-tabs { top: 60px; }
@@ -583,11 +572,9 @@
                         <li class="dropdown-item"><a href="#" onclick="openBizCalc(event)"><i class="fa-solid fa-calculator"></i> Biz Calc</a></li>
                         <li class="dropdown-item"><a href="#" onclick="openFinCalc(event)"><i class="fa-solid fa-coins"></i> Finance</a></li>
                         <li class="dropdown-item"><a href="#" onclick="openExchange(event)"><i class="fa-solid fa-money-bill-transfer"></i> Exchange Rate</a></li>
+                        <li class="dropdown-item"><a href="#" onclick="openOcr(event)"><i class="fa-solid fa-file-waveform"></i> OCR Extraction</a></li>
                         <li class="dropdown-item"><a href="#"><i class="fa-solid fa-envelope-open-text"></i> Email Hub</a></li>
                     </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link" onclick="openAbout(event)">About Me</a>
                 </li>
             </ul>
         </nav>
@@ -619,54 +606,18 @@
             <div class="card" id="exchangeBtn">
                 <div class="icon-circle"><i class="fa-solid fa-money-bill-transfer"></i></div>
                 <h3>Exchange Rate</h3>
-                <p>Real-Time XE Market Rate & Cambodia Gold Price.</p>
+                <p>Real-Time XE Market Rate.</p>
                 <div class="card-btn">Access</div>
             </div>
 
-            <div class="card">
-                <div class="icon-circle"><i class="fa-solid fa-envelope-open-text"></i></div>
-                <h3>Email Hub</h3>
-                <p>Templates for professional clients.</p>
+            <div class="card" id="ocrBtn">
+                <div class="icon-circle"><i class="fa-solid fa-file-waveform"></i></div>
+                <h3>OCR Extraction</h3>
+                <p>Extract text from images instantly.</p>
                 <div class="card-btn">Access</div>
             </div>
         </div>
     </section>
-
-    <!-- ABOUT ME MODAL -->
-    <div class="modal-overlay" id="aboutModal">
-        <div class="modal-card">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <i class="fa-solid fa-user"></i> Profile
-                </div>
-                <div class="header-actions">
-                    <button class="close-modal" id="closeAbout"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-            </div>
-            
-            <div class="profile-header">
-                <img src="https://ui-avatars.com/api/?name=Admin+User&background=667eea&color=fff&size=200" alt="Profile" class="profile-avatar">
-                <h2 class="profile-name">System Admin</h2>
-                <div class="profile-role">Full Stack Developer & Analyst</div>
-            </div>
-
-            <p class="about-text">
-                Passionate about building efficient digital tools that streamline business operations. With a background in financial systems and web development, I create solutions that turn complex data into actionable insights.
-            </p>
-
-            <div class="skills-grid">
-                <span class="skill-tag">Web Development</span>
-                <span class="skill-tag">Financial Analysis</span>
-                <span class="skill-tag">System Design</span>
-                <span class="skill-tag">UI/UX</span>
-                <span class="skill-tag">Automation</span>
-            </div>
-
-            <a href="mailto:admin@sysmaster.com" class="contact-btn">
-                Get in Touch
-            </a>
-        </div>
-    </div>
 
     <!-- BIZ CALCULATOR MODAL -->
     <div class="modal-overlay" id="calcModal">
@@ -1079,7 +1030,7 @@
         </div>
     </div>
 
-    <!-- EXCHANGE RATE MODAL -->
+    <!-- EXCHANGE RATE MODAL (GOLD REMOVED) -->
     <div class="modal-overlay" id="exchangeModal">
         <div class="modal-card">
             <div class="modal-header">
@@ -1092,23 +1043,13 @@
                 </div>
             </div>
 
-            <!-- TABS -->
-            <div class="calc-tabs">
-                <button class="tab-btn active" onclick="switchTab('exchangeModal', 'tab-currency')">
-                    <i class="fa-solid fa-money-bill-1-wave"></i><span>Currency</span>
-                </button>
-                <button class="tab-btn" onclick="switchTab('exchangeModal', 'tab-gold')">
-                    <i class="fa-solid fa-scale-balanced"></i><span>Gold Price</span>
-                </button>
-            </div>
-
             <!-- Last Updated Badge -->
             <div class="exchange-status-bar" id="exchange-status">
                 <div class="status-dot"></div> <span id="exchange-msg">Connecting to Live Market...</span>
             </div>
             
             <!-- CURRENCY TAB: UPDATED COMPACT GRID UI -->
-            <div id="tab-currency" class="tab-content active">
+            <div id="tab-currency" class="tab-content active" style="display:block;">
                 <div class="exchange-grid">
                     
                     <!-- USD -->
@@ -1232,62 +1173,108 @@
 
                 </div>
             </div>
+        </div>
+    </div>
 
-            <!-- GOLD TAB: POLISHED -->
-            <div id="tab-gold" class="tab-content">
-                <div class="gold-container">
-                    <div class="gold-main-title">តំលៃមាសអន្តរជាតិ</div>
-                    <div class="gold-date-sub kh-font" id="gold-last-update">Updating...</div>
-
-                    <div class="gold-grid">
-                        <!-- 1 Chi -->
-                        <div class="gold-card">
-                            <div class="gold-card-header">
-                                <span class="gold-kh-label">មួយជី</span>
-                            </div>
-                            <div class="gold-card-body">
-                                <span class="gold-price-val" id="price-chi">$0</span>
-                            </div>
-                        </div>
-
-                        <!-- 1 Damlung -->
-                        <div class="gold-card">
-                            <div class="gold-card-header">
-                                <span class="gold-kh-label">មួយតម្លឹង</span>
-                            </div>
-                            <div class="gold-card-body">
-                                <span class="gold-price-val" id="price-damlung">$0</span>
-                            </div>
-                        </div>
-
-                         <!-- 1 Ounce (Troy) -->
-                         <div class="gold-card">
-                            <div class="gold-card-header">
-                                <span class="gold-kh-label">មួយអោន</span>
-                            </div>
-                            <div class="gold-card-body">
-                                <span class="gold-price-val" id="price-ounce">$0</span>
-                            </div>
-                        </div>
-
-                        <!-- 1 KG -->
-                        <div class="gold-card">
-                            <div class="gold-card-header">
-                                <span class="gold-kh-label">មួយគីឡូ</span>
-                            </div>
-                            <div class="gold-card-body">
-                                <span class="gold-price-val" id="price-kg">$0</span>
-                            </div>
+    <!-- OMNITEXT OCR PRO MODAL -->
+    <div class="modal-overlay" id="ocrModal">
+        <div class="modal-card">
+            <!-- OCR Layout: Full Height -->
+            <div class="ocr-layout">
+                <!-- Header -->
+                <header class="ocr-header">
+                    <div class="ocr-brand">
+                        <div class="ocr-logo-box"><i class="fa-solid fa-eye"></i></div>
+                        <div>
+                            <h3 style="font-size:1rem; font-weight:700; color:var(--text-dark); margin:0;">OmniText <span style="color:var(--secondary-color);">Pro</span></h3>
+                            <span style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px;">High Accuracy Engine</span>
                         </div>
                     </div>
-                    
-                    <div class="gold-note">
-                        * Based on Real-Time Spot Price + Import Premium.<br>
-                        Retail prices (Ly Hour/Heng Heng) may vary slightly.
+                    <div class="ocr-controls">
+                        <select id="languageSelect" class="ocr-select">
+                            <option value="khm">Khmer (Cambodia)</option>
+                            <option value="chi_sim">Chinese (Simp)</option>
+                            <option value="chi_tra">Chinese (Trad)</option>
+                            <option value="jpn">Japanese</option>
+                            <option value="eng">English</option>
+                            <option value="kor">Korean</option>
+                            <option value="tha">Thai</option>
+                            <option value="vie">Vietnamese</option>
+                            <option value="fra">French</option>
+                            <option value="deu">German</option>
+                        </select>
+                        <div class="ocr-check-wrap">
+                            <input type="checkbox" id="preprocessCheck" checked style="accent-color:var(--secondary-color);">
+                            <label for="preprocessCheck" title="Enhances contrast">Enhance</label>
+                        </div>
+                        <button class="close-modal" id="closeOcr" style="margin-left:10px;"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </header>
+
+                <!-- Main Body -->
+                <div class="ocr-main">
+                    <!-- Left Column: Input / Preview -->
+                    <div class="ocr-col-left">
+                        <div id="dropZone" class="ocr-dropzone">
+                            <input type="file" id="fileInput" class="hidden" accept="image/*,application/pdf,.docx">
+                            <div class="ocr-drop-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                            <h4 style="color:var(--text-dark); margin-bottom:5px;">Drop file to extract</h4>
+                            <p style="font-size:0.8rem; color:var(--text-muted);">JPG, PNG, PDF, DOCX</p>
+                        </div>
+                        
+                        <!-- Preview Container (Hidden initially) -->
+                        <div id="previewContainer" class="ocr-preview-container">
+                            <div class="ocr-file-bar">
+                                <span id="fileName" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width:200px;">File Name</span>
+                                <button id="removeFileBtn" style="background:none; border:none; color:#e53e3e; cursor:pointer; font-size:0.8rem;"><i class="fa-solid fa-xmark"></i> Close</button>
+                            </div>
+                            <div class="ocr-preview-scroll">
+                                <img id="imagePreview" class="ocr-img-preview hidden">
+                                <canvas id="pdfPreview" class="ocr-img-preview hidden"></canvas>
+                                <div id="docIconPreview" class="hidden" style="flex-direction:column; align-items:center; margin-top:40px;">
+                                    <i class="fa-solid fa-file-word" style="font-size:3rem; color:#4299e1;"></i>
+                                    <span style="font-size:0.9rem; margin-top:10px; color:#718096;">Word Document</span>
+                                </div>
+                            </div>
+                            <!-- Canvas for processing -->
+                            <canvas id="processingCanvas" class="hidden"></canvas> 
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Output -->
+                    <div class="ocr-col-right">
+                        <div class="ocr-toolbar">
+                            <span class="ocr-label"><i class="fa-solid fa-align-left"></i> Result</span>
+                            <div class="ocr-actions">
+                                <button onclick="copyText()" title="Copy"><i class="fa-regular fa-copy"></i></button>
+                                <button onclick="downloadText()" title="Download"><i class="fa-solid fa-download"></i></button>
+                                <button onclick="clearText()" title="Clear" style="color:#e53e3e; border-color:transparent;"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <textarea id="resultText" class="ocr-textarea" placeholder="Extracted text will appear here..."></textarea>
                     </div>
                 </div>
-            </div>
 
+                <!-- Footer: Progress -->
+                <footer id="progressFooter" class="ocr-footer">
+                    <div class="ocr-loader"></div>
+                    <div class="ocr-progress-wrap">
+                        <div class="ocr-status-text">
+                            <span id="statusMessage">Initializing...</span>
+                            <span id="percentageText">0%</span>
+                        </div>
+                        <div class="ocr-bar-bg">
+                            <div id="progressBar" class="ocr-bar-fill"></div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+            
+            <!-- Toast Notification inside Modal -->
+            <div id="ocrToast" class="ocr-toast">
+                <i id="ocrToastIcon" class="fa-solid fa-circle-info"></i>
+                <span id="ocrToastMessage">Notification</span>
+            </div>
         </div>
     </div>
 
@@ -1307,7 +1294,7 @@
                     <li><a href="#" onclick="openBizCalc(event)"><i class="fa-solid fa-chevron-right"></i> Biz Calculator</a></li>
                     <li><a href="#" onclick="openFinCalc(event)"><i class="fa-solid fa-chevron-right"></i> Finance Pro</a></li>
                     <li><a href="#" onclick="openExchange(event)"><i class="fa-solid fa-chevron-right"></i> Exchange Rate</a></li>
-                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Email Templates</a></li>
+                    <li><a href="#" onclick="openOcr(event)"><i class="fa-solid fa-chevron-right"></i> OCR Extraction</a></li>
                 </ul>
             </div>
             
@@ -1443,20 +1430,6 @@
         if(openFinBtn) openFinBtn.addEventListener('click', openFinCalc);
         if(closeFinBtn) closeFinBtn.addEventListener('click', () => finModal.classList.remove('active'));
 
-        /* =========================================
-           ABOUT ME LOGIC
-           ========================================= */
-        const aboutModal = document.getElementById('aboutModal');
-        const closeAboutBtn = document.getElementById('closeAbout');
-
-        function openAbout(e) {
-            e.preventDefault(); e.stopPropagation();
-            aboutModal.classList.add('active');
-            navLinks.classList.remove('active');
-        }
-
-        if(closeAboutBtn) closeAboutBtn.addEventListener('click', () => aboutModal.classList.remove('active'));
-
 
         /* =========================================
            EXCHANGE RATE LOGIC
@@ -1467,7 +1440,6 @@
         const exchangeInputs = document.querySelectorAll('.exchange-input');
         const exchangeMsg = document.getElementById('exchange-msg');
         const exchangeStatus = document.getElementById('exchange-status');
-        const goldUpdateLabel = document.getElementById('gold-last-update');
         
         let autoRefreshInterval = null;
 
@@ -1479,8 +1451,7 @@
             SGD: 1.3450,
             VND: 24550.00,
             RUB: 92.50,
-            MYR: 4.7550,
-            XAU: 0.000377 // ~ $2650/oz base fallback
+            MYR: 4.7550
         };
 
         function getPrecisionRate(rate) {
@@ -1503,32 +1474,20 @@
                     if(data.rates.RUB) liveRates.RUB = data.rates.RUB;
                     if(data.rates.MYR) liveRates.MYR = data.rates.MYR;
                     
-                    if(data.rates.XAU) {
-                        liveRates.XAU = data.rates.XAU;
-                    } 
-                    
                     const date = new Date();
                     const dateStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
                     
                     exchangeMsg.textContent = `Market Open (${dateStr})`;
                     exchangeStatus.classList.remove('error');
                     
-                    // Gold Date Update
-                    const day = date.getDate().toString().padStart(2, '0');
-                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-                    const year = date.getFullYear();
-                    goldUpdateLabel.textContent = `ថ្ងៃទី ${day} ខែ ${month} ឆ្នាំ ${year}`;
-
                     updateSampleRateText();
                     recalculateOnNewRates();
-                    calculateGoldPrices(); 
                 }
             } catch (error) {
                 console.warn("API Fetch failed, using cached rates.");
                 exchangeMsg.textContent = "Offline Mode: Cached Rates";
                 exchangeStatus.classList.add('error');
                 updateSampleRateText();
-                calculateGoldPrices();
             }
         }
 
@@ -1540,24 +1499,6 @@
                     el.textContent = `1 USD ≈ ${getPrecisionRate(liveRates[code])} ${code}`;
                 }
             });
-        }
-
-        function calculateGoldPrices() {
-            const pricePerOzSpot = 1 / liveRates.XAU;
-            const gramsPerTroyOz = 31.1034768; 
-            const pricePerGramRaw = pricePerOzSpot / gramsPerTroyOz;
-            const retailPremiumMultiplier = 1.015; 
-            const pricePerGram = pricePerGramRaw * retailPremiumMultiplier;
-
-            const priceDamlung = pricePerGram * 37.5;
-            const priceChi = priceDamlung / 10;
-            const priceKg = pricePerGram * 1000;
-            const priceOunce = pricePerOzSpot * retailPremiumMultiplier;
-            
-            document.getElementById('price-chi').textContent = '$' + Math.round(priceChi).toLocaleString();
-            document.getElementById('price-damlung').textContent = '$' + Math.round(priceDamlung).toLocaleString();
-            document.getElementById('price-ounce').textContent = '$' + Math.round(priceOunce).toLocaleString();
-            document.getElementById('price-kg').textContent = '$' + Math.round(priceKg).toLocaleString();
         }
 
         function recalculateOnNewRates() {
@@ -1640,12 +1581,314 @@
         if(openExchangeBtn) openExchangeBtn.addEventListener('click', openExchange);
         if(closeExchangeBtn) closeExchangeBtn.addEventListener('click', closeExchange);
 
+
+        /* =========================================
+           OMNITEXT OCR PRO LOGIC (INTEGRATED)
+           ========================================= */
+        const ocrModal = document.getElementById('ocrModal');
+        const openOcrBtn = document.getElementById('ocrBtn');
+        const closeOcrBtn = document.getElementById('closeOcr');
+
+        // OCR Constants & Elements
+        const LANG_PATH = 'https://tessdata.projectnaptha.com/4.0.0_best';
+        const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+        let currentFile = null;
+
+        const ocrEls = {
+            dropZone: document.getElementById('dropZone'),
+            fileInput: document.getElementById('fileInput'),
+            previewContainer: document.getElementById('previewContainer'),
+            imagePreview: document.getElementById('imagePreview'),
+            pdfPreview: document.getElementById('pdfPreview'),
+            processingCanvas: document.getElementById('processingCanvas'),
+            docIconPreview: document.getElementById('docIconPreview'),
+            resultText: document.getElementById('resultText'),
+            languageSelect: document.getElementById('languageSelect'),
+            progressFooter: document.getElementById('progressFooter'),
+            progressBar: document.getElementById('progressBar'),
+            statusMessage: document.getElementById('statusMessage'),
+            percentageText: document.getElementById('percentageText'),
+            fileName: document.getElementById('fileName'),
+            removeFileBtn: document.getElementById('removeFileBtn'),
+            preprocessCheck: document.getElementById('preprocessCheck')
+        };
+
+        // Initialize PDF.js Worker
+        if(typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        }
+
+        function openOcr(e) {
+            e.preventDefault(); e.stopPropagation();
+            ocrModal.classList.add('active');
+            navLinks.classList.remove('active');
+        }
+
+        function resetUI() {
+            currentFile = null;
+            ocrEls.dropZone.style.display = 'flex';
+            ocrEls.previewContainer.style.display = 'none';
+            ocrEls.imagePreview.classList.add('hidden');
+            ocrEls.pdfPreview.classList.add('hidden');
+            ocrEls.docIconPreview.classList.add('hidden');
+            ocrEls.fileInput.value = '';
+            ocrEls.resultText.value = '';
+            hideProgress();
+        }
+
+        // --- Event Listeners ---
+        if(openOcrBtn) openOcrBtn.addEventListener('click', openOcr);
+        if(closeOcrBtn) closeOcrBtn.addEventListener('click', () => { ocrModal.classList.remove('active'); resetUI(); });
+        
+        // Drag & Drop
+        ocrEls.dropZone.addEventListener('dragover', (e) => { e.preventDefault(); ocrEls.dropZone.classList.add('drag-active'); });
+        ocrEls.dropZone.addEventListener('dragleave', () => { ocrEls.dropZone.classList.remove('drag-active'); });
+        ocrEls.dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            ocrEls.dropZone.classList.remove('drag-active');
+            if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+        });
+        ocrEls.dropZone.addEventListener('click', () => ocrEls.fileInput.click());
+
+        // File Input
+        ocrEls.fileInput.addEventListener('change', (e) => { if (e.target.files.length) handleFile(e.target.files[0]); });
+
+        // Remove Button
+        ocrEls.removeFileBtn.addEventListener('click', resetUI);
+
+        // Re-process on setting change
+        ocrEls.languageSelect.addEventListener('change', () => { if (currentFile) processFile(currentFile); });
+        ocrEls.preprocessCheck.addEventListener('change', () => { if (currentFile) processFile(currentFile); });
+
+        // --- Core OCR Functions ---
+
+        function handleFile(file) {
+            if (file.size > MAX_FILE_SIZE) {
+                showToast('File too large (Max 50MB)', 'error');
+                return;
+            }
+            
+            resetUI();
+            currentFile = file;
+            ocrEls.fileName.textContent = file.name || "File";
+            
+            ocrEls.dropZone.style.display = 'none';
+            ocrEls.previewContainer.style.display = 'flex';
+
+            const fileType = file.type;
+
+            if (fileType.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    ocrEls.imagePreview.src = e.target.result;
+                    ocrEls.imagePreview.classList.remove('hidden');
+                    processFile(file);
+                };
+                reader.readAsDataURL(file);
+            } 
+            else if (fileType === 'application/pdf') {
+                ocrEls.pdfPreview.classList.remove('hidden');
+                renderPdfPreview(file); 
+                processFile(file);
+            } 
+            else if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                ocrEls.docIconPreview.classList.remove('hidden');
+                ocrEls.docIconPreview.style.display = 'flex';
+                processDocx(file);
+            } 
+            else {
+                showToast('Unsupported file type', 'error');
+                resetUI();
+            }
+        }
+
+        async function processFile(file) {
+            showProgress();
+            ocrEls.resultText.value = '';
+
+            try {
+                if (file.type.startsWith('image/')) {
+                    await processImage(file);
+                } else if (file.type === 'application/pdf') {
+                    await processPDF(file);
+                }
+            } catch (err) {
+                console.error(err);
+                showToast('Processing failed: ' + err.message, 'error');
+                hideProgress();
+            }
+        }
+
+        function getProcessedImage(imgSource) {
+            if (!ocrEls.preprocessCheck.checked) return imgSource;
+            const canvas = ocrEls.processingCanvas;
+            const ctx = canvas.getContext('2d');
+            if (imgSource instanceof HTMLImageElement) {
+                canvas.width = imgSource.naturalWidth;
+                canvas.height = imgSource.naturalHeight;
+                ctx.drawImage(imgSource, 0, 0);
+            } else if (imgSource instanceof HTMLCanvasElement) {
+                canvas.width = imgSource.width;
+                canvas.height = imgSource.height;
+                ctx.drawImage(imgSource, 0, 0);
+            } else {
+                return imgSource;
+            }
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const data = imgData.data;
+            const contrast = 1.2; 
+            const intercept = 128 * (1 - contrast);
+            for (let i = 0; i < data.length; i += 4) {
+                const gray = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+                let newColor = gray * contrast + intercept;
+                data[i] = newColor; data[i + 1] = newColor; data[i + 2] = newColor;
+            }
+            ctx.putImageData(imgData, 0, 0);
+            return canvas.toDataURL('image/jpeg', 1.0);
+        }
+
+        async function processImage(file) {
+            const lang = ocrEls.languageSelect.value;
+            const langParam = lang === 'eng' ? 'eng' : `${lang}+eng`; 
+            
+            updateStatus(`Scanning (${lang})...`, 10);
+            if(ocrEls.imagePreview.src) await new Promise(r => setTimeout(r, 100));
+
+            const finalImage = getProcessedImage(ocrEls.imagePreview);
+            const worker = await Tesseract.createWorker(langParam, 1, {
+                langPath: LANG_PATH, 
+                logger: m => {
+                    if (m.status === 'recognizing text') updateStatus('Scanning...', 30 + (m.progress * 70));
+                    else updateStatus(m.status);
+                }
+            });
+
+            const ret = await worker.recognize(finalImage);
+            ocrEls.resultText.value = ret.data.text;
+            await worker.terminate();
+            hideProgress();
+            showToast('Extraction Complete', 'success');
+        }
+
+        async function renderPdfPreview(file) {
+            const ab = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument(ab).promise;
+            const page = await pdf.getPage(1);
+            const viewport = page.getViewport({scale: 1.5});
+            const ctx = ocrEls.pdfPreview.getContext('2d');
+            ocrEls.pdfPreview.height = viewport.height;
+            ocrEls.pdfPreview.width = viewport.width;
+            await page.render({canvasContext: ctx, viewport}).promise;
+        }
+
+        async function processPDF(file) {
+            const ab = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument(ab).promise;
+            const numPages = pdf.numPages;
+            const lang = ocrEls.languageSelect.value;
+            const langParam = lang === 'eng' ? 'eng' : `${lang}+eng`; 
+            updateStatus('Initializing Engine...', 5);
+            const worker = await Tesseract.createWorker(langParam, 1, { langPath: LANG_PATH });
+            let fullText = '';
+            for (let i = 1; i <= numPages; i++) {
+                updateStatus(`Processing Page ${i}/${numPages}...`, ((i-1)/numPages)*100);
+                const page = await pdf.getPage(i);
+                const viewport = page.getViewport({ scale: 3.0 }); 
+                const canvas = document.createElement('canvas');
+                canvas.height = viewport.height; canvas.width = viewport.width;
+                const ctx = canvas.getContext('2d');
+                await page.render({ canvasContext: ctx, viewport }).promise;
+                const processedPageUrl = getProcessedImage(canvas);
+                const ret = await worker.recognize(processedPageUrl);
+                fullText += `--- Page ${i} ---\n${ret.data.text}\n\n`;
+                ocrEls.resultText.value = fullText;
+                ocrEls.resultText.scrollTop = ocrEls.resultText.scrollHeight;
+            }
+            await worker.terminate();
+            hideProgress();
+            showToast('PDF Extraction Complete', 'success');
+        }
+
+        function processDocx(file) {
+            showProgress();
+            updateStatus('Reading DOCX...', 50);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                mammoth.extractRawText({ arrayBuffer: e.target.result })
+                    .then(result => {
+                        ocrEls.resultText.value = result.value;
+                        hideProgress();
+                        showToast('DOCX Extracted', 'success');
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        showToast('DOCX Error', 'error');
+                        hideProgress();
+                    });
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function updateStatus(msg, percent) {
+            ocrEls.statusMessage.textContent = msg;
+            if (percent !== undefined) {
+                const p = Math.round(Math.min(100, Math.max(0, percent)));
+                ocrEls.progressBar.style.width = `${p}%`;
+                ocrEls.percentageText.textContent = `${p}%`;
+            }
+        }
+
+        function showProgress() {
+            ocrEls.progressFooter.style.display = 'flex';
+            ocrEls.resultText.style.opacity = '0.5';
+            ocrEls.resultText.style.pointerEvents = 'none';
+        }
+
+        function hideProgress() {
+            updateStatus('Ready', 100);
+            setTimeout(() => {
+                ocrEls.progressFooter.style.display = 'none';
+                ocrEls.resultText.style.opacity = '1';
+                ocrEls.resultText.style.pointerEvents = 'auto';
+                ocrEls.progressBar.style.width = '0%';
+            }, 500);
+        }
+
+        function showToast(msg, type = 'info') {
+            const t = document.getElementById('ocrToast');
+            const ti = document.getElementById('ocrToastIcon');
+            const tm = document.getElementById('ocrToastMessage');
+            tm.textContent = msg;
+            ti.className = 'fa-solid';
+            if (type === 'success') { ti.classList.add('fa-check-circle'); ti.style.color = '#48bb78'; }
+            else if (type === 'error') { ti.classList.add('fa-triangle-exclamation'); ti.style.color = '#f56565'; }
+            else { ti.classList.add('fa-circle-info'); ti.style.color = '#667eea'; }
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        function copyText() {
+            if(!ocrEls.resultText.value) return;
+            navigator.clipboard.writeText(ocrEls.resultText.value);
+            showToast('Copied to clipboard', 'success');
+        }
+        function clearText() { ocrEls.resultText.value = ''; }
+        function downloadText() {
+            if(!ocrEls.resultText.value) return;
+            const blob = new Blob([ocrEls.resultText.value], {type: 'text/plain;charset=utf-8'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `ocr_result_${Date.now()}.txt`;
+            a.click();
+        }
+
+
         // Shared Modal Click Close
         window.addEventListener('click', (e) => { 
             if (e.target === calcModal) calcModal.classList.remove('active'); 
             if (e.target === finModal) finModal.classList.remove('active');
             if (e.target === exchangeModal) closeExchange();
-            if (e.target === aboutModal) aboutModal.classList.remove('active');
+            if (e.target === ocrModal) { ocrModal.classList.remove('active'); resetUI(); }
         });
 
         // Tab Switching Logic (Generic)
