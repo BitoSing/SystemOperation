@@ -639,6 +639,10 @@
                 <button class="tab-btn" onclick="switchTab('calcModal', 'tab-sub')">
                     <i class="fa-solid fa-clock-rotate-left"></i><span>Subscr.</span>
                 </button>
+                <!-- NEW EXTRA CHARGE TAB -->
+                <button class="tab-btn" onclick="switchTab('calcModal', 'tab-extra')">
+                    <i class="fa-solid fa-arrow-trend-up"></i><span>Extra Chg</span>
+                </button>
                 <button class="tab-btn" onclick="switchTab('calcModal', 'tab-inv')">
                     <i class="fa-solid fa-file-invoice-dollar"></i><span>Inv Adj</span>
                 </button>
@@ -715,6 +719,46 @@
                         <div class="stat-item">
                             <div class="lbl-small">Total Days</div>
                             <div class="stat-val" id="res-s-total">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEW EXTRA CHARGE CONTENT -->
+            <div id="tab-extra" class="tab-content">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label class="input-label">Old Price ($)</label>
+                        <input type="number" class="calc-input" id="ex-old" placeholder="0">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">New Price ($)</label>
+                        <input type="number" class="calc-input" id="ex-new" placeholder="0">
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label class="input-label">Start Date</label>
+                        <input type="date" class="calc-input" id="ex-start">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">End Date</label>
+                        <input type="date" class="calc-input" id="ex-end">
+                    </div>
+                </div>
+                <div class="result-box">
+                    <div class="res-primary-row">
+                        <div class="lbl-small">Total Extra Charge</div>
+                        <div class="big-price text-markup" id="res-ex-total">$0.00</div>
+                    </div>
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <div class="lbl-small">Excl VAT (10%)</div>
+                            <div class="stat-val" id="res-ex-vat">$0.00</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="lbl-small">Total Days</div>
+                            <div class="stat-val" id="res-ex-days">0</div>
                         </div>
                     </div>
                 </div>
@@ -2115,7 +2159,7 @@
         function resetAllCalcs() {
             document.getElementById('calcModal').querySelectorAll('.calc-input').forEach(inp => inp.value = '');
             document.getElementById('b-dim').value = '30';
-            calculatePriceLogic('reset'); calculateSubscription(); calculateInvoiceAdj(); calculateBillingAdj();
+            calculatePriceLogic('reset'); calculateSubscription(); calculateInvoiceAdj(); calculateBillingAdj(); calculateExtraCharge();
         }
 
         const pOrig = document.getElementById('p-orig'), pDisc = document.getElementById('p-disc'), pSale = document.getElementById('p-sale');
@@ -2162,6 +2206,44 @@
             if(dM<0){ dY--; dM+=12; }
             document.getElementById('res-s-dur').textContent = `${dY}Y ${dM}M ${dD}D`;
             document.getElementById('res-s-total').textContent = Math.round((expDate - startDate)/(86400000))+1;
+        }
+
+        /* --- NEW EXTRA CHARGE CALCULATION LOGIC --- */
+        const exOld = document.getElementById('ex-old'), exNew = document.getElementById('ex-new'), exStart = document.getElementById('ex-start'), exEnd = document.getElementById('ex-end');
+        [exOld, exNew, exStart, exEnd].forEach(el => el.addEventListener('input', calculateExtraCharge));
+
+        function calculateExtraCharge() {
+            const oPrice = parseFloat(exOld.value) || 0;
+            const nPrice = parseFloat(exNew.value) || 0;
+            const sDate = exStart.value ? new Date(exStart.value) : null;
+            const eDate = exEnd.value ? new Date(exEnd.value) : null;
+
+            if (sDate && eDate && eDate >= sDate) {
+                // Calculate Days
+                const oneDay = 24 * 60 * 60 * 1000;
+                const totalDays = Math.round(Math.abs((eDate - sDate) / oneDay)) + 1; // Include start day
+
+                // Monthly Difference
+                const diff = nPrice - oPrice;
+                
+                // Logic: Prorated based on standard 30 days (consistent with Bill Adj logic)
+                // Daily Rate of increase
+                const dailyRate = diff / 30; 
+                
+                // Total Extra Charge
+                const totalExtra = dailyRate * totalDays;
+                
+                // Exclude VAT (assuming 10% VAT included in price)
+                const exVat = totalExtra / 1.1;
+
+                document.getElementById('res-ex-total').textContent = '$' + totalExtra.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                document.getElementById('res-ex-vat').textContent = '$' + exVat.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                document.getElementById('res-ex-days').textContent = totalDays;
+            } else {
+                document.getElementById('res-ex-total').textContent = '$0.00';
+                document.getElementById('res-ex-vat').textContent = '$0.00';
+                document.getElementById('res-ex-days').textContent = '0';
+            }
         }
 
         const iTotal = document.getElementById('i-total'), iMonths = document.getElementById('i-months'), iSys = document.getElementById('i-sys');
