@@ -64,6 +64,7 @@
         .kh-font { font-family: 'Koh Santepheap', serif !important; }
 
         /* --- UTILITIES --- */
+        /* Updated utility colors for general use, overrides applied in result box later */
         .text-profit { color: #38a169 !important; } 
         .text-loss { color: #e53e3e !important; }   
         .text-neutral { color: #a0aec0 !important; } 
@@ -177,28 +178,11 @@
         .footer-links a:hover { color: white; transform: translateX(5px); }
         .footer-links a i { font-size: 0.8rem; color: var(--secondary-color); }
 
-        /* Updated Social Grid */
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-        
-        .social-box {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-            height: 80px;
-            color: #cbd5e1;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
+        .social-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .social-box { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; height: 80px; color: #cbd5e1; transition: all 0.3s ease; cursor: pointer; }
         .social-box i { font-size: 1.4rem; margin-bottom: 5px; transition: 0.3s; }
         .social-box span { font-size: 0.7rem; font-weight: 500; }
         
-        /* Brand Colors on Hover */
         .social-box:hover { transform: translateY(-5px); background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
         .social-box.fb:hover i { color: #1877F2; }
         .social-box.ig:hover i { color: #E1306C; }
@@ -207,69 +191,19 @@
         .social-box.web:hover i { color: #4facfe; }
         .social-box.em:hover i { color: #38b2ac; }
 
-        .footer-bottom { 
-            text-align: center; 
-            border-top: 1px solid rgba(255,255,255,0.08); 
-            padding-top: 2rem; 
-            font-size: 0.85rem; 
-            color: #64748b; 
-            display: flex; 
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        @media (max-width: 1024px) { 
-            .footer-content { grid-template-columns: 1fr 1fr; } 
-            .social-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-        @media (max-width: 600px) { 
-            .footer-content { grid-template-columns: 1fr; gap: 2.5rem; } 
-            .footer-bottom { flex-direction: column; gap: 10px; }
-            footer { padding-top: 3rem; border-radius: 30px 30px 0 0; } 
-        }
+        .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 2rem; font-size: 0.85rem; color: #64748b; display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
+        @media (max-width: 1024px) { .footer-content { grid-template-columns: 1fr 1fr; } .social-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 600px) { .footer-content { grid-template-columns: 1fr; gap: 2.5rem; } .footer-bottom { flex-direction: column; gap: 10px; } footer { padding-top: 3rem; border-radius: 30px 30px 0 0; } }
 
         /* --- MODALS (SCROLL FIXES APPLIED) --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 32, 44, 0.6); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
         .modal-overlay.active { display: flex; opacity: 1; }
         
-        .modal-card { 
-            background: #ffffff; 
-            width: 95%; 
-            max-width: 550px; 
-            max-height: 90vh; 
-            overflow-y: auto; /* Enable Scroll */
-            -webkit-overflow-scrolling: touch; /* SMOOTH SCROLL iOS */
-            overscroll-behavior: contain; /* Stop Body Scroll */
-            border-radius: 24px; 
-            padding: 2rem; 
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); 
-            transform: scale(0.9); 
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); 
-            display: flex; 
-            flex-direction: column; 
-        }
-        
-        /* Specific adjustments for OCR Modal to be wider */
+        .modal-card { background: #ffffff; width: 95%; max-width: 550px; max-height: 90vh; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; border-radius: 24px; padding: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); transform: scale(0.9); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); display: flex; flex-direction: column; }
         #ocrModal .modal-card { max-width: 1000px; height: 90vh; padding: 0; overflow: hidden; }
-
         .modal-overlay.active .modal-card { transform: scale(1); }
         
-        .modal-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 1.5rem; 
-            flex-shrink: 0; 
-            /* Sticky Header for Smoothness */
-            position: sticky; 
-            top: 0; 
-            background: #ffffff; 
-            z-index: 20; 
-            padding-bottom: 10px;
-        }
-
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-shrink: 0; position: sticky; top: 0; background: #ffffff; z-index: 20; padding-bottom: 10px; }
         .modal-title { font-size: 1.3rem; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 10px; }
         .modal-title i { color: var(--secondary-color); background: #eef2ff; padding: 8px; border-radius: 10px; font-size: 1.1rem; }
         .header-actions { display: flex; align-items: center; gap: 8px; }
@@ -278,48 +212,97 @@
         .btn-reset:hover { background: #edf2f7; color: var(--secondary-color); transform: rotate(-180deg); }
         .btn-info:hover { background: #e6fffa; color: #38b2ac; }
         
-        /* Tabs Scroll Fix */
-        .calc-tabs { 
-            display: flex; 
-            background: #f7fafc; 
-            border-radius: 12px; 
-            padding: 5px; 
-            margin-bottom: 1.5rem; 
-            gap: 5px; 
-            flex-shrink: 0; 
-            overflow-x: auto; 
-            -webkit-overflow-scrolling: touch; /* Smooth Horizontal */
-            scrollbar-width: none; 
-            /* Sticky Tabs under Header */
-            position: sticky;
-            top: 60px; /* Offset for Header */
-            z-index: 19;
-        }
+        .calc-tabs { display: flex; background: #f7fafc; border-radius: 12px; padding: 5px; margin-bottom: 1.5rem; gap: 5px; flex-shrink: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; position: sticky; top: 60px; z-index: 19; }
         .calc-tabs::-webkit-scrollbar { display: none; }
-        
         .tab-btn { flex: 1; padding: 10px 5px; border: none; background: none; white-space: nowrap; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); min-width: 60px; border-radius: 8px; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .tab-btn i { font-size: 1rem; }
         .tab-btn.active { background: white; color: var(--secondary-color); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .tab-content { display: none; animation: popIn 0.3s ease; padding-bottom: 10px; }
         .tab-content.active { display: block; }
 
-        /* General Inputs & Results (Non-Exchange) */
+        /* General Inputs */
         .input-group { margin-bottom: 1.2rem; }
         .input-label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; }
         .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         .calc-input, .calc-select { width: 100%; padding: 14px 15px; border: 2px solid #e2e8f0; border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 1rem; color: var(--text-dark); outline: none; transition: 0.2s; background: #fcfdfe; -webkit-appearance: none; }
         .calc-input:focus { border-color: var(--secondary-color); background: white; }
         .note-text { font-size: 0.75rem; color: #a0aec0; margin-top: 5px; display: block; }
-        .result-box { margin-top: 1.5rem; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 1.5rem; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); position: relative; overflow: hidden; }
-        .result-box.accent-top::before { content: ''; position: absolute; top: 0; left: 25%; right: 25%; height: 4px; background: var(--primary-gradient); border-radius: 0 0 10px 10px; }
-        .result-box.finance-top::before { background: var(--finance-gradient); }
-        .res-primary-row { text-align: center; margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid #edf2f7; }
-        .lbl-small { font-size: 0.75rem; letter-spacing: 1px; color: #a0aec0; font-weight: 700; text-transform: uppercase; }
-        .big-price { font-size: 2rem; font-weight: 700; color: #4facfe; margin-top: 5px; line-height: 1.2; word-break: break-all; }
+
+        /* =========================================
+           UPDATED DARK THEME RESULT BOX
+           ========================================= */
+        .result-box {
+            margin-top: 1.5rem;
+            /* Dark Slate Background Gradient */
+            background: linear-gradient(145deg, #1e293b, #0f172a); 
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 5px 10px -5px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            color: #f8fafc; /* Light Text Default */
+        }
+        
+        /* Top Gradient Accent Bars */
+        .result-box.accent-top::before { content: ''; position: absolute; top: 0; left: 25%; right: 25%; height: 4px; background: var(--primary-gradient); border-radius: 0 0 10px 10px; box-shadow: 0 0 15px rgba(79, 172, 254, 0.5); }
+        .result-box.finance-top::before { content: ''; position: absolute; top: 0; left: 25%; right: 25%; height: 4px; background: var(--finance-gradient); border-radius: 0 0 10px 10px; box-shadow: 0 0 15px rgba(67, 233, 123, 0.5); }
+        
+        /* Structure inside box */
+        .res-primary-row { 
+            text-align: center; 
+            margin-bottom: 1.2rem; 
+            padding-bottom: 1.2rem; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+        }
+        
         .stats-row { display: flex; justify-content: space-between; }
         .stat-item { text-align: center; width: 50%; }
-        .stat-item:first-child { border-right: 1px solid #edf2f7; }
-        .stat-val { font-size: 1.05rem; font-weight: 600; color: var(--text-dark); margin-top: 5px; }
+        .stat-item:first-child { border-right: 1px solid rgba(255, 255, 255, 0.1); }
+        
+        /* Text Styles - High Contrast */
+        .lbl-small { 
+            font-size: 0.75rem; 
+            letter-spacing: 1.2px; 
+            color: #94a3b8; /* Lighter Gray for dark bg */
+            font-weight: 700; 
+            text-transform: uppercase; 
+        }
+        
+        .big-price { 
+            font-size: 2rem; 
+            font-weight: 800; 
+            color: #ffffff; 
+            margin-top: 5px; 
+            line-height: 1.2; 
+            word-break: break-all;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3); /* Pop Effect */
+        }
+        
+        .stat-val { 
+            font-size: 1.05rem; 
+            font-weight: 600; 
+            color: #e2e8f0; /* Off-white */
+            margin-top: 5px; 
+        }
+
+        /* Specific Color Overrides for Dark Background (Brighter/Neon) */
+        .result-box .text-profit { color: #68d391 !important; } /* Bright Green */
+        .result-box .text-loss { color: #fc8181 !important; }   /* Bright Red */
+        .result-box .text-neutral { color: #cbd5e0 !important; } 
+        .result-box .text-markup { color: #f6e05e !important; } /* Bright Yellow */
+        .result-box .text-primary { color: #63b3ed !important; } /* Bright Blue */
+        .result-box .text-finance { color: #4fd1c5 !important; } /* Bright Teal */
+        .result-box .text-exchange { color: #f687b3 !important; } /* Bright Pink */
+
+        /* Finance Visuals in Dark Box */
+        .progress-stack { width: 100%; height: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 5px; overflow: hidden; display: flex; margin-top: 10px; }
+        .progress-bar { height: 100%; transition: width 0.5s ease; }
+        .p-principal { background: #63b3ed; }
+        .p-interest { background: #4fd1c5; }
+        .chart-legend { display: flex; justify-content: center; gap: 15px; margin-top: 8px; font-size: 0.75rem; color: #cbd5e0; }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
 
         /* Finance Specifics */
         .currency-switch { display: flex; background: #e2e8f0; border-radius: 20px; padding: 2px; cursor: pointer; margin-right: 10px; position: relative; width: 90px; height: 32px; }
@@ -334,213 +317,72 @@
         .info-table th { background: #f7fafc; color: var(--text-dark); }
         .info-formula { background: #2d3748; color: #a0aec0; padding: 10px; border-radius: 8px; margin-top: 10px; font-family: monospace; font-size: 0.75rem; }
         
-        /* Inner Modal Scroll Fix */
-        .inner-modal { 
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-            background: white; z-index: 30; padding: 2rem; 
-            transform: translateX(100%); transition: transform 0.3s ease; 
-            overflow-y: auto; 
-            -webkit-overflow-scrolling: touch; /* Smooth Scroll */
-            display: flex; flex-direction: column; 
-        }
+        .inner-modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 30; padding: 2rem; transform: translateX(100%); transition: transform 0.3s ease; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; }
         .inner-modal.show { transform: translateX(0); }
         
-        /* New Finance Visuals */
-        .progress-stack { width: 100%; height: 10px; background: #edf2f7; border-radius: 5px; overflow: hidden; display: flex; margin-top: 10px; }
-        .progress-bar { height: 100%; transition: width 0.5s ease; }
-        .p-principal { background: #667eea; }
-        .p-interest { background: #38b2ac; }
-        .chart-legend { display: flex; justify-content: center; gap: 15px; margin-top: 8px; font-size: 0.75rem; color: #718096; }
-        .legend-item { display: flex; align-items: center; gap: 5px; }
-        .dot { width: 8px; height: 8px; border-radius: 50%; }
-
-        /* =========================================
-           UPDATED: NEW COMPACT/DIFFERENT UI FOR CURRENCY
-           ========================================= */
-        
-        /* Status Bar (Same logic, cleaner look) */
-        .exchange-status-bar {
-            background: #f1f5f9; border: 1px solid #e2e8f0; color: #64748b;
-            padding: 6px 12px; border-radius: 8px; margin-bottom: 20px;
-            font-size: 0.7rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px;
-            transition: all 0.3s;
-        }
+        /* Exchange UI */
+        .exchange-status-bar { background: #f1f5f9; border: 1px solid #e2e8f0; color: #64748b; padding: 6px 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.7rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s; }
         .exchange-status-bar.error { background: #fff5f5; border-color: #fed7d7; color: #c53030; }
         .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #48bb78; }
-        
-        /* THE GRID */
-        .exchange-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 12px; 
-            margin-bottom: 20px;
-        }
-        /* Mobile: 1 col but keep it slim, Large screens: 2 cols */
+        .exchange-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
         @media (max-width: 500px) { .exchange-grid { grid-template-columns: 1fr; gap: 10px; } }
-
-        /* THE CARD */
-        .exchange-card-row {
-            display: flex; flex-direction: column;
-            background: #ffffff;
-            border: 1px solid #f1f5f9;
-            border-radius: 14px;
-            padding: 12px 14px;
-            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            cursor: text;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-        
-        /* Interaction States */
-        .exchange-card-row:hover {
-            border-color: #cbd5e1;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.04);
-        }
-        .exchange-card-row:focus-within {
-            border-color: #667eea;
-            background: #ffffff;
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-            transform: translateY(-3px);
-            z-index: 2;
-        }
-
-        /* Top Row: Flag + Code + Hint */
-        .curr-top-row {
-            display: flex; align-items: center; margin-bottom: 8px;
-        }
-        
-        .flag-wrapper {
-            width: 24px; height: 24px; border-radius: 50%;
-            overflow: hidden; margin-right: 8px;
-            border: 1px solid #e2e8f0;
-        }
+        .exchange-card-row { display: flex; flex-direction: column; background: #ffffff; border: 1px solid #f1f5f9; border-radius: 14px; padding: 12px 14px; transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; cursor: text; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .exchange-card-row:hover { border-color: #cbd5e1; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.04); }
+        .exchange-card-row:focus-within { border-color: #667eea; background: #ffffff; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15); transform: translateY(-3px); z-index: 2; }
+        .curr-top-row { display: flex; align-items: center; margin-bottom: 8px; }
+        .flag-wrapper { width: 24px; height: 24px; border-radius: 50%; overflow: hidden; margin-right: 8px; border: 1px solid #e2e8f0; }
         .flag-img { width: 100%; height: 100%; object-fit: cover; }
-
         .curr-info-stack { display: flex; flex-direction: column; line-height: 1; flex-grow: 1; }
         .curr-code { font-size: 0.85rem; font-weight: 700; color: #64748b; letter-spacing: 0.5px; }
         .rate-hint { font-size: 0.6rem; color: #94a3b8; font-weight: 500; margin-top: 2px; display: none; }
-        /* Show hint only on larger screens or focused to save space */
         .exchange-card-row:focus-within .rate-hint { display: block; color: var(--secondary-color); }
-
-        /* Bottom Row: Symbol + Input */
-        .curr-input-area {
-            display: flex; align-items: baseline;
-            width: 100%;
-        }
-
-        .curr-symbol-span {
-            font-size: 1.1rem; font-weight: 500; color: #cbd5e0;
-            margin-right: 4px; transition: color 0.2s;
-        }
+        .curr-input-area { display: flex; align-items: baseline; width: 100%; }
+        .curr-symbol-span { font-size: 1.1rem; font-weight: 500; color: #cbd5e0; margin-right: 4px; transition: color 0.2s; }
         .exchange-card-row:focus-within .curr-symbol-span { color: #667eea; }
-
-        .exchange-input {
-            border: none; background: transparent;
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.5rem; font-weight: 600; color: var(--text-dark);
-            width: 100%; outline: none; padding: 0; margin: 0;
-            letter-spacing: -0.5px;
-        }
+        .exchange-input { border: none; background: transparent; font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 600; color: var(--text-dark); width: 100%; outline: none; padding: 0; margin: 0; letter-spacing: -0.5px; }
         .exchange-input::placeholder { color: #e2e8f0; }
 
-        /* --- OMNITEXT OCR PRO STYLES (INTEGRATED) --- */
-        .ocr-layout {
-            display: flex; flex-direction: column; height: 100%;
-            background: #f8fafc; overflow: hidden;
-        }
-        
-        /* OCR Header */
-        .ocr-header {
-            padding: 15px 20px;
-            border-bottom: 1px solid #e2e8f0;
-            background: #ffffff;
-            display: flex; justify-content: space-between; align-items: center;
-            flex-wrap: wrap; gap: 10px;
-            flex-shrink: 0;
-        }
+        /* --- OMNITEXT OCR PRO STYLES --- */
+        .ocr-layout { display: flex; flex-direction: column; height: 100%; background: #f8fafc; overflow: hidden; }
+        .ocr-header { padding: 15px 20px; border-bottom: 1px solid #e2e8f0; background: #ffffff; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; flex-shrink: 0; }
         .ocr-brand { display: flex; align-items: center; gap: 10px; }
         .ocr-logo-box { width: 35px; height: 35px; background: #eef2ff; border-radius: 8px; color: var(--secondary-color); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
         .ocr-controls { display: flex; gap: 10px; align-items: center; }
         .ocr-select { padding: 6px 10px; border: 1px solid #cbd5e0; border-radius: 6px; font-size: 0.85rem; color: var(--text-dark); background: white; outline: none; }
         .ocr-check-wrap { display: flex; align-items: center; gap: 5px; font-size: 0.8rem; color: var(--text-muted); cursor: pointer; }
-        
-        /* OCR Body Split */
         .ocr-main { display: flex; flex: 1; overflow: hidden; position: relative; }
         .ocr-col-left { width: 50%; background: #f1f5f9; border-right: 1px solid #e2e8f0; position: relative; display: flex; flex-direction: column; }
         .ocr-col-right { width: 50%; background: #ffffff; display: flex; flex-direction: column; }
-        
-        /* Dropzone */
-        .ocr-dropzone { 
-            position: absolute; inset: 0; display: flex; flex-direction: column; 
-            align-items: center; justify-content: center; cursor: pointer; 
-            transition: 0.3s; z-index: 10;
-        }
+        .ocr-dropzone { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; z-index: 10; }
         .ocr-dropzone:hover, .ocr-dropzone.drag-active { background: rgba(102, 126, 234, 0.1); }
         .ocr-drop-icon { width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--secondary-color); margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-
-        /* Preview Area */
-        .ocr-preview-container {
-            display: none; flex: 1; flex-direction: column; height: 100%;
-        }
-        .ocr-file-bar {
-            padding: 8px 12px; background: #e2e8f0; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #4a5568;
-        }
-        .ocr-preview-scroll {
-            flex: 1; overflow: auto; padding: 20px; display: flex; align-items: flex-start; justify-content: center;
-        }
+        .ocr-preview-container { display: none; flex: 1; flex-direction: column; height: 100%; }
+        .ocr-file-bar { padding: 8px 12px; background: #e2e8f0; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; color: #4a5568; }
+        .ocr-preview-scroll { flex: 1; overflow: auto; padding: 20px; display: flex; align-items: flex-start; justify-content: center; }
         .ocr-img-preview { max-width: 100%; border: 1px solid #cbd5e0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        
-        /* Result Area */
-        .ocr-toolbar {
-            padding: 8px 15px; border-bottom: 1px solid #f1f5f9; background: #fafafa;
-            display: flex; justify-content: space-between; align-items: center;
-        }
+        .ocr-toolbar { padding: 8px 15px; border-bottom: 1px solid #f1f5f9; background: #fafafa; display: flex; justify-content: space-between; align-items: center; }
         .ocr-label { font-size: 0.75rem; font-weight: 700; color: #a0aec0; text-transform: uppercase; letter-spacing: 0.5px; }
         .ocr-actions button { background: white; border: 1px solid #e2e8f0; padding: 4px 8px; border-radius: 4px; color: #718096; cursor: pointer; transition: 0.2s; font-size: 0.8rem; }
         .ocr-actions button:hover { border-color: var(--secondary-color); color: var(--secondary-color); }
-        
-        .ocr-textarea {
-            flex: 1; width: 100%; border: none; padding: 20px; resize: none; outline: none;
-            font-family: 'Poppins', monospace; font-size: 0.9rem; color: var(--text-dark); background: transparent; line-height: 1.6;
-        }
+        .ocr-textarea { flex: 1; width: 100%; border: none; padding: 20px; resize: none; outline: none; font-family: 'Poppins', monospace; font-size: 0.9rem; color: var(--text-dark); background: transparent; line-height: 1.6; }
         .ocr-textarea:focus { background: #fffcf5; }
-
-        /* Progress Footer */
-        .ocr-footer {
-            background: #1a202c; color: white; padding: 10px 20px;
-            display: none; align-items: center; gap: 15px;
-        }
+        .ocr-footer { background: #1a202c; color: white; padding: 10px 20px; display: none; align-items: center; gap: 15px; }
         .ocr-loader { width: 16px; height: 16px; border: 2px solid #667eea; border-top-color: transparent; border-radius: 50%; animation: spinner 1s linear infinite; }
         @keyframes spinner { to { transform: rotate(360deg); } }
         .ocr-progress-wrap { flex: 1; }
         .ocr-status-text { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 4px; color: #a0aec0; }
         .ocr-bar-bg { width: 100%; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; overflow: hidden; }
         .ocr-bar-fill { height: 100%; background: var(--secondary-color); width: 0%; transition: width 0.3s; }
-
-        /* Toast */
-        .ocr-toast {
-            position: absolute; bottom: 20px; right: 20px; background: #2d3748; color: white;
-            padding: 10px 15px; border-radius: 8px; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;
-            box-shadow: 0 10px 15px rgba(0,0,0,0.2); transform: translateY(50px); opacity: 0; transition: 0.3s; z-index: 100;
-        }
+        .ocr-toast { position: absolute; bottom: 20px; right: 20px; background: #2d3748; color: white; padding: 10px 15px; border-radius: 8px; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 15px rgba(0,0,0,0.2); transform: translateY(50px); opacity: 0; transition: 0.3s; z-index: 100; }
         .ocr-toast.show { transform: translateY(0); opacity: 1; }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .ocr-main { flex-direction: column; }
-            .ocr-col-left, .ocr-col-right { width: 100%; height: 50%; }
-        }
+        @media (max-width: 768px) { .ocr-main { flex-direction: column; } .ocr-col-left, .ocr-col-right { width: 100%; height: 50%; } }
 
         /* --- MOBILE TWEAKS --- */
         @media (max-width: 600px) {
             .modal-card { width: 100%; height: 100%; max-height: 100vh; border-radius: 0; padding: 1.5rem; transform: translateY(20px); }
             .modal-overlay.active .modal-card { transform: translateY(0); }
-            /* Sticky logic is handled in base class now for better scroll */
             .input-row { gap: 0.8rem; }
             .calc-input { font-size: 16px; padding: 12px; }
-            
-            /* Adjust calc-tabs offset for mobile modal */
             .calc-tabs { top: 60px; }
         }
     </style>
@@ -639,7 +481,6 @@
                 <button class="tab-btn" onclick="switchTab('calcModal', 'tab-sub')">
                     <i class="fa-solid fa-clock-rotate-left"></i><span>Subscr.</span>
                 </button>
-                <!-- NEW EXTRA CHARGE TAB -->
                 <button class="tab-btn" onclick="switchTab('calcModal', 'tab-extra')">
                     <i class="fa-solid fa-arrow-trend-up"></i><span>Extra Chg</span>
                 </button>
@@ -724,7 +565,6 @@
                 </div>
             </div>
 
-            <!-- NEW EXTRA CHARGE CONTENT -->
             <div id="tab-extra" class="tab-content">
                 <div class="input-row">
                     <div class="input-group">
@@ -854,7 +694,7 @@
         </div>
     </div>
 
-    <!-- FINANCE CALCULATOR MODAL (SCROLL & UI IMPROVED) -->
+    <!-- FINANCE CALCULATOR MODAL -->
     <div class="modal-overlay" id="finModal">
         <div class="modal-card" style="position: relative;">
             <div class="modal-header">
@@ -888,7 +728,7 @@
                 </button>
             </div>
 
-            <!-- Tab: Loan Calculator (New) -->
+            <!-- Tab: Loan Calculator -->
             <div id="tab-loan" class="tab-content active">
                 <div class="input-group">
                     <label class="input-label">Loan Amount <span class="curr-symbol">($)</span></label>
@@ -930,7 +770,7 @@
                 </div>
             </div>
 
-            <!-- Tab: Investment (Compound) -->
+            <!-- Tab: Investment -->
             <div id="tab-invest" class="tab-content">
                 <div class="input-row">
                     <div class="input-group">
@@ -970,7 +810,7 @@
                 </div>
             </div>
 
-            <!-- Tab: Salary Tax (Cambodia) -->
+            <!-- Tab: Salary Tax -->
             <div id="tab-saltax" class="tab-content">
                 <div class="input-group">
                     <label class="input-label">Gross Salary <span class="curr-symbol">($)</span></label>
@@ -1074,7 +914,7 @@
         </div>
     </div>
 
-    <!-- EXCHANGE RATE MODAL (GOLD REMOVED) -->
+    <!-- EXCHANGE RATE MODAL -->
     <div class="modal-overlay" id="exchangeModal">
         <div class="modal-card">
             <div class="modal-header">
@@ -1087,12 +927,10 @@
                 </div>
             </div>
 
-            <!-- Last Updated Badge -->
             <div class="exchange-status-bar" id="exchange-status">
                 <div class="status-dot"></div> <span id="exchange-msg">Connecting to Live Market...</span>
             </div>
             
-            <!-- CURRENCY TAB: UPDATED COMPACT GRID UI -->
             <div id="tab-currency" class="tab-content active" style="display:block;">
                 <div class="exchange-grid">
                     
@@ -1262,12 +1100,10 @@
                         <div id="dropZone" class="ocr-dropzone">
                             <input type="file" id="fileInput" class="hidden" accept="image/*,application/pdf,.docx">
                             <div class="ocr-drop-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
-                            <!-- UPDATED TEXT HERE -->
                             <h4 style="color:var(--text-dark); margin-bottom:5px;">Drop file or Paste image (Ctrl+V)</h4>
                             <p style="font-size:0.8rem; color:var(--text-muted);">JPG, PNG, PDF, DOCX</p>
                         </div>
                         
-                        <!-- Preview Container (Hidden initially) -->
                         <div id="previewContainer" class="ocr-preview-container">
                             <div class="ocr-file-bar">
                                 <span id="fileName" style="text-overflow:ellipsis; overflow:hidden; white-space:nowrap; max-width:200px;">File Name</span>
@@ -1281,7 +1117,6 @@
                                     <span style="font-size:0.9rem; margin-top:10px; color:#718096;">Word Document</span>
                                 </div>
                             </div>
-                            <!-- Canvas for processing -->
                             <canvas id="processingCanvas" class="hidden"></canvas> 
                         </div>
                     </div>
@@ -1315,7 +1150,6 @@
                 </footer>
             </div>
             
-            <!-- Toast Notification inside Modal -->
             <div id="ocrToast" class="ocr-toast">
                 <i id="ocrToastIcon" class="fa-solid fa-circle-info"></i>
                 <span id="ocrToastMessage">Notification</span>
@@ -1323,16 +1157,14 @@
         </div>
     </div>
 
-    <!-- Updated Footer -->
+    <!-- Footer -->
     <footer>
         <div class="footer-content">
-            <!-- Brand Column -->
             <div class="footer-brand">
                 <h2><i class="fa-solid fa-cube" style="color:var(--secondary-color);"></i> SysMaster</h2>
                 <p>Empowering businesses with streamlined tools for calculation, financial planning, and real-time market insights. Your productivity, our priority.</p>
             </div>
             
-            <!-- Quick Links -->
             <div class="footer-col">
                 <h4>Quick Access</h4>
                 <ul class="footer-links">
@@ -1343,7 +1175,6 @@
                 </ul>
             </div>
             
-            <!-- Support -->
             <div class="footer-col">
                 <h4>Support</h4>
                 <ul class="footer-links">
@@ -1354,34 +1185,15 @@
                 </ul>
             </div>
             
-            <!-- Connect (Requested Socials) -->
             <div class="footer-col">
                 <h4>Connect</h4>
                 <div class="social-grid">
-                    <a href="https://facebook.com" target="_blank" class="social-box fb">
-                        <i class="fa-brands fa-facebook-f"></i>
-                        <span>Facebook</span>
-                    </a>
-                    <a href="https://instagram.com" target="_blank" class="social-box ig">
-                        <i class="fa-brands fa-instagram"></i>
-                        <span>Instagram</span>
-                    </a>
-                    <a href="https://linkedin.com" target="_blank" class="social-box in">
-                        <i class="fa-brands fa-linkedin-in"></i>
-                        <span>LinkedIn</span>
-                    </a>
-                    <a href="https://telegram.org" target="_blank" class="social-box tg">
-                        <i class="fa-brands fa-telegram"></i>
-                        <span>Telegram</span>
-                    </a>
-                    <a href="#" class="social-box web">
-                        <i class="fa-solid fa-globe"></i>
-                        <span>Website</span>
-                    </a>
-                    <a href="mailto:info@sysmaster.com" class="social-box em">
-                        <i class="fa-solid fa-envelope"></i>
-                        <span>Email</span>
-                    </a>
+                    <a href="https://facebook.com" target="_blank" class="social-box fb"><i class="fa-brands fa-facebook-f"></i><span>Facebook</span></a>
+                    <a href="https://instagram.com" target="_blank" class="social-box ig"><i class="fa-brands fa-instagram"></i><span>Instagram</span></a>
+                    <a href="https://linkedin.com" target="_blank" class="social-box in"><i class="fa-brands fa-linkedin-in"></i><span>LinkedIn</span></a>
+                    <a href="https://telegram.org" target="_blank" class="social-box tg"><i class="fa-brands fa-telegram"></i><span>Telegram</span></a>
+                    <a href="#" class="social-box web"><i class="fa-solid fa-globe"></i><span>Website</span></a>
+                    <a href="mailto:info@sysmaster.com" class="social-box em"><i class="fa-solid fa-envelope"></i><span>Email</span></a>
                 </div>
             </div>
         </div>
@@ -1488,7 +1300,7 @@
         
         let autoRefreshInterval = null;
 
-        // Base Rates & Fallback (Updated to 2026 projections)
+        // Base Rates
         let liveRates = {
             USD: 1,
             KHR: 4100.50,
@@ -1628,13 +1440,12 @@
 
 
         /* =========================================
-           OMNITEXT OCR PRO LOGIC (INTEGRATED)
+           OMNITEXT OCR PRO LOGIC
            ========================================= */
         const ocrModal = document.getElementById('ocrModal');
         const openOcrBtn = document.getElementById('ocrBtn');
         const closeOcrBtn = document.getElementById('closeOcr');
 
-        // OCR Constants & Elements
         const LANG_PATH = 'https://tessdata.projectnaptha.com/4.0.0_best';
         const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
         let currentFile = null;
@@ -1658,7 +1469,6 @@
             preprocessCheck: document.getElementById('preprocessCheck')
         };
 
-        // Initialize PDF.js Worker
         if(typeof pdfjsLib !== 'undefined') {
             pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
         }
@@ -1681,11 +1491,9 @@
             hideProgress();
         }
 
-        // --- Event Listeners ---
         if(openOcrBtn) openOcrBtn.addEventListener('click', openOcr);
         if(closeOcrBtn) closeOcrBtn.addEventListener('click', () => { ocrModal.classList.remove('active'); resetUI(); });
         
-        // Drag & Drop
         ocrEls.dropZone.addEventListener('dragover', (e) => { e.preventDefault(); ocrEls.dropZone.classList.add('drag-active'); });
         ocrEls.dropZone.addEventListener('dragleave', () => { ocrEls.dropZone.classList.remove('drag-active'); });
         ocrEls.dropZone.addEventListener('drop', (e) => {
@@ -1695,23 +1503,18 @@
         });
         ocrEls.dropZone.addEventListener('click', () => ocrEls.fileInput.click());
 
-        // File Input
         ocrEls.fileInput.addEventListener('change', (e) => { if (e.target.files.length) handleFile(e.target.files[0]); });
         
-        // PASTE EVENT LISTENER (NEW)
         document.addEventListener('paste', (e) => {
             if (!ocrModal.classList.contains('active')) return;
-            
             const items = (e.clipboardData || e.originalEvent.clipboardData).items;
             let file = null;
-
             for (let i = 0; i < items.length; i++) {
                 if (items[i].kind === 'file') {
                     file = items[i].getAsFile();
                     break;
                 }
             }
-
             if (file) {
                 handleFile(file);
                 showToast('Image pasted from clipboard', 'success');
@@ -1719,30 +1522,22 @@
             }
         });
 
-        // Remove Button
         ocrEls.removeFileBtn.addEventListener('click', resetUI);
-
-        // Re-process on setting change
         ocrEls.languageSelect.addEventListener('change', () => { if (currentFile) processFile(currentFile); });
         ocrEls.preprocessCheck.addEventListener('change', () => { if (currentFile) processFile(currentFile); });
-
-        // --- Core OCR Functions ---
 
         function handleFile(file) {
             if (file.size > MAX_FILE_SIZE) {
                 showToast('File too large (Max 50MB)', 'error');
                 return;
             }
-            
             resetUI();
             currentFile = file;
             ocrEls.fileName.textContent = file.name || "Pasted_Image_" + new Date().getTime();
-            
             ocrEls.dropZone.style.display = 'none';
             ocrEls.previewContainer.style.display = 'flex';
 
             const fileType = file.type;
-
             if (fileType.startsWith('image/')) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -1751,18 +1546,15 @@
                     processFile(file);
                 };
                 reader.readAsDataURL(file);
-            } 
-            else if (fileType === 'application/pdf') {
+            } else if (fileType === 'application/pdf') {
                 ocrEls.pdfPreview.classList.remove('hidden');
                 renderPdfPreview(file); 
                 processFile(file);
-            } 
-            else if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+            } else if (fileType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
                 ocrEls.docIconPreview.classList.remove('hidden');
                 ocrEls.docIconPreview.style.display = 'flex';
                 processDocx(file);
-            } 
-            else {
+            } else {
                 showToast('Unsupported file type', 'error');
                 resetUI();
             }
@@ -1771,7 +1563,6 @@
         async function processFile(file) {
             showProgress();
             ocrEls.resultText.value = '';
-
             try {
                 if (file.type.startsWith('image/')) {
                     await processImage(file);
@@ -1816,10 +1607,8 @@
         async function processImage(file) {
             const lang = ocrEls.languageSelect.value;
             const langParam = lang === 'eng' ? 'eng' : `${lang}+eng`; 
-            
             updateStatus(`Scanning (${lang})...`, 10);
             if(ocrEls.imagePreview.src) await new Promise(r => setTimeout(r, 100));
-
             const finalImage = getProcessedImage(ocrEls.imagePreview);
             const worker = await Tesseract.createWorker(langParam, 1, {
                 langPath: LANG_PATH, 
@@ -1828,7 +1617,6 @@
                     else updateStatus(m.status);
                 }
             });
-
             const ret = await worker.recognize(finalImage);
             ocrEls.resultText.value = ret.data.text;
             await worker.terminate();
@@ -1948,8 +1736,6 @@
             a.click();
         }
 
-
-        // Shared Modal Click Close
         window.addEventListener('click', (e) => { 
             if (e.target === calcModal) calcModal.classList.remove('active'); 
             if (e.target === finModal) finModal.classList.remove('active');
@@ -1957,25 +1743,20 @@
             if (e.target === ocrModal) { ocrModal.classList.remove('active'); resetUI(); }
         });
 
-        // Tab Switching Logic (Generic)
         function switchTab(modalId, tabId) {
             const modal = document.getElementById(modalId);
             modal.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             modal.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
             document.getElementById(tabId).classList.add('active');
             const btns = Array.from(modal.querySelectorAll('.tab-btn'));
             const targetBtn = btns.find(b => b.getAttribute('onclick').includes(tabId));
             if(targetBtn) targetBtn.classList.add('active');
         }
 
-        // --- Currency Toggle Logic (Finance Modal) ---
         function toggleCurrency() {
             const toggle = document.getElementById('currencyToggle');
             const moneyInputs = document.querySelectorAll('.fin-money');
             const oldCurrency = currentCurrency;
-            
-            // Switch State
             if(currentCurrency === 'USD') {
                 currentCurrency = 'KHR';
                 toggle.setAttribute('data-currency', 'KHR');
@@ -1985,8 +1766,6 @@
                 toggle.setAttribute('data-currency', 'USD');
                 document.querySelectorAll('.curr-symbol').forEach(el => el.innerText = '$');
             }
-
-            // Convert Inputs
             moneyInputs.forEach(input => {
                 if(input.value) {
                     let val = parseFloat(input.value);
@@ -1997,21 +1776,13 @@
                     }
                 }
             });
-
-            // Re-trigger Calculations
-            calculateLoan();
-            calculateInvestment();
-            calculateSalaryTax();
-            calculateVATProp();
+            calculateLoan(); calculateInvestment(); calculateSalaryTax(); calculateVATProp();
         }
 
-        function toggleInfo() {
-            infoModal.classList.toggle('show');
-        }
+        function toggleInfo() { infoModal.classList.toggle('show'); }
 
         function resetFinCalcs() {
             finModal.querySelectorAll('.calc-input').forEach(i => i.value = '');
-            // Reset Progress Bar
             const bar = document.getElementById('ln-bar');
             if(bar) {
                 bar.querySelector('.p-principal').style.width = '50%';
@@ -2029,7 +1800,6 @@
             return `<span class="curr-symbol">${sym}</span>${val}`;
         }
 
-        // --- 1. LOAN CALCULATOR (EMI) ---
         const lnAmount = document.getElementById('ln-amount'), lnRate = document.getElementById('ln-rate'), lnYears = document.getElementById('ln-years');
         [lnAmount, lnRate, lnYears].forEach(e => e.addEventListener('input', calculateLoan));
 
@@ -2037,22 +1807,15 @@
             let p = parseFloat(lnAmount.value) || 0;
             let r = parseFloat(lnRate.value) || 0;
             let n = parseFloat(lnYears.value) || 0;
-
             if (p > 0 && r > 0 && n > 0) {
                 let monthlyRate = r / 1200;
                 let months = n * 12;
-                
-                // EMI Formula: [P x R x (1+R)^N]/[(1+R)^N-1]
                 let emi = (p * monthlyRate * Math.pow(1 + monthlyRate, months)) / (Math.pow(1 + monthlyRate, months) - 1);
-                
                 let totalPay = emi * months;
                 let totalInterest = totalPay - p;
-
                 document.getElementById('ln-emi').innerHTML = formatMoney(emi);
                 document.getElementById('ln-total').innerHTML = formatMoney(totalPay);
                 document.getElementById('ln-interest').innerHTML = formatMoney(totalInterest);
-
-                // Visual Bar Update
                 let pPercent = (p / totalPay) * 100;
                 let iPercent = 100 - pPercent;
                 const bar = document.getElementById('ln-bar');
@@ -2068,7 +1831,6 @@
             }
         }
 
-        // --- 2. INVESTMENT CALCULATOR (Growth) ---
         const invStart = document.getElementById('inv-start'), invMonth = document.getElementById('inv-month'), invRate = document.getElementById('inv-rate'), invTime = document.getElementById('inv-time');
         [invStart, invMonth, invRate, invTime].forEach(e => e.addEventListener('input', calculateInvestment));
 
@@ -2077,10 +1839,8 @@
             let pmt = parseFloat(invMonth.value) || 0;
             let r = parseFloat(invRate.value) || 0;
             let t = parseFloat(invTime.value) || 0;
-
             let monthlyRate = r / 1200;
             let months = t * 12;
-
             let fvLumpSum = p * Math.pow(1 + monthlyRate, months);
             let fvSeries = 0;
             if(monthlyRate > 0) {
@@ -2088,74 +1848,49 @@
             } else {
                  fvSeries = pmt * months;
             }
-
             let totalFV = fvLumpSum + fvSeries;
             let totalInvested = p + (pmt * months);
             let profit = totalFV - totalInvested;
-
             document.getElementById('inv-total').innerHTML = formatMoney(totalFV);
             document.getElementById('inv-base').innerHTML = formatMoney(totalInvested);
             document.getElementById('inv-profit').innerHTML = formatMoney(profit);
         }
 
-        // --- 3. Salary Tax (Cambodia) ---
         const stSalary = document.getElementById('st-salary'), stDep = document.getElementById('st-dep');
         [stSalary, stDep].forEach(e => e.addEventListener('input', calculateSalaryTax));
 
         function calculateSalaryTax() {
             let salaryInput = parseFloat(stSalary.value) || 0;
             let dependents = parseInt(stDep.value) || 0;
-
-            // Normalize to KHR for calculation
             let salaryKHR = currentCurrency === 'USD' ? salaryInput * FIXED_EXCHANGE_RATE : salaryInput;
-
-            // Logic
             let rebate = dependents * 150000;
             let taxable = salaryKHR - rebate;
             let taxKHR = 0;
-
-            if (taxable <= 1500000) {
-                taxKHR = 0;
-            } else if (taxable <= 2000000) {
-                taxKHR = (taxable * 0.05) - 75000;
-            } else if (taxable <= 8500000) {
-                taxKHR = (taxable * 0.10) - 175000;
-            } else if (taxable <= 12500000) {
-                taxKHR = (taxable * 0.15) - 600000;
-            } else {
-                taxKHR = (taxable * 0.20) - 1225000;
-            }
-
+            if (taxable <= 1500000) { taxKHR = 0; } 
+            else if (taxable <= 2000000) { taxKHR = (taxable * 0.05) - 75000; } 
+            else if (taxable <= 8500000) { taxKHR = (taxable * 0.10) - 175000; } 
+            else if (taxable <= 12500000) { taxKHR = (taxable * 0.15) - 600000; } 
+            else { taxKHR = (taxable * 0.20) - 1225000; }
             if(taxKHR < 0) taxKHR = 0;
-
-            // Convert Results Back if needed
             let finalTax = currentCurrency === 'USD' ? taxKHR / FIXED_EXCHANGE_RATE : taxKHR;
             let finalTaxable = currentCurrency === 'USD' ? taxable / FIXED_EXCHANGE_RATE : taxable;
             let finalNet = salaryInput - finalTax;
-
             document.getElementById('st-tax').innerHTML = formatMoney(finalTax);
             document.getElementById('st-net').innerHTML = formatMoney(finalNet);
             document.getElementById('st-base').innerHTML = formatMoney(finalTaxable > 0 ? finalTaxable : 0);
         }
 
-        // --- 4. VAT & Property ---
         const vatAmt = document.getElementById('vat-amount'), ptVal = document.getElementById('pt-val');
         [vatAmt, ptVal].forEach(e => e.addEventListener('input', calculateVATProp));
 
         function calculateVATProp() {
-            // VAT
             let vBase = parseFloat(vatAmt.value) || 0;
             document.getElementById('vat-val').innerHTML = formatMoney(vBase * 0.10);
             document.getElementById('vat-total').innerHTML = formatMoney(vBase * 1.10);
-
-            // Property
             let pVal = parseFloat(ptVal.value) || 0;
             document.getElementById('pt-tax').innerHTML = formatMoney(pVal * 0.04);
         }
 
-        /* =========================================
-           BIZ CALC LOGIC (Preserved)
-           ========================================= */
         function resetAllCalcs() {
             document.getElementById('calcModal').querySelectorAll('.calc-input').forEach(inp => inp.value = '');
             document.getElementById('b-dim').value = '30';
@@ -2184,8 +1919,8 @@
             const dispDiff = document.getElementById('profit-loss');
             dispDiff.textContent = (diff > 0 ? '+' : '') + '$' + diff.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
             const lblDiff = document.getElementById('lbl-diff');
-            if (diff > 0) { lblDiff.style.color = "#38a169"; dispDiff.className = "stat-val text-profit"; } 
-            else if (diff < 0) { lblDiff.style.color = "#e53e3e"; dispDiff.className = "stat-val text-loss"; } 
+            if (diff > 0) { lblDiff.style.color = "#a0aec0"; dispDiff.className = "stat-val text-profit"; } 
+            else if (diff < 0) { lblDiff.style.color = "#a0aec0"; dispDiff.className = "stat-val text-loss"; } 
             else { lblDiff.style.color = "#a0aec0"; dispDiff.className = "stat-val text-neutral"; }
         }
 
@@ -2199,7 +1934,6 @@
             expDate.setMonth(expDate.getMonth() + totalMonths);
             expDate.setDate(expDate.getDate() - 1 + (parseInt(sDays.value)||0));
             document.getElementById('res-s-end').textContent = expDate.toLocaleDateString('en-GB', {year:'numeric',month:'short',day:'numeric'});
-            
             let d1 = new Date(startDate); let d2 = new Date(expDate); d2.setDate(d2.getDate()+1);
             let dY = d2.getFullYear()-d1.getFullYear(), dM = d2.getMonth()-d1.getMonth(), dD = d2.getDate()-d1.getDate();
             if(dD<0){ dM--; dD += new Date(d2.getFullYear(),d2.getMonth(),0).getDate(); }
@@ -2208,7 +1942,6 @@
             document.getElementById('res-s-total').textContent = Math.round((expDate - startDate)/(86400000))+1;
         }
 
-        /* --- NEW EXTRA CHARGE CALCULATION LOGIC --- */
         const exOld = document.getElementById('ex-old'), exNew = document.getElementById('ex-new'), exStart = document.getElementById('ex-start'), exEnd = document.getElementById('ex-end');
         [exOld, exNew, exStart, exEnd].forEach(el => el.addEventListener('input', calculateExtraCharge));
 
@@ -2217,25 +1950,13 @@
             const nPrice = parseFloat(exNew.value) || 0;
             const sDate = exStart.value ? new Date(exStart.value) : null;
             const eDate = exEnd.value ? new Date(exEnd.value) : null;
-
             if (sDate && eDate && eDate >= sDate) {
-                // Calculate Days
                 const oneDay = 24 * 60 * 60 * 1000;
-                const totalDays = Math.round(Math.abs((eDate - sDate) / oneDay)) + 1; // Include start day
-
-                // Monthly Difference
+                const totalDays = Math.round(Math.abs((eDate - sDate) / oneDay)) + 1; 
                 const diff = nPrice - oPrice;
-                
-                // Logic: Prorated based on standard 30 days (consistent with Bill Adj logic)
-                // Daily Rate of increase
                 const dailyRate = diff / 30; 
-                
-                // Total Extra Charge
                 const totalExtra = dailyRate * totalDays;
-                
-                // Exclude VAT (assuming 10% VAT included in price)
                 const exVat = totalExtra / 1.1;
-
                 document.getElementById('res-ex-total').textContent = '$' + totalExtra.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
                 document.getElementById('res-ex-vat').textContent = '$' + exVat.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
                 document.getElementById('res-ex-days').textContent = totalDays;
