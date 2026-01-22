@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<html>
+
+<body>
+The content of the body element is displayed in your browser.
+</body>
+
+</html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1906,8 +1914,18 @@
         function calculatePriceLogic(source) {
             if(source === 'reset') { updatePriceDOM(0,0,0); return; }
             let orig = parseFloat(pOrig.value) || 0, perc = parseFloat(pDisc.value) || 0, sale = parseFloat(pSale.value) || 0;
-            if (source === 'original' || source === 'percent') { sale = orig * (1 - (perc / 100)); pSale.value = sale.toFixed(2); } 
-            else if (source === 'sale') { if (orig !== 0) { perc = ((orig - sale) / orig) * 100; pDisc.value = perc.toFixed(2); } }
+            
+            // LOGIC CHANGED HERE: Calculate variables but DO NOT update input fields
+            if (source === 'original' || source === 'percent') { 
+                sale = orig * (1 - (perc / 100)); 
+                // Removed: pSale.value = sale.toFixed(2);
+            } 
+            else if (source === 'sale') { 
+                if (orig !== 0) { 
+                    perc = ((orig - sale) / orig) * 100; 
+                    // Removed: pDisc.value = perc.toFixed(2);
+                } 
+            }
             updatePriceDOM(sale, perc, sale - orig);
         }
 
