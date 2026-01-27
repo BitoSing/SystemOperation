@@ -241,21 +241,44 @@
         .footer-links a:hover { color: white; transform: translateX(5px); }
         .footer-links a i { font-size: 0.8rem; color: var(--secondary-color); }
 
-        .social-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .social-box { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; height: 80px; color: #cbd5e1; transition: all 0.3s ease; cursor: pointer; }
-        .social-box i { font-size: 1.4rem; margin-bottom: 5px; transition: 0.3s; }
-        .social-box span { font-size: 0.7rem; font-weight: 500; }
+        /* --- UPDATED SOCIAL ICONS (Icon Only) --- */
+        .social-flex { 
+            display: flex; 
+            gap: 12px; 
+            flex-wrap: wrap; 
+        }
         
-        .social-box:hover { transform: translateY(-5px); background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); }
-        .social-box.fb:hover i { color: #1877F2; }
-        .social-box.ig:hover i { color: #E1306C; }
-        .social-box.in:hover i { color: #0A66C2; }
-        .social-box.tg:hover i { color: #0088cc; }
-        .social-box.web:hover i { color: #4facfe; }
-        .social-box.em:hover i { color: #38b2ac; }
+        .social-icon { 
+            width: 42px; 
+            height: 42px; 
+            border-radius: 50%; 
+            background: rgba(255,255,255,0.05); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: #cbd5e1; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            font-size: 1.1rem;
+        }
+
+        .social-icon:hover { 
+            transform: translateY(-4px) scale(1.1); 
+            color: white; 
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            border-color: transparent;
+        }
+
+        /* Brand Colors on Hover */
+        .social-icon.fb:hover { background: #1877F2; }
+        .social-icon.ig:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .social-icon.in:hover { background: #0A66C2; }
+        .social-icon.tg:hover { background: #0088cc; }
+        .social-icon.web:hover { background: var(--secondary-color); }
+        .social-icon.em:hover { background: #38b2ac; }
 
         .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 2rem; font-size: 0.85rem; color: #64748b; display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
-        @media (max-width: 1024px) { .footer-content { grid-template-columns: 1fr 1fr; } .social-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 1024px) { .footer-content { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 600px) { .footer-content { grid-template-columns: 1fr; gap: 2.5rem; } .footer-bottom { flex-direction: column; gap: 10px; } footer { padding-top: 3rem; border-radius: 30px 30px 0 0; } }
 
         /* --- MODALS (SCROLL FIXES APPLIED) --- */
@@ -1250,13 +1273,26 @@
             
             <div class="footer-col">
                 <h4>Connect</h4>
-                <div class="social-grid">
-                    <a href="https://facebook.com" target="_blank" class="social-box fb"><i class="fa-brands fa-facebook-f"></i><span>Facebook</span></a>
-                    <a href="https://instagram.com" target="_blank" class="social-box ig"><i class="fa-brands fa-instagram"></i><span>Instagram</span></a>
-                    <a href="https://linkedin.com" target="_blank" class="social-box in"><i class="fa-brands fa-linkedin-in"></i><span>LinkedIn</span></a>
-                    <a href="https://telegram.org" target="_blank" class="social-box tg"><i class="fa-brands fa-telegram"></i><span>Telegram</span></a>
-                    <a href="#" class="social-box web"><i class="fa-solid fa-globe"></i><span>Website</span></a>
-                    <a href="mailto:info@sysmaster.com" class="social-box em"><i class="fa-solid fa-envelope"></i><span>Email</span></a>
+                <!-- Icon Only Layout -->
+                <div class="social-flex">
+                    <a href="https://facebook.com" target="_blank" class="social-icon fb" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="social-icon ig" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" class="social-icon in" aria-label="LinkedIn">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://telegram.org" target="_blank" class="social-icon tg" aria-label="Telegram">
+                        <i class="fa-brands fa-telegram"></i>
+                    </a>
+                    <a href="#" class="social-icon web" aria-label="Website">
+                        <i class="fa-solid fa-globe"></i>
+                    </a>
+                    <a href="mailto:info@sysmaster.com" class="social-icon em" aria-label="Email">
+                        <i class="fa-solid fa-envelope"></i>
+                    </a>
                 </div>
             </div>
         </div>
