@@ -14,11 +14,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- OCR LIBRARIES -->
-    <!-- Tesseract.js (OCR) v5 -->
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-    <!-- PDF.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <!-- Mammoth.js (Word Docs) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 
     <style>
@@ -37,24 +34,18 @@
             --text-dark: #1a202c;
             --text-muted: #718096;
             
-            /* Glassmorphism Variables */
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.9);
-            --glass-dropdown: rgba(255, 255, 255, 0.98);
-            --shadow-float: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
-            
             /* Shadows */
             --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             --shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
             
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --sidebar-width: 280px;
         }
 
-        /* --- FONTS --- */
+        /* --- FONTS & BODY --- */
         body {
             font-family: 'Poppins', sans-serif;
-            background: radial-gradient(circle at 50% 0%, #eef2ff 0%, var(--bg-color) 40%);
-            background-color: var(--bg-color);
+            background: #f8faff;
             color: var(--text-dark);
             line-height: 1.6;
             overflow-x: hidden;
@@ -84,118 +75,135 @@
         a { text-decoration: none; color: inherit; transition: var(--transition); }
         ul { list-style: none; }
 
-        /* --- STANDARD MODERN NAVBAR --- */
-        .nav-wrapper { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            right: 0; 
-            width: 100%;
-            background: #ffffff; /* Solid White */
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            box-shadow: 0 2px 15px rgba(0,0,0,0.03); 
-            z-index: 1000; 
-            padding: 0;
+        /* --- SIDEBAR STYLES --- */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: #ffffff;
+            border-right: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 2px 0 20px rgba(0,0,0,0.02);
+            z-index: 1000;
+            padding: 2rem 1.5rem;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        nav { 
-            width: 100%; 
-            max-width: 1600px; /* Standard wide container */
-            margin: 0 auto;
-            background: transparent; 
-            backdrop-filter: none; 
-            border: none; 
-            border-radius: 0; 
-            padding: 1rem 5%; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            box-shadow: none; 
+        .sidebar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 3rem;
+            padding-left: 10px;
         }
 
-        .logo { font-size: 1.4rem; font-weight: 700; color: var(--secondary-color); display: flex; align-items: center; gap: 10px; cursor: pointer; white-space: nowrap; }
-        .nav-links { display: flex; gap: 2.5rem; align-items: center; }
-        .nav-item { position: relative; }
-        .nav-link { font-weight: 500; font-size: 0.95rem; color: var(--text-dark); padding: 10px 0; display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; }
-        .nav-link:hover, .nav-link.active { color: var(--secondary-color); }
-        .nav-link i.fa-chevron-down { font-size: 0.7rem; transition: transform 0.3s; }
-        @media (min-width: 901px) { .nav-item:hover .nav-link i.fa-chevron-down { transform: rotate(180deg); } }
-
-        /* DROPDOWN - Solid White */
-        .dropdown-menu { 
-            position: absolute; 
-            top: 100%; 
-            left: 50%; 
-            transform: translateX(-50%) translateY(15px); 
-            width: 240px; 
-            background: #ffffff; /* Solid White */
-            border: 1px solid #f1f5f9; 
-            border-radius: 12px; 
-            padding: 8px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
-            opacity: 0; 
-            visibility: hidden; 
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); 
-            z-index: 1001; 
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1;
         }
-        /* Small triangle arrow */
-        .dropdown-menu::before { content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%) rotate(45deg); width: 12px; height: 12px; background: #ffffff; border-left: 1px solid #f1f5f9; border-top: 1px solid #f1f5f9; }
-        @media (min-width: 901px) { .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0px); } }
+
+        .menu-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #a0aec0;
+            margin: 15px 0 5px 15px;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .sidebar-link i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+        }
+
+        .sidebar-link:hover {
+            background: #f0f4ff;
+            color: var(--secondary-color);
+            transform: translateX(5px);
+        }
         
-        .dropdown-item a { display: flex; align-items: center; gap: 12px; padding: 12px 15px; border-radius: 8px; font-size: 0.9rem; color: var(--text-dark); transition: 0.2s; }
-        .dropdown-item a i { width: 25px; color: var(--secondary-color); text-align: center; }
-        .dropdown-item a:hover { background: #f0f4ff; color: var(--secondary-color); transform: translateX(5px); }
-        
-        .menu-toggle { display: none; font-size: 1.4rem; cursor: pointer; color: var(--text-dark); width: 40px; height: 40px; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.3s; }
-        .menu-toggle:active { background: rgba(0,0,0,0.05); }
-
-        /* RESPONSIVE NAV */
-        @media (max-width: 900px) {
-            .nav-wrapper { padding: 0; }
-            nav { padding: 0.8rem 5%; }
-            .menu-toggle { display: flex; }
-            .nav-links { 
-                position: absolute; 
-                top: 100%; 
-                left: 0; 
-                right: 0; 
-                background: #ffffff; 
-                flex-direction: column; 
-                align-items: stretch; 
-                padding: 1.5rem; 
-                margin: 0; 
-                border-top: 1px solid #f1f5f9;
-                border-radius: 0 0 20px 20px; 
-                box-shadow: 0 15px 30px rgba(0,0,0,0.1); 
-                display: none; 
-                gap: 8px; 
-                transform-origin: top center; 
-                animation: mobileMenuOpen 0.35s cubic-bezier(0.16, 1, 0.3, 1); 
-            }
-            .nav-links.active { display: flex; }
-            @keyframes mobileMenuOpen { from { opacity: 0; transform: scaleY(0.9); } to { opacity: 1; transform: scaleY(1); } }
-            .nav-item { width: 100%; }
-            .nav-link { width: 100%; justify-content: space-between; padding: 16px 20px; border-radius: 8px; background: transparent; transition: 0.2s; font-size: 1rem; }
-            .nav-link:active { background: #f1f5f9; }
-            .dropdown-menu { position: static; transform: none; width: 100%; opacity: 1; visibility: visible; box-shadow: none; border: none; background: #f8fafc; margin-top: 5px; border-radius: 8px; padding: 0; max-height: 0; overflow: hidden; transition: max-height 0.35s ease-out; }
-            .dropdown-menu::before { display: none; }
-            .nav-item.active-mobile .dropdown-menu { max-height: 600px; padding: 10px 0; margin-bottom: 10px; }
-            .nav-item.active-mobile .nav-link { color: var(--secondary-color); background: #eff6ff; }
-            .nav-item.active-mobile .nav-link i.fa-chevron-down { transform: rotate(180deg); }
+        .sidebar-link:hover i {
+            transform: scale(1.1);
         }
 
-        /* --- MAIN CONTENT --- */
-        /* Increased top padding because nav is now standard height approx 70px */
-        .main-content { max-width: 1600px; margin: 0 auto; padding: 150px 5% 4rem; position: relative; z-index: 10; }
-        
+        .sidebar-link.active {
+            background: var(--secondary-color);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        /* --- MOBILE HEADER & TOGGLE --- */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: white;
+            z-index: 900;
+            padding: 0 5%;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+
+        .mobile-toggle {
+            font-size: 1.4rem;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .sidebar-overlay.active { opacity: 1; }
+
+        /* --- MAIN CONTENT ADJUSTMENT --- */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 3rem 4rem;
+            min-height: 100vh;
+            transition: margin-left 0.3s;
+        }
+
         .section-header-container { margin-bottom: 2.5rem; text-align: left; }
         .dashboard-welcome { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; }
         .dashboard-subtitle { color: var(--text-muted); font-size: 1rem; }
+        
         .grid-container { display: grid; gap: 1.5rem; grid-template-columns: repeat(4, 1fr); }
-        @media (max-width: 1200px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 1400px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 700px) { .grid-container { grid-template-columns: 1fr; gap: 1rem; } }
+        
         .card { background: var(--card-bg); border-radius: 16px; padding: 2rem 1.5rem; box-shadow: var(--shadow-card); transition: var(--transition); cursor: pointer; border: 1px solid rgba(0,0,0,0.02); display: flex; flex-direction: column; align-items: center; text-align: center; height: 100%; min-height: 240px; }
         .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); border-color: rgba(102, 126, 234, 0.3); }
         .card:active { transform: scale(0.98); } 
@@ -209,77 +217,48 @@
         .card-btn { font-size: 0.8rem; font-weight: 600; color: var(--secondary-color); padding: 8px 20px; border-radius: 20px; background: #f0f4ff; transition: var(--transition); }
         .card:hover .card-btn { background: var(--secondary-color); color: white; }
 
-        /* --- UPDATED FOOTER --- */
+        /* --- RESPONSIVE SIDEBAR --- */
+        @media (max-width: 1024px) {
+            .sidebar { transform: translateX(-100%); box-shadow: none; }
+            .sidebar.show { transform: translateX(0); box-shadow: 2px 0 20px rgba(0,0,0,0.1); }
+            .main-content { margin-left: 0; padding: 2rem 5%; padding-top: 80px; }
+            .mobile-header { display: flex; }
+            .sidebar-overlay { display: block; pointer-events: none; }
+            .sidebar-overlay.active { pointer-events: auto; }
+        }
+
+        /* --- FOOTER IN MAIN CONTENT --- */
         footer { 
             background: linear-gradient(to bottom, #1a202c, #111827); 
             color: #cbd5e1; 
             margin-top: 4rem; 
-            padding: 4rem 5% 1rem; 
-            border-top-left-radius: 40px; 
-            border-top-right-radius: 40px; 
+            padding: 3rem 3rem 1rem; 
+            border-radius: 24px;
             position: relative;
             z-index: 10;
         }
         
         .footer-content { 
-            max-width: 1400px; 
-            margin: 0 auto; 
             display: grid; 
             grid-template-columns: 2fr 1fr 1fr 1.5fr; 
             gap: 2.5rem; 
-            margin-bottom: 3rem; 
+            margin-bottom: 2rem; 
         }
-        
-        .footer-brand h2 { color: white; margin-bottom: 1rem; font-size: 1.8rem; display: flex; align-items: center; gap: 10px; }
-        .footer-brand p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; margin-bottom: 1.5rem; max-width: 300px; }
-        
-        .footer-col h4 { color: white; margin-bottom: 1.2rem; font-size: 1.1rem; position: relative; display: inline-block; }
-        .footer-col h4::after { content: ''; position: absolute; left: 0; bottom: -5px; width: 30px; height: 3px; background: var(--secondary-color); border-radius: 2px; }
-        
-        .footer-links li { margin-bottom: 0.8rem; }
-        .footer-links a { color: #94a3b8; font-size: 0.9rem; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
+        .footer-brand h2 { color: white; margin-bottom: 1rem; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        .footer-brand p { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; max-width: 300px; }
+        .footer-col h4 { color: white; margin-bottom: 1.2rem; font-size: 1rem; }
+        .footer-links li { margin-bottom: 0.6rem; }
+        .footer-links a { color: #94a3b8; font-size: 0.85rem; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; }
         .footer-links a:hover { color: white; transform: translateX(5px); }
-        .footer-links a i { font-size: 0.8rem; color: var(--secondary-color); }
-
-        /* --- UPDATED SOCIAL ICONS (Icon Only) --- */
-        .social-flex { 
-            display: flex; 
-            gap: 12px; 
-            flex-wrap: wrap; 
+        .social-flex { display: flex; gap: 10px; flex-wrap: wrap; }
+        .social-icon { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: #cbd5e1; transition: 0.3s; }
+        .social-icon:hover { transform: translateY(-3px); color: white; background: var(--secondary-color); }
+        .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem; font-size: 0.8rem; color: #64748b; display: flex; justify-content: space-between; }
+        @media (max-width: 768px) { 
+            .footer-content { grid-template-columns: 1fr; gap: 2rem; } 
+            .footer-bottom { flex-direction: column; gap: 10px; }
+            footer { padding: 2rem 1.5rem 1rem; }
         }
-        
-        .social-icon { 
-            width: 42px; 
-            height: 42px; 
-            border-radius: 50%; 
-            background: rgba(255,255,255,0.05); 
-            border: 1px solid rgba(255,255,255,0.1); 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            color: #cbd5e1; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
-            font-size: 1.1rem;
-        }
-
-        .social-icon:hover { 
-            transform: translateY(-4px) scale(1.1); 
-            color: white; 
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
-            border-color: transparent;
-        }
-
-        /* Brand Colors on Hover */
-        .social-icon.fb:hover { background: #1877F2; }
-        .social-icon.ig:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-        .social-icon.in:hover { background: #0A66C2; }
-        .social-icon.tg:hover { background: #0088cc; }
-        .social-icon.web:hover { background: var(--secondary-color); }
-        .social-icon.em:hover { background: #38b2ac; }
-
-        .footer-bottom { text-align: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 2rem; font-size: 0.85rem; color: #64748b; display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto; }
-        @media (max-width: 1024px) { .footer-content { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 600px) { .footer-content { grid-template-columns: 1fr; gap: 2.5rem; } .footer-bottom { flex-direction: column; gap: 10px; } footer { padding-top: 3rem; border-radius: 30px 30px 0 0; } }
 
         /* --- MODALS (SCROLL FIXES APPLIED) --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(26, 32, 44, 0.6); backdrop-filter: blur(5px); z-index: 2000; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
@@ -314,74 +293,27 @@
         .calc-input:focus { border-color: var(--secondary-color); background: white; }
         .note-text { font-size: 0.75rem; color: #a0aec0; margin-top: 5px; display: block; }
 
-        /* =========================================
-           UPDATED DARK THEME RESULT BOX
-           ========================================= */
-        .result-box {
-            margin-top: 1.5rem;
-            /* Dark Slate Background Gradient */
-            background: linear-gradient(145deg, #1e293b, #0f172a); 
-            border: 1px solid #334155;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 5px 10px -5px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-            color: #f8fafc; /* Light Text Default */
-        }
-        
-        /* Top Gradient Accent Bars */
+        /* Result Box */
+        .result-box { margin-top: 1.5rem; background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid #334155; border-radius: 16px; padding: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3); position: relative; overflow: hidden; color: #f8fafc; }
         .result-box.accent-top::before { content: ''; position: absolute; top: 0; left: 25%; right: 25%; height: 4px; background: var(--primary-gradient); border-radius: 0 0 10px 10px; box-shadow: 0 0 15px rgba(79, 172, 254, 0.5); }
         .result-box.finance-top::before { content: ''; position: absolute; top: 0; left: 25%; right: 25%; height: 4px; background: var(--finance-gradient); border-radius: 0 0 10px 10px; box-shadow: 0 0 15px rgba(67, 233, 123, 0.5); }
-        
-        /* Structure inside box */
-        .res-primary-row { 
-            text-align: center; 
-            margin-bottom: 1.2rem; 
-            padding-bottom: 1.2rem; 
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
-        }
-        
+        .res-primary-row { text-align: center; margin-bottom: 1.2rem; padding-bottom: 1.2rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
         .stats-row { display: flex; justify-content: space-between; }
         .stat-item { text-align: center; width: 50%; }
         .stat-item:first-child { border-right: 1px solid rgba(255, 255, 255, 0.1); }
-        
-        /* Text Styles - High Contrast */
-        .lbl-small { 
-            font-size: 0.75rem; 
-            letter-spacing: 1.2px; 
-            color: #94a3b8; /* Lighter Gray for dark bg */
-            font-weight: 700; 
-            text-transform: uppercase; 
-        }
-        
-        .big-price { 
-            font-size: 2rem; 
-            font-weight: 800; 
-            color: #ffffff; 
-            margin-top: 5px; 
-            line-height: 1.2; 
-            word-break: break-all;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3); /* Pop Effect */
-        }
-        
-        .stat-val { 
-            font-size: 1.05rem; 
-            font-weight: 600; 
-            color: #e2e8f0; /* Off-white */
-            margin-top: 5px; 
-        }
+        .lbl-small { font-size: 0.75rem; letter-spacing: 1.2px; color: #94a3b8; font-weight: 700; text-transform: uppercase; }
+        .big-price { font-size: 2rem; font-weight: 800; color: #ffffff; margin-top: 5px; line-height: 1.2; word-break: break-all; }
+        .stat-val { font-size: 1.05rem; font-weight: 600; color: #e2e8f0; margin-top: 5px; }
 
-        /* Specific Color Overrides for Dark Background (Brighter/Neon) */
-        .result-box .text-profit { color: #68d391 !important; } /* Bright Green */
-        .result-box .text-loss { color: #fc8181 !important; }   /* Bright Red */
-        .result-box .text-neutral { color: #cbd5e0 !important; } 
-        .result-box .text-markup { color: #f6e05e !important; } /* Bright Yellow */
-        .result-box .text-primary { color: #63b3ed !important; } /* Bright Blue */
-        .result-box .text-finance { color: #4fd1c5 !important; } /* Bright Teal */
-        .result-box .text-exchange { color: #f687b3 !important; } /* Bright Pink */
+        .result-box .text-profit { color: #68d391 !important; }
+        .result-box .text-loss { color: #fc8181 !important; }
+        .result-box .text-neutral { color: #cbd5e0 !important; }
+        .result-box .text-markup { color: #f6e05e !important; }
+        .result-box .text-primary { color: #63b3ed !important; }
+        .result-box .text-finance { color: #4fd1c5 !important; }
+        .result-box .text-exchange { color: #f687b3 !important; }
 
-        /* Finance Visuals in Dark Box */
+        /* Finance Visuals */
         .progress-stack { width: 100%; height: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 5px; overflow: hidden; display: flex; margin-top: 10px; }
         .progress-bar { height: 100%; transition: width 0.5s ease; }
         .p-principal { background: #63b3ed; }
@@ -390,7 +322,6 @@
         .legend-item { display: flex; align-items: center; gap: 5px; }
         .dot { width: 8px; height: 8px; border-radius: 50%; }
 
-        /* Finance Specifics */
         .currency-switch { display: flex; background: #e2e8f0; border-radius: 20px; padding: 2px; cursor: pointer; margin-right: 10px; position: relative; width: 90px; height: 32px; }
         .currency-option { flex: 1; text-align: center; font-size: 0.75rem; font-weight: 700; z-index: 2; line-height: 28px; transition: color 0.3s; }
         .currency-slider { position: absolute; top: 2px; left: 2px; width: 43px; height: 28px; background: white; border-radius: 18px; transition: transform 0.3s; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 1; }
@@ -462,57 +393,69 @@
         .ocr-toast { position: absolute; bottom: 20px; right: 20px; background: #2d3748; color: white; padding: 10px 15px; border-radius: 8px; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; box-shadow: 0 10px 15px rgba(0,0,0,0.2); transform: translateY(50px); opacity: 0; transition: 0.3s; z-index: 100; }
         .ocr-toast.show { transform: translateY(0); opacity: 1; }
         @media (max-width: 768px) { .ocr-main { flex-direction: column; } .ocr-col-left, .ocr-col-right { width: 100%; height: 50%; } }
-
-        /* --- MOBILE TWEAKS --- */
-        @media (max-width: 600px) {
-            .modal-card { width: 100%; height: 100%; max-height: 100vh; border-radius: 0; padding: 1.5rem; transform: translateY(20px); }
-            .modal-overlay.active .modal-card { transform: translateY(0); }
-            .input-row { gap: 0.8rem; }
-            .calc-input { font-size: 16px; padding: 12px; }
-            .calc-tabs { top: 60px; }
-        }
     </style>
 </head>
 <body>
 
-    <!-- Standard Modern Navigation -->
-    <div class="nav-wrapper">
-        <nav>
-            <div class="logo" onclick="window.scrollTo({top:0, behavior:'smooth'})">
-                <i class="fa-solid fa-cube"></i> <span>SysMaster</span>
-            </div>
-            
-            <div class="menu-toggle" id="mobile-menu">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-
-            <!-- Navbar Links -->
-            <ul class="nav-links" id="nav-links">
-                <li class="nav-item">
-                    <a href="#" class="nav-link active">Dashboard</a>
-                </li>
-                <li class="nav-item" id="mobile-dropdown-trigger">
-                    <div class="nav-link">
-                        Categories <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                    <!-- Dropdown -->
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-item"><a href="#" onclick="openBizCalc(event)"><i class="fa-solid fa-calculator"></i> Biz Calc</a></li>
-                        <li class="dropdown-item"><a href="#" onclick="openFinCalc(event)"><i class="fa-solid fa-coins"></i> Finance</a></li>
-                        <li class="dropdown-item"><a href="#" onclick="openExchange(event)"><i class="fa-solid fa-money-bill-transfer"></i> Exchange Rate</a></li>
-                        <li class="dropdown-item"><a href="#" onclick="openOcr(event)"><i class="fa-solid fa-file-waveform"></i> OCR Extraction</a></li>
-                        <li class="dropdown-item"><a href="#"><i class="fa-solid fa-envelope-open-text"></i> Email Hub</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
+    <!-- Mobile Toggle Header -->
+    <div class="mobile-header">
+        <div class="logo" style="font-weight:700; color:var(--secondary-color);">
+            <i class="fa-solid fa-cube"></i> SysMaster
+        </div>
+        <div class="mobile-toggle" id="mobile-menu-btn">
+            <i class="fa-solid fa-bars"></i>
+        </div>
     </div>
 
+    <!-- Sidebar Overlay for Mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+            <i class="fa-solid fa-cube"></i> <span>SysMaster</span>
+        </div>
+        
+        <div class="sidebar-menu">
+            <div class="sidebar-link active" onclick="closeSidebar()">
+                <i class="fa-solid fa-gauge-high"></i> Dashboard
+            </div>
+            
+            <div class="menu-label">Calculators</div>
+            
+            <div class="sidebar-link" onclick="openBizCalc(event); closeSidebar();">
+                <i class="fa-solid fa-calculator"></i> Biz Calc
+            </div>
+            
+            <div class="sidebar-link" onclick="openFinCalc(event); closeSidebar();">
+                <i class="fa-solid fa-coins"></i> Finance Pro
+            </div>
+            
+            <div class="menu-label">Utilities</div>
+            
+            <div class="sidebar-link" onclick="openExchange(event); closeSidebar();">
+                <i class="fa-solid fa-money-bill-transfer"></i> Exchange Rate
+            </div>
+            
+            <div class="sidebar-link" onclick="openOcr(event); closeSidebar();">
+                <i class="fa-solid fa-file-waveform"></i> OCR Scanner
+            </div>
+
+            <div class="sidebar-link" style="opacity:0.6; cursor:default;">
+                <i class="fa-solid fa-envelope-open-text"></i> Email Hub
+            </div>
+        </div>
+        
+        <div style="font-size:0.7rem; color:var(--text-muted); text-align:center;">
+            v1.0.2 Stable
+        </div>
+    </aside>
+
     <!-- Main Content Area -->
-    <section class="main-content">
+    <main class="main-content">
         <div class="section-header-container">
             <h1 class="dashboard-welcome">System Dashboard</h1>
-            <p class="dashboard-subtitle">Select a module below to begin your work.</p>
+            <p class="dashboard-subtitle">Select a module from the sidebar or below to begin.</p>
         </div>
         
         <div class="grid-container">
@@ -545,7 +488,49 @@
                 <div class="card-btn">Access</div>
             </div>
         </div>
-    </section>
+
+        <!-- Footer inside Main Content -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h2><i class="fa-solid fa-cube" style="color:var(--secondary-color);"></i> SysMaster</h2>
+                    <p>Empowering businesses with streamlined tools for calculation, financial planning, and real-time market insights.</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Quick Access</h4>
+                    <ul class="footer-links">
+                        <li><a href="#" onclick="openBizCalc(event)"><i class="fa-solid fa-chevron-right"></i> Biz Calculator</a></li>
+                        <li><a href="#" onclick="openFinCalc(event)"><i class="fa-solid fa-chevron-right"></i> Finance Pro</a></li>
+                        <li><a href="#" onclick="openExchange(event)"><i class="fa-solid fa-chevron-right"></i> Exchange Rate</a></li>
+                        <li><a href="#" onclick="openOcr(event)"><i class="fa-solid fa-chevron-right"></i> OCR Extraction</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <div class="social-flex">
+                        <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-brands fa-telegram"></i></a>
+                        <a href="#" class="social-icon"><i class="fa-solid fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <span>&copy; 2026 SysMaster Inc.</span>
+                <span>Designed with <i class="fa-solid fa-heart" style="color:var(--secondary-color);"></i> in Cambodia.</span>
+            </div>
+        </footer>
+    </main>
 
     <!-- BIZ CALCULATOR MODAL -->
     <div class="modal-overlay" id="calcModal">
@@ -1243,94 +1228,35 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <h2><i class="fa-solid fa-cube" style="color:var(--secondary-color);"></i> SysMaster</h2>
-                <p>Empowering businesses with streamlined tools for calculation, financial planning, and real-time market insights. Your productivity, our priority.</p>
-            </div>
-            
-            <div class="footer-col">
-                <h4>Quick Access</h4>
-                <ul class="footer-links">
-                    <li><a href="#" onclick="openBizCalc(event)"><i class="fa-solid fa-chevron-right"></i> Biz Calculator</a></li>
-                    <li><a href="#" onclick="openFinCalc(event)"><i class="fa-solid fa-chevron-right"></i> Finance Pro</a></li>
-                    <li><a href="#" onclick="openExchange(event)"><i class="fa-solid fa-chevron-right"></i> Exchange Rate</a></li>
-                    <li><a href="#" onclick="openOcr(event)"><i class="fa-solid fa-chevron-right"></i> OCR Extraction</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-col">
-                <h4>Support</h4>
-                <ul class="footer-links">
-                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Documentation</a></li>
-                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> API Reference</a></li>
-                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Privacy Policy</a></li>
-                    <li><a href="#"><i class="fa-solid fa-chevron-right"></i> Terms of Service</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-col">
-                <h4>Connect</h4>
-                <!-- Icon Only Layout -->
-                <div class="social-flex">
-                    <a href="https://facebook.com" target="_blank" class="social-icon fb" aria-label="Facebook">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
-                    <a href="https://instagram.com" target="_blank" class="social-icon ig" aria-label="Instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="https://linkedin.com" target="_blank" class="social-icon in" aria-label="LinkedIn">
-                        <i class="fa-brands fa-linkedin-in"></i>
-                    </a>
-                    <a href="https://telegram.org" target="_blank" class="social-icon tg" aria-label="Telegram">
-                        <i class="fa-brands fa-telegram"></i>
-                    </a>
-                    <a href="#" class="social-icon web" aria-label="Website">
-                        <i class="fa-solid fa-globe"></i>
-                    </a>
-                    <a href="mailto:info@sysmaster.com" class="social-icon em" aria-label="Email">
-                        <i class="fa-solid fa-envelope"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <span>&copy; 2026 SysMaster Inc. All rights reserved.</span>
-            <span>Designed with <i class="fa-solid fa-heart" style="color:var(--secondary-color);"></i> in Cambodia.</span>
-        </div>
-    </footer>
-
     <script>
-        // --- Mobile Menu ---
-        const menuToggle = document.getElementById('mobile-menu');
-        const navLinks = document.getElementById('nav-links');
-        const mobileDropTrigger = document.getElementById('mobile-dropdown-trigger');
+        // --- Sidebar Logic ---
+        const sidebar = document.getElementById('sidebar');
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const overlay = document.getElementById('sidebar-overlay');
 
-        menuToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            navLinks.classList.toggle('active');
-            const icon = menuToggle.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-xmark');
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!navLinks.contains(e.target) && !menuToggle.contains(e.target) && navLinks.classList.contains('active')) {
-                navLinks.classList.remove('active');
-                const icon = menuToggle.querySelector('i');
-                icon.classList.add('fa-bars');
+        function toggleSidebar() {
+            sidebar.classList.toggle('show');
+            overlay.classList.toggle('active');
+            const icon = mobileBtn.querySelector('i');
+            if (sidebar.classList.contains('show')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
                 icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
             }
-        });
+        }
 
-        mobileDropTrigger.addEventListener('click', (e) => {
-            if (window.innerWidth <= 900) {
-                mobileDropTrigger.classList.toggle('active-mobile');
-            }
-        });
+        function closeSidebar() {
+            sidebar.classList.remove('show');
+            overlay.classList.remove('active');
+            const icon = mobileBtn.querySelector('i');
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+        }
+
+        mobileBtn.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', closeSidebar);
 
         // --- Scroll Animation ---
         const observer = new IntersectionObserver((entries) => {
@@ -1359,7 +1285,6 @@
         function openBizCalc(e) {
             e.preventDefault(); e.stopPropagation();
             calcModal.classList.add('active');
-            navLinks.classList.remove('active');
         }
 
         if(openCalcBtn) openCalcBtn.addEventListener('click', openBizCalc);
@@ -1380,7 +1305,6 @@
         function openFinCalc(e) {
             e.preventDefault(); e.stopPropagation();
             finModal.classList.add('active');
-            navLinks.classList.remove('active');
         }
 
         if(openFinBtn) openFinBtn.addEventListener('click', openFinCalc);
@@ -1472,7 +1396,6 @@
         function openExchange(e) {
             e.preventDefault(); e.stopPropagation();
             exchangeModal.classList.add('active');
-            navLinks.classList.remove('active');
             fetchLiveRates();
             if (autoRefreshInterval) clearInterval(autoRefreshInterval);
             autoRefreshInterval = setInterval(fetchLiveRates, 60000);
@@ -1575,7 +1498,6 @@
         function openOcr(e) {
             e.preventDefault(); e.stopPropagation();
             ocrModal.classList.add('active');
-            navLinks.classList.remove('active');
         }
 
         function resetUI() {
