@@ -297,6 +297,7 @@
         .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
         .calc-input, .calc-select { width: 100%; padding: 14px 15px; border: 2px solid #e2e8f0; border-radius: 12px; font-family: 'Poppins', sans-serif; font-size: 1rem; color: var(--text-dark); outline: none; transition: 0.2s; background: #fcfdfe; -webkit-appearance: none; }
         .calc-input:focus { border-color: var(--secondary-color); background: white; }
+        .calc-input::placeholder { color: #cbd5e0; font-style: italic; font-weight: 400; font-size: 0.95rem; }
         .note-text { font-size: 0.75rem; color: #a0aec0; margin-top: 5px; display: block; }
 
         /* Result Box */
@@ -3418,6 +3419,16 @@
             
             cameraScanning = false;
             
+            // Stop ZXing barcode scanning if active
+            if (window.barcodeScanControls) {
+                try {
+                    window.barcodeScanControls.stop();
+                    window.barcodeScanControls = null;
+                } catch (e) {
+                    console.log('Error stopping barcode scan controls:', e);
+                }
+            }
+            
             if (cameraStream) {
                 cameraStream.getTracks().forEach(track => track.stop());
                 cameraStream = null;
@@ -3540,8 +3551,10 @@
                 uploadSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 
                 // Start barcode detection after image loads (only if library is available)
-                img.onload = function() {
+                img.onload = async function() {
                     if (typeof ZXing !== 'undefined') {
+                        // Small delay to ensure image is fully rendered in DOM
+                        await new Promise(resolve => setTimeout(resolve, 300));
                         detectBarcodeFromImage(img);
                     }
                 };
@@ -3576,9 +3589,26 @@
                 }
                 
                 console.log('Attempting to decode barcode from image...');
+                console.log('Image element:', imgElement);
+                console.log('Image src:', imgElement.src?.substring(0, 50) + '...');
+                console.log('Image dimensions:', imgElement.naturalWidth, 'x', imgElement.naturalHeight);
                 
-                // Try to decode barcode from image
-                const result = await barcodeReader.decodeFromImageElement(imgElement);
+                // Ensure image is fully loaded and has dimensions
+                if (!imgElement.naturalWidth || !imgElement.naturalHeight) {
+                    console.warn('Image not fully loaded, waiting...');
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                }
+                
+                // Try to decode barcode from image using decodeFromImageUrl with the src
+                let result = null;
+                try {
+                    // First try with decodeFromImageUrl using the image src
+                    result = await barcodeReader.decodeFromImageUrl(imgElement.src);
+                } catch (urlErr) {
+                    console.log('decodeFromImageUrl failed, trying decodeFromImageElement:', urlErr.message);
+                    // Fallback to decodeFromImageElement
+                    result = await barcodeReader.decodeFromImageElement(imgElement);
+                }
                 
                 console.log('Detection result:', result);
                 
@@ -3648,39 +3678,54 @@
             scanningIndicator.style.display = 'flex';
         }
         
-        function startBarcodeDetection() {
-            // Simulated barcode detection
-            // In a production app, you would use a library like QuaggaJS or zxing
-            // For now, this is a placeholder that captures frames
+        async function startBarcodeDetection() {
             const video = document.getElementById('cameraVideo');
-            const canvas = document.getElementById('cameraCanvas');
-            const ctx = canvas.getContext('2d');
             
-            function captureFrame() {
-                if (!cameraScanning) return;
+            try {
+                // Initialize ZXing reader for video scanning
+                await initBarcodeReader();
                 
-                if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                    canvas.width = video.videoWidth;
-                    canvas.height = video.videoHeight;
-                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                    
-                    // Here you would integrate with a barcode scanning library
-                    // For demo purposes, we'll show a message after 5 seconds
+                if (!barcodeReader) {
+                    console.warn('Barcode reader not available for camera scanning');
+                    showToast('Camera active - Point at barcode or enter manually', 'info');
+                    return;
                 }
                 
-                if (cameraScanning) {
-                    requestAnimationFrame(captureFrame);
-                }
+                console.log('Starting continuous barcode detection from camera...');
+                
+                // Use ZXing's decodeFromVideoDevice for continuous scanning
+                const controls = await barcodeReader.decodeFromVideoDevice(
+                    undefined, // Use default camera (environment facing)
+                    video,
+                    (result, error, controls) => {
+                        if (result && result.getText()) {
+                            const barcode = result.getText();
+                            console.log('Camera detected barcode:', barcode);
+                            
+                            // Stop scanning
+                            controls.stop();
+                            cameraScanning = false;
+                            
+                            // Fill in the input and scan
+                            barcodeInput.value = barcode;
+                            stopCameraScan();
+                            scanBarcode();
+                            
+                            showToast(`Barcode detected: ${barcode}`, 'success');
+                        }
+                        if (error && error.name !== 'NotFoundException') {
+                            console.warn('Camera scan error:', error);
+                        }
+                    }
+                );
+                
+                // Store controls to stop later if needed
+                window.barcodeScanControls = controls;
+                
+            } catch (err) {
+                console.error('Camera barcode detection error:', err);
+                showToast('Camera scanning not available - Enter barcode manually', 'info');
             }
-            
-            captureFrame();
-            
-            // Show info toast about manual entry
-            setTimeout(() => {
-                if (cameraScanning) {
-                    showToast('Tap "Stop Scan" and enter barcode manually for best results', 'info');
-                }
-            }, 3000);
         }
         
         // --- Prefix Modal Logic ---
@@ -3939,8 +3984,17 @@
         function calculatePriceLogic(source) {
             if(source === 'reset') { updatePriceDOM(0,0,0); return; }
             let orig = parseFloat(pOrig.value) || 0, perc = parseFloat(pDisc.value) || 0, sale = parseFloat(pSale.value) || 0;
-            if (source === 'original' || source === 'percent') { sale = orig * (1 - (perc / 100)); pSale.value = sale.toFixed(2); } 
-            else if (source === 'sale') { if (orig !== 0) { perc = ((orig - sale) / orig) * 100; pDisc.value = perc.toFixed(2); } }
+            // Calculate sale price from original + discount %
+            if (source === 'original' || source === 'percent') {
+                sale = orig * (1 - (perc / 100));
+            }
+            // Calculate discount % from original + sale price
+            else if (source === 'sale') {
+                if (orig !== 0) {
+                    perc = ((orig - sale) / orig) * 100;
+                }
+            }
+            // Only update result fields - never auto-populate input fields
             updatePriceDOM(sale, perc, sale - orig);
         }
 
