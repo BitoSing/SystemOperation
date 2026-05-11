@@ -1375,9 +1375,9 @@
                         <button class="barcode-paste-btn" onclick="showPasteHint()" title="Ctrl+V to paste image">
                             <i class="fa-solid fa-paste"></i>
                         </button>
-                        <input type="file" id="barcodeFileInput" class="hidden" accept="image/*" onchange="handleBarcodeImageUpload(event)">
+                        <input type="file" id="barcodeFileInput" class="hidden" accept="image/*" capture="environment" onchange="handleBarcodeImageUpload(event)">
                     </div>
-                    <p class="paste-hint-text"><i class="fa-solid fa-keyboard"></i> Tip: Press <kbd>Ctrl</kbd>+<kbd>V</kbd> to paste image from clipboard</p>
+                    <p class="paste-hint-text"><i class="fa-solid fa-mobile-screen"></i> Mobile: Tap image button to take photo | Desktop: Press Ctrl+V to paste</p>
                 </div>
 
                 <!-- Camera Scan Section -->
@@ -3490,12 +3490,17 @@
                         ZXing.BarcodeFormat.EAN_8,
                         ZXing.BarcodeFormat.UPC_A,
                         ZXing.BarcodeFormat.UPC_E,
+                        ZXing.BarcodeFormat.UPC_EAN_EXTENSION,
                         ZXing.BarcodeFormat.CODE_128,
-                        ZXing.BarcodeFormat.CODE_39
+                        ZXing.BarcodeFormat.CODE_39,
+                        ZXing.BarcodeFormat.ITF,
+                        ZXing.BarcodeFormat.RSS_14,
+                        ZXing.BarcodeFormat.RSS_EXPANDED
                     ]);
                     
                     barcodeReader = new ZXing.BrowserMultiFormatReader(hints);
                     console.log('ZXing barcode reader initialized successfully');
+                    console.log('Supported formats:', hints.get(ZXing.DecodeHintType.POSSIBLE_FORMATS));
                 } catch (err) {
                     console.error('ZXing initialization error:', err);
                     console.warn('ZXing not available, falling back to manual entry');
@@ -3517,7 +3522,7 @@
             
             const reader = new FileReader();
             
-            reader.onload = function(e) {
+            reader.onload = async function(e) {
                 currentUploadedImage = e.target.result;
                 const img = document.getElementById('uploadedBarcodeImage');
                 const uploadSection = document.getElementById('imageUploadSection');
@@ -3526,7 +3531,10 @@
                 const libraryStatus = document.getElementById('libraryStatus');
                 const libraryStatusText = document.getElementById('libraryStatusText');
                 
-                img.src = currentUploadedImage;
+                // Hide camera if active
+                stopCameraScan();
+                
+                // Show upload section
                 uploadSection.classList.remove('hidden');
                 
                 // Check library availability
@@ -3540,24 +3548,30 @@
                     libraryStatusText.innerHTML = '<i class="fa-solid fa-circle-check"></i> Barcode detection ready';
                     
                     // Show scanning state
-                    uploadHint.textContent = 'Scanning for barcode...';
+                    uploadHint.textContent = 'Loading image...';
                     scanningIndicator.style.display = 'flex';
                 }
-                
-                // Hide camera if active
-                stopCameraScan();
                 
                 // Scroll to uploaded image
                 uploadSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 
-                // Start barcode detection after image loads (only if library is available)
-                img.onload = async function() {
-                    if (typeof ZXing !== 'undefined') {
-                        // Small delay to ensure image is fully rendered in DOM
-                        await new Promise(resolve => setTimeout(resolve, 300));
-                        detectBarcodeFromImage(img);
-                    }
-                };
+                // Wait for image to fully load before detection
+                await new Promise((resolve) => {
+                    img.onload = resolve;
+                    img.onerror = resolve;
+                    img.src = currentUploadedImage;
+                    // Fallback timeout
+                    setTimeout(resolve, 2000);
+                });
+                
+                console.log('Image loaded, starting detection...');
+                uploadHint.textContent = 'Scanning for barcode...';
+                
+                // Start barcode detection (only if library is available)
+                if (typeof ZXing !== 'undefined') {
+                    await new Promise(resolve => setTimeout(resolve, 300)); // Let DOM render
+                    detectBarcodeFromImage(img);
+                }
             };
             
             reader.onerror = function() {
@@ -3590,24 +3604,68 @@
                 
                 console.log('Attempting to decode barcode from image...');
                 console.log('Image element:', imgElement);
-                console.log('Image src:', imgElement.src?.substring(0, 50) + '...');
                 console.log('Image dimensions:', imgElement.naturalWidth, 'x', imgElement.naturalHeight);
                 
-                // Ensure image is fully loaded and has dimensions
-                if (!imgElement.naturalWidth || !imgElement.naturalHeight) {
-                    console.warn('Image not fully loaded, waiting...');
-                    await new Promise(resolve => setTimeout(resolve, 500));
+                // Wait for image to be fully loaded
+                if (!imgElement.complete || !imgElement.naturalWidth) {
+                    console.log('Waiting for image to load...');
+                    await new Promise((resolve) => {
+                        imgElement.onload = resolve;
+                        imgElement.onerror = resolve;
+                        setTimeout(resolve, 1000); // Timeout fallback
+                    });
                 }
                 
-                // Try to decode barcode from image using decodeFromImageUrl with the src
+                // Create canvas and draw image for reliable decoding
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // Get dimensions
+                let imgWidth = imgElement.naturalWidth || imgElement.width;
+                let imgHeight = imgElement.naturalHeight || imgElement.height;
+                
+                // Resize large mobile images for better performance
+                const MAX_SIZE = 1200;
+                if (imgWidth > MAX_SIZE || imgHeight > MAX_SIZE) {
+                    const ratio = Math.min(MAX_SIZE / imgWidth, MAX_SIZE / imgHeight);
+                    imgWidth = Math.floor(imgWidth * ratio);
+                    imgHeight = Math.floor(imgHeight * ratio);
+                    console.log('Image resized for mobile:', imgWidth, 'x', imgHeight);
+                }
+                
+                canvas.width = imgWidth;
+                canvas.height = imgHeight;
+                
+                // Enable image smoothing for better quality
+                ctx.imageSmoothingEnabled = true;
+                ctx.imageSmoothingQuality = 'high';
+                
+                // Draw image to canvas
+                ctx.drawImage(imgElement, 0, 0, imgWidth, imgHeight);
+                
+                console.log('Canvas created:', canvas.width, 'x', canvas.height);
+                
+                // Get image data as base64 URL for ZXing (use JPEG for smaller size on mobile)
+                const imageDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+                
+                // Try to decode from the canvas URL with more attempts for mobile
                 let result = null;
-                try {
-                    // First try with decodeFromImageUrl using the image src
-                    result = await barcodeReader.decodeFromImageUrl(imgElement.src);
-                } catch (urlErr) {
-                    console.log('decodeFromImageUrl failed, trying decodeFromImageElement:', urlErr.message);
-                    // Fallback to decodeFromImageElement
-                    result = await barcodeReader.decodeFromImageElement(imgElement);
+                let attempts = 0;
+                const maxAttempts = 5; // More attempts for mobile
+                
+                while (attempts < maxAttempts && !result) {
+                    try {
+                        console.log(`Decode attempt ${attempts + 1}/${maxAttempts}...`);
+                        result = await barcodeReader.decodeFromImageUrl(imageDataUrl);
+                        console.log('Decode successful!');
+                        break;
+                    } catch (decodeErr) {
+                        console.log(`Attempt ${attempts + 1} failed:`, decodeErr.message);
+                        attempts++;
+                        if (attempts < maxAttempts) {
+                            await new Promise(resolve => setTimeout(resolve, 300));
+                        }
+                    }
                 }
                 
                 console.log('Detection result:', result);
