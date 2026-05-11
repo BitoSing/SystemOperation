@@ -632,7 +632,7 @@
             <div id="tab-price" class="tab-content active">
                 <div class="input-group">
                     <label class="input-label">Original Price ($)</label>
-                    <input type="number" class="calc-input" id="p-orig" placeholder="e.g. 1,000">
+                    <input type="text" class="calc-input number-format" id="p-orig" placeholder="e.g. 1,000">
                 </div>
                 <div class="input-row">
                     <div class="input-group">
@@ -641,7 +641,7 @@
                     </div>
                     <div class="input-group">
                         <label class="input-label">Sale Price ($)</label>
-                        <input type="number" class="calc-input" id="p-sale" placeholder="850">
+                        <input type="text" class="calc-input number-format" id="p-sale" placeholder="850">
                     </div>
                 </div>
                 <div class="result-box accent-top">
@@ -705,11 +705,11 @@
                 <div class="input-row">
                     <div class="input-group">
                         <label class="input-label">Old Price ($)</label>
-                        <input type="number" class="calc-input" id="ex-old" placeholder="0">
+                        <input type="text" class="calc-input number-format" id="ex-old" placeholder="0">
                     </div>
                     <div class="input-group">
                         <label class="input-label">New Price ($)</label>
-                        <input type="number" class="calc-input" id="ex-new" placeholder="0">
+                        <input type="text" class="calc-input number-format" id="ex-new" placeholder="0">
                     </div>
                 </div>
                 <div class="input-row">
@@ -743,7 +743,7 @@
             <div id="tab-inv" class="tab-content">
                 <div class="input-group">
                     <label class="input-label">Target Total (Incl. VAT)</label>
-                    <input type="number" class="calc-input" id="i-total" placeholder="500.00">
+                    <input type="text" class="calc-input number-format" id="i-total" placeholder="500.00">
                     <small id="i-note" class="note-text">(Excl VAT: $0.00)</small>
                 </div>
                 <div class="input-row">
@@ -753,7 +753,7 @@
                     </div>
                     <div class="input-group">
                         <label class="input-label">Sys Price (Incl)</label>
-                        <input type="number" class="calc-input" id="i-sys" placeholder="450">
+                        <input type="text" class="calc-input number-format" id="i-sys" placeholder="450">
                     </div>
                 </div>
                 <div class="result-box">
@@ -778,7 +778,7 @@
                 <div class="input-row">
                     <div class="input-group">
                         <label class="input-label">Monthly Fee</label>
-                        <input type="number" class="calc-input" id="b-fee" placeholder="150">
+                        <input type="text" class="calc-input number-format" id="b-fee" placeholder="150">
                     </div>
                     <div class="input-group">
                         <label class="input-label">Days in Month</label>
@@ -807,7 +807,7 @@
                     </div>
                     <div class="input-group">
                         <label class="input-label">OR Rem. Fee</label>
-                        <input type="number" class="calc-input" id="b-rem-fee" placeholder="25">
+                        <input type="text" class="calc-input number-format" id="b-rem-fee" placeholder="25">
                     </div>
                 </div>
                 <div class="result-box">
@@ -868,7 +868,7 @@
             <div id="tab-loan" class="tab-content active">
                 <div class="input-group">
                     <label class="input-label">Loan Amount <span class="curr-symbol">($)</span></label>
-                    <input type="number" class="calc-input fin-money" id="ln-amount" placeholder="0">
+                    <input type="text" class="calc-input fin-money number-format" id="ln-amount" placeholder="0">
                 </div>
                 <div class="input-row">
                     <div class="input-group">
@@ -911,11 +911,11 @@
                 <div class="input-row">
                     <div class="input-group">
                         <label class="input-label">Initial Deposit <span class="curr-symbol">($)</span></label>
-                        <input type="number" class="calc-input fin-money" id="inv-start" placeholder="0">
+                        <input type="text" class="calc-input fin-money number-format" id="inv-start" placeholder="0">
                     </div>
                     <div class="input-group">
                         <label class="input-label">Monthly Contrib. <span class="curr-symbol">($)</span></label>
-                        <input type="number" class="calc-input fin-money" id="inv-month" placeholder="0">
+                        <input type="text" class="calc-input fin-money number-format" id="inv-month" placeholder="0">
                     </div>
                 </div>
                 <div class="input-row">
@@ -950,7 +950,7 @@
             <div id="tab-saltax" class="tab-content">
                 <div class="input-group">
                     <label class="input-label">Gross Salary <span class="curr-symbol">($)</span></label>
-                    <input type="number" class="calc-input fin-money" id="st-salary" placeholder="0">
+                    <input type="text" class="calc-input fin-money number-format" id="st-salary" placeholder="0">
                 </div>
                 <div class="input-group">
                     <label class="input-label">Dependents (Children/Spouse)</label>
@@ -981,7 +981,7 @@
                 <h4 style="margin-bottom:10px; color:var(--secondary-color);">VAT (10%)</h4>
                 <div class="input-group">
                     <label class="input-label">Amount Excl. VAT <span class="curr-symbol">($)</span></label>
-                    <input type="number" class="calc-input fin-money" id="vat-amount" placeholder="0">
+                    <input type="text" class="calc-input fin-money number-format" id="vat-amount" placeholder="0">
                 </div>
                 <div class="result-box" style="padding: 1rem; margin-bottom: 2rem;">
                     <div class="stats-row">
@@ -1000,7 +1000,7 @@
                 <h4 style="margin-bottom:10px; color:var(--secondary-color);">Property Transfer (4%)</h4>
                 <div class="input-group">
                     <label class="input-label">Property Value <span class="curr-symbol">($)</span></label>
-                    <input type="number" class="calc-input fin-money" id="pt-val" placeholder="0">
+                    <input type="text" class="calc-input fin-money number-format" id="pt-val" placeholder="0">
                 </div>
                 <div class="result-box" style="padding: 1rem;">
                     <div class="stats-row" style="justify-content: center;">
@@ -2298,6 +2298,72 @@
 
         mobileBtn.addEventListener('click', toggleSidebar);
         overlay.addEventListener('click', closeSidebar);
+
+        // --- Number Formatting for Inputs ---
+        function formatNumberWithCommas(value) {
+            // Remove all non-digit and non-decimal characters except minus sign
+            let cleanValue = value.replace(/[^0-9.-]/g, '');
+            
+            // Handle multiple decimal points - keep only the first one
+            const parts = cleanValue.split('.');
+            if (parts.length > 2) {
+                cleanValue = parts[0] + '.' + parts.slice(1).join('');
+            }
+            
+            // Handle multiple minus signs - keep only the first one at the start
+            if (cleanValue.indexOf('-') > 0) {
+                cleanValue = cleanValue.replace(/-/g, '');
+            } else if (cleanValue.startsWith('-')) {
+                cleanValue = '-' + cleanValue.replace(/-/g, '');
+            }
+            
+            // Split into integer and decimal parts
+            const [intPart, decPart] = cleanValue.split('.');
+            
+            // Format integer part with commas
+            const formattedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            
+            // Reconstruct with decimal part if it exists
+            return decPart !== undefined ? formattedInt + '.' + decPart : formattedInt;
+        }
+        
+        function parseFormattedNumber(value) {
+            // Remove commas and parse as float
+            const cleanValue = value.replace(/,/g, '');
+            return parseFloat(cleanValue) || 0;
+        }
+        
+        // Apply formatting to all number-format inputs
+        document.querySelectorAll('.number-format').forEach(input => {
+            input.addEventListener('input', function(e) {
+                const cursorPosition = this.selectionStart;
+                const originalLength = this.value.length;
+                
+                // Store if the value starts with minus
+                const isNegative = this.value.startsWith('-');
+                
+                // Format the value
+                let formatted = formatNumberWithCommas(this.value);
+                
+                // Restore minus sign if it was there
+                if (isNegative && !formatted.startsWith('-')) {
+                    formatted = '-' + formatted;
+                }
+                
+                this.value = formatted;
+                
+                // Adjust cursor position for added commas
+                const newLength = this.value.length;
+                const newCursorPosition = cursorPosition + (newLength - originalLength);
+                
+                this.setSelectionRange(newCursorPosition, newCursorPosition);
+            });
+            
+            // Select all text on focus for easy editing
+            input.addEventListener('focus', function() {
+                this.select();
+            });
+        });
 
         // --- Scroll Animation ---
         const observer = new IntersectionObserver((entries) => {
@@ -3940,7 +4006,7 @@
         [lnAmount, lnRate, lnYears].forEach(e => e.addEventListener('input', calculateLoan));
 
         function calculateLoan() {
-            let p = parseFloat(lnAmount.value) || 0;
+            let p = parseFormattedNumber(lnAmount.value);
             let r = parseFloat(lnRate.value) || 0;
             let n = parseFloat(lnYears.value) || 0;
             if (p > 0 && r > 0 && n > 0) {
@@ -3971,8 +4037,8 @@
         [invStart, invMonth, invRate, invTime].forEach(e => e.addEventListener('input', calculateInvestment));
 
         function calculateInvestment() {
-            let p = parseFloat(invStart.value) || 0;
-            let pmt = parseFloat(invMonth.value) || 0;
+            let p = parseFormattedNumber(invStart.value);
+            let pmt = parseFormattedNumber(invMonth.value);
             let r = parseFloat(invRate.value) || 0;
             let t = parseFloat(invTime.value) || 0;
             let monthlyRate = r / 1200;
@@ -3996,7 +4062,7 @@
         [stSalary, stDep].forEach(e => e.addEventListener('input', calculateSalaryTax));
 
         function calculateSalaryTax() {
-            let salaryInput = parseFloat(stSalary.value) || 0;
+            let salaryInput = parseFormattedNumber(stSalary.value);
             let dependents = parseInt(stDep.value) || 0;
             let salaryKHR = currentCurrency === 'USD' ? salaryInput * FIXED_EXCHANGE_RATE : salaryInput;
             let rebate = dependents * 150000;
@@ -4020,10 +4086,10 @@
         [vatAmt, ptVal].forEach(e => e.addEventListener('input', calculateVATProp));
 
         function calculateVATProp() {
-            let vBase = parseFloat(vatAmt.value) || 0;
+            let vBase = parseFormattedNumber(vatAmt.value);
             document.getElementById('vat-val').innerHTML = formatMoney(vBase * 0.10);
             document.getElementById('vat-total').innerHTML = formatMoney(vBase * 1.10);
-            let pVal = parseFloat(ptVal.value) || 0;
+            let pVal = parseFormattedNumber(ptVal.value);
             document.getElementById('pt-tax').innerHTML = formatMoney(pVal * 0.04);
         }
 
@@ -4041,7 +4107,7 @@
 
         function calculatePriceLogic(source) {
             if(source === 'reset') { updatePriceDOM(0,0,0); return; }
-            let orig = parseFloat(pOrig.value) || 0, perc = parseFloat(pDisc.value) || 0, sale = parseFloat(pSale.value) || 0;
+            let orig = parseFormattedNumber(pOrig.value), perc = parseFloat(pDisc.value) || 0, sale = parseFormattedNumber(pSale.value);
             // Calculate sale price from original + discount %
             if (source === 'original' || source === 'percent') {
                 sale = orig * (1 - (perc / 100));
@@ -4091,8 +4157,8 @@
         [exOld, exNew, exStart, exEnd].forEach(el => el.addEventListener('input', calculateExtraCharge));
 
         function calculateExtraCharge() {
-            const oPrice = parseFloat(exOld.value) || 0;
-            const nPrice = parseFloat(exNew.value) || 0;
+            const oPrice = parseFormattedNumber(exOld.value);
+            const nPrice = parseFormattedNumber(exNew.value);
             const sDate = exStart.value ? new Date(exStart.value) : null;
             const eDate = exEnd.value ? new Date(exEnd.value) : null;
             if (sDate && eDate && eDate >= sDate) {
@@ -4115,7 +4181,7 @@
         const iTotal = document.getElementById('i-total'), iMonths = document.getElementById('i-months'), iSys = document.getElementById('i-sys');
         [iTotal, iMonths, iSys].forEach(el => el.addEventListener('input', calculateInvoiceAdj));
         function calculateInvoiceAdj() {
-            const b = parseFloat(iTotal.value)||0, m = parseFloat(iMonths.value)||0, s = parseFloat(iSys.value)||0;
+            const b = parseFormattedNumber(iTotal.value), m = parseFloat(iMonths.value)||0, s = parseFormattedNumber(iSys.value);
             document.getElementById('i-note').textContent = `(Excl VAT: $${(b/1.1).toLocaleString(undefined, {minimumFractionDigits:2})})`;
             if(m===0) return;
             const fee = ((b/1.1) - (s/1.1))/m;
@@ -4132,12 +4198,12 @@
             calculateBillingAdj();
         }));
         function calculateBillingAdj() {
-            const rate = (parseFloat(bFee.value)||0) / parseInt(bDim.value);
+            const rate = (parseFormattedNumber(bFee.value)) / parseInt(bDim.value);
             document.getElementById('res-b-rate').textContent = '$'+rate.toLocaleString(undefined,{minimumFractionDigits:2});
             let d = 0;
             if(bDaysSpec.value) d = parseFloat(bDaysSpec.value);
             else if(bStart.value && bEnd.value) d = Math.round((new Date(bEnd.value)-new Date(bStart.value))/86400000)+1;
-            else if(bRemFee.value && rate!==0) d = Math.round(parseFloat(bRemFee.value)/rate);
+            else if(bRemFee.value && rate!==0) d = Math.round(parseFormattedNumber(bRemFee.value)/rate);
             document.getElementById('res-b-days').textContent = d||0;
             document.getElementById('res-b-extra').textContent = '$'+(rate*d).toLocaleString(undefined,{minimumFractionDigits:2});
         }
